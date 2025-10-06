@@ -43,8 +43,8 @@ const Header = () => {
         <Image
           src="/logo.png"
           alt="Metalkaran Logo"
-          width={70}
-          height={70}
+          width={86}
+          height={63}
           className="mr-6"
         />
       </div>
