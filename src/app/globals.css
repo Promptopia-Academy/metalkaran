@@ -7,7 +7,7 @@
   --button: #004d89;
   --card: #bfbdca;
   --primary-secondary: #dfe5e6;
-}
+
 
 @theme inline {
   --color-background: var(--background);
@@ -16,8 +16,7 @@
   --color-primary-secondary: var(--primary-secondary);
   --color-button: var(--button);
   --color-card: var(--card);
-  --font-sans: var(--font-source-code);
-  --font-mono: var(--font-geist-mono);
+
 }
 
 body {
