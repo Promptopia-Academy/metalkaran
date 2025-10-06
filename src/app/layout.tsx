@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Source_Code_Pro } from "next/font/google";
+import Header from "@/components/header/Header";
 
 import "./globals.css";
 
@@ -27,8 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sourceCode.variable} ${geistMono.variable} antialiased`}
+        className={`${sourceCode.variable} ${geistMono.variable} antialiased box-border overflow-x-hidden`}
       >
+        <header>
+          <Header />
+        </header>
         {children}
       </body>
     </html>
