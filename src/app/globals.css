@@ -7,7 +7,7 @@
   --button: #004d89;
   --card: #bfbdca;
   --primary-secondary: #dfe5e6;
-
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -16,7 +16,6 @@
   --color-primary-secondary: var(--primary-secondary);
   --color-button: var(--button);
   --color-card: var(--card);
-
 }
 
 body {
