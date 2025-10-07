@@ -1,3 +1,8 @@
 export default function Home() {
-  return <main>Hi</main>;
+  return (
+    <main>
+      {/* carousel */}
+      <section className="p-32"></section>
+    </main>
+  );
 }
