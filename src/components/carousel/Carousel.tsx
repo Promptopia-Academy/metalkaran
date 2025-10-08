@@ -8,6 +8,7 @@ import {
 } from "../ui/carousel";
 import Image from "next/image";
 import Link from "next/link";
+import { TextAnimate } from "../ui/text-animate";
 
 const images = [
   {
@@ -52,10 +53,12 @@ const CarouselHero = () => {
               {image.slug === 1 && (
                 <div className="absolute inset-0 w-full h-full flex items-center pl-14 bg-gray-900/50">
                   <h1 className="w-80 text-center text-4xl font-extrabold text-background tracking-[2.88px]">
-                    نوارهای فولادی ضد زنگ و فویل‌های آلیاژی مخصوص
+                    <TextAnimate animation="blurInUp" by="character" once>
+                      نوارهای فولادی ضد زنگ و فویل‌های آلیاژی مخصوص
+                    </TextAnimate>
                   </h1>
                   <Link
-                    href="#"
+                    href="#git "
                     className="absolute bottom-10 right-10 border-1 border-white rounded-full px-2 py-1"
                   >
                     <ChevronRight className="text-white w-4" />
