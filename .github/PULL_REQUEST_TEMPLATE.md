@@ -2,19 +2,19 @@
 
 ## Why this change
 
-- Reason for merging.
+
 
 ## What changed
 
-- List the main changes made in this PR. Use bullets and keep them concise.
+
 
 ## What will be affected
 
-- Describe the areas or modules that will be impacted by these changes (UI, API, build, deployment, etc.).
+
 
 ## Reviewer focus
 
-- Call out areas that need special attention during review (edge-cases, performance, security, UX, integration points).
+
 
 ## Checklist
 
