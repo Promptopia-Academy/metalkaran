@@ -1,3 +1,16 @@
+import Badges from "@/components/badges/Badges";
+import Cards from "@/components/cards/Cards";
+import CarouselHero from "@/components/carousel/Carousel";
+
 export default function Home() {
-  return <main>Hi</main>;
+  return (
+    <main>
+      {/* carousel */}
+      <section className="px-32 mt-20">
+        <CarouselHero />
+      </section>
+      <Badges />
+      <Cards />
+    </main>
+  );
 }
