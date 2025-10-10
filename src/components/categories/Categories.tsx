@@ -12,7 +12,7 @@ const categories = [
 
 export default function CategoryGrid() {
   return (
-    <section className="py-12 min-h-screen">
+    <section className="py-12 min-h-[80vh]">
       <h2 className="text-4xl font-bold text-center mb-8" dir="rtl">
         دسته بندی محصولات
       </h2>

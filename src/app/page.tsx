@@ -1,3 +1,4 @@
+import About from "@/components/about/About";
 import Badges from "@/components/badges/Badges";
 import Cards from "@/components/cards/Cards";
 import CarouselHero from "@/components/carousel/Carousel";
@@ -13,6 +14,7 @@ export default function Home() {
       <Badges />
       <Cards />
       <CategoryGrid />
+      <About />
     </main>
   );
 }
