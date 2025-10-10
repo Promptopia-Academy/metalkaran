@@ -1,6 +1,7 @@
 import Badges from "@/components/badges/Badges";
 import Cards from "@/components/cards/Cards";
 import CarouselHero from "@/components/carousel/Carousel";
+import CategoryGrid from "@/components/categories/Categories";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       </section>
       <Badges />
       <Cards />
+      <CategoryGrid />
     </main>
   );
 }
