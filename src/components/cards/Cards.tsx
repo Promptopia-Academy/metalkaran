@@ -45,7 +45,7 @@ const Cards = () => {
   return (
     <section className="mt-20 w-full">
       <Carousel className="w-full">
-        <CarouselContent className="flex gap-4 items-stretch">
+        <CarouselContent className="flex gap-4 items-stretch pb-10">
           {cardItems.map((item, index) => (
             <CarouselItem
               key={index}
