@@ -16,7 +16,7 @@ const Header = () => {
             خانه
           </Link>
           <Link
-            href="#"
+            href="/contact-us"
             className="text-background font-semibold hover:underline"
           >
             تماس با ما
