@@ -28,7 +28,7 @@ const Header = () => {
             محصولات
           </Link>
           <Link
-            href="#"
+            href="/questions"
             className="text-background font-semibold hover:underline"
           >
             سوالات متداول
