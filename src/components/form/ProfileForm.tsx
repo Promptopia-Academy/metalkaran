@@ -107,7 +107,7 @@ export function ProfileForm() {
 
         <Button
           type="submit"
-          className="flex items-center justify-center cursor-pointer text-base rounded-2xl font-normal w-24 sm:w-36 bg-[#1E78AA] hover:bg-[#2B517E] transition-all duration-300"
+          className="text-lg font-medium flex items-center justify-center cursor-pointer rounded-2xl w-24 sm:w-36 bg-[#1E78AA] hover:bg-[#2B517E] transition-all duration-300"
         >
           ارسال
         </Button>
