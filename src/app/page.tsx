@@ -3,6 +3,7 @@ import Badges from "@/components/badges/Badges";
 import Cards from "@/components/cards/Cards";
 import CarouselHero from "@/components/carousel/Carousel";
 import CategoryGrid from "@/components/categories/Categories";
+import FormSection from "@/components/form/FormSection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Cards />
       <CategoryGrid />
       <About />
+      <FormSection />
     </main>
   );
 }
