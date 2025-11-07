@@ -29,23 +29,23 @@ export default function Home() {
         <CategoryGrid />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.2}>
+      <AnimatedSection delay={0.1}>
         <About />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.25} variant="scale">
+      <AnimatedSection delay={0.15} variant="scale">
         <IndustriesCarousel />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.3}>
+      <AnimatedSection delay={0.1}>
         <FormSection />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.35}>
+      <AnimatedSection delay={0.1}>
         <CallSection />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.4} variant="fade">
+      <AnimatedSection delay={0.1} variant="fade">
         <Footer />
       </AnimatedSection>
     </main>
