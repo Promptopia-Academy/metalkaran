@@ -23,7 +23,7 @@ export default function IndustriesCarousel() {
 
   return (
     <section className="w-full py-12 bg-[#eaf1f4]">
-      <h2 className="text-2xl font-bold text-center mb-10">
+      <h2 className="text-2xl font-bold text-center mb-10" dir="rtl">
         صنایعی که به آنها خدمت می‌کنیم!
       </h2>
 
@@ -63,7 +63,7 @@ export default function IndustriesCarousel() {
               <motion.div
                 key={item.id}
                 className={cn(
-                  "absolute rounded-2xl overflow-hidden shadow-md",
+                  "group absolute rounded-2xl overflow-hidden shadow-md hover:shadow-xl",
                   diff === 0 ? "cursor-default" : "cursor-pointer"
                 )}
                 style={{
@@ -76,6 +76,7 @@ export default function IndustriesCarousel() {
                 }}
                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
                 onClick={() => setCurrent(index)}
+                whileHover={{ scale: diff === 0 ? 1.03 : 0.85 }}
               >
                 <Image
                   src={item.image}
@@ -84,7 +85,7 @@ export default function IndustriesCarousel() {
                   height={400}
                   className={cn(
                     "object-cover w-[350px] h-[400px] transition-all duration-500",
-                    diff === 0 ? "" : "grayscale"
+                    diff === 0 ? "" : "grayscale group-hover:grayscale-0"
                   )}
                 />
               </motion.div>

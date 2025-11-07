@@ -23,7 +23,7 @@ export default function About() {
             <div className="w-full h-0.5 bg-white"></div>
             <Button
               type="button"
-              className="bg-primary-secondary text-black w-32 h-7 mr-auto"
+              className="bg-primary-secondary text-black w-32 h-7 mr-auto transition-transform duration-200 ease-out hover:scale-105 hover:shadow-lg"
             >
               اطلاعات بیشتر ...
             </Button>
