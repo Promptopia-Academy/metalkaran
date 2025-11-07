@@ -1,3 +1,4 @@
+import { PHONE_NUMBER } from "@/lib/constants";
 import {
   InstagramLogoIcon,
   LinkedInLogoIcon,
@@ -17,7 +18,7 @@ const Footer = () => {
             className="flex flex-col justify-between font-bold text-lg text-background gap-4"
             dir="rtl"
           >
-            <p>شماره تماس: 02188776655</p>
+            <p>شماره تماس: {PHONE_NUMBER}</p>
             <p>آدرس ایمیل: sh.abbasi7527@gmail.com</p>
           </div>
         </div>
