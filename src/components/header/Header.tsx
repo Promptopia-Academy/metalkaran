@@ -10,7 +10,7 @@ const Header = () => {
         <MagnifyingGlassIcon className="ml-6 w-8 h-8 text-background" />
         <nav className="flex items-center gap-6 text-xl font-medium" dir="rtl">
           <Link
-            href="#"
+            href="/"
             className="text-background font-semibold hover:underline"
           >
             خانه
@@ -40,13 +40,18 @@ const Header = () => {
             درباره ما
           </Link>
         </nav>
-        <Image
-          src="/logo.png"
-          alt="Metalkaran Logo"
-          width={86}
-          height={63}
-          className="mr-6"
-        />
+        <Link
+          href="/"
+          className="text-background font-semibold hover:underline"
+        >
+          <Image
+            src="/logo.png"
+            alt="Metalkaran Logo"
+            width={86}
+            height={63}
+            className="mr-6"
+          />
+        </Link>
       </div>
     </section>
   );
