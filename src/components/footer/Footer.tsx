@@ -35,7 +35,7 @@ const Footer = () => {
       >
         <Link href="/contact-us">تماس با ما</Link>
         <Link href="/products">محصولات</Link>
-        <Link href="/faq">سوالات متداول</Link>
+        <Link href="/questions">سوالات متداول</Link>
         <Link href="/about-us">درباره ما</Link>
       </div>
     </div>
