@@ -18,7 +18,7 @@ export default function CardElement({ image, title, slug }: CardElementProps) {
           fill
           className="rounded-2xl object-cover transform transition-transform duration-700 group-hover:scale-110 group-hover:brightness-90"
         />
-        <div className="pointer-events-none absolute inset-0 opacity-0 " />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
       </div>
       <div className="flex flex-col gap-2 justify-center items-center p-4">
         <h2 className="text-center text-lg font-medium text-button transition-colors duration-300 ">
@@ -33,7 +33,7 @@ export default function CardElement({ image, title, slug }: CardElementProps) {
         >
           <span className="relative z-10 flex items-center">
             اطلاعات بیشتر
-            <ArrowRight className="ml-2 w-4 h-4 text-white transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRight className="ml-2 w-4 h-4 text-white transition-transform duration-300 hover:translate-x-1" />
           </span>
           <span className="absolute inset-0 opacity-0 group-hover:opacity-20 bg-white rounded-md transition-opacity duration-300" />
         </Button>
