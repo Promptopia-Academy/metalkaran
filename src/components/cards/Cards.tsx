@@ -49,7 +49,7 @@ const Cards = () => {
           {cardItems.map((item, index) => (
             <CarouselItem
               key={index}
-              className="flex-shrink-0 basis-[16rem] rounded-2xl bg-card pl-0"
+              className="flex-shrink-0 basis-[16rem] rounded-2xl bg-card pl-0 hover:z-10"
               style={{ boxShadow: "3px 5px 10px 4px rgba(0, 0, 0, 0.25)" }}
             >
               <CardElement

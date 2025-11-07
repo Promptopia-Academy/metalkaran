@@ -7,14 +7,19 @@ interface BadgeProps {
 
 const Badge = ({ text, icon }: BadgeProps) => {
   return (
-    <div className="flex flex-col gap-2 items-center">
+    <div className="group flex flex-col gap-2 items-center transition-all duration-300">
       <div
-        className="flex justify-center items-center bg-button w-28 h-28 rounded-2xl"
+        className="flex justify-center items-center bg-button w-28 h-28 rounded-2xl relative overflow-hidden transition-all duration-300 ease-out group-hover:shadow-xl group-hover:scale-105"
         style={{ boxShadow: "3px 5px 10px 4px rgba(0, 0, 0, 0.25)" }}
       >
-        {icon}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/30 opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+        <div className="transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-rotate-3">
+          {icon}
+        </div>
       </div>
-      <p className="text-center text-lg font-medium text-button">{text}</p>
+      <p className="text-center text-lg font-medium text-button transition-colors duration-300 group-hover:text-primary-secondary">
+        {text}
+      </p>
     </div>
   );
 };
