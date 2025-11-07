@@ -5,6 +5,8 @@ import CarouselHero from "@/components/carousel/Carousel";
 import CategoryGrid from "@/components/categories/Categories";
 import CallSection from "@/components/call-us/CallSection";
 import FormSection from "@/components/form/FormSection";
+import IndustriesCarousel from "@/components/feature/Feature";
+import Footer from "@/components/footer/Footer";
 
 export default function Home() {
   return (
@@ -17,8 +19,10 @@ export default function Home() {
       <Cards />
       <CategoryGrid />
       <About />
+      <IndustriesCarousel />
       <FormSection />
       <CallSection />
+      <Footer />
     </main>
   );
 }
