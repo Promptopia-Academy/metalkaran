@@ -52,8 +52,11 @@ const CarouselHero = () => {
               />
               {image.slug === 1 && (
                 <div className="absolute inset-0 w-full h-full flex items-center pl-14 bg-gray-900/50">
-                  <h1 className="w-80 text-center text-4xl font-extrabold text-background tracking-[2.88px]">
-                    <TextAnimate animation="blurInUp" by="character" once>
+                  <h1
+                    className="w-80 text-center text-4xl font-extrabold text-background tracking-[2.88px]"
+                    dir="rtl"
+                  >
+                    <TextAnimate animation="blurInUp" by="word" once>
                       نوارهای فولادی ضد زنگ و فویل‌های آلیاژی مخصوص
                     </TextAnimate>
                   </h1>
