@@ -43,3 +43,17 @@ next-env.d.ts
 # data and uploads
 /data
 /public/uploads
+
+# backend security files
+/data/contacts.json
+/data/rate-limit.json
+*.log
+*.tmp
+*.bak
+*.backup
+
+# sensitive configuration
+.env.local
+.env.production
+.env.development
+config/secrets.json
