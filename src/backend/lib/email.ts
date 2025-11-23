@@ -1,25 +1,16 @@
+import { IContactFormData } from "@/types/type";
 import nodemailer from "nodemailer";
 
-// نوع داده‌های فرم تماس
-interface ContactFormData {
-  name: string;
-  phone: string;
-  email: string;
-  company: string;
-}
-
-// تنظیمات ایمیل از environment variables
 const emailConfig = {
   host: process.env.SMTP_HOST || "smtp.gmail.com",
   port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: process.env.SMTP_SECURE === "true", // true for 465, false for other ports
+  secure: process.env.SMTP_SECURE === "true",
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
 };
 
-// ایجاد transporter
 function createTransporter() {
   if (!emailConfig.auth.user || !emailConfig.auth.pass) {
     throw new Error("SMTP credentials not configured");
@@ -33,8 +24,7 @@ function createTransporter() {
   });
 }
 
-// ارسال ایمیل به ادمین
-export async function sendContactEmail(data: ContactFormData): Promise<void> {
+export async function sendContactEmail(data: IContactFormData): Promise<void> {
   try {
     const transporter = createTransporter();
     const adminEmail = process.env.ADMIN_EMAIL || emailConfig.auth.user;
@@ -71,7 +61,6 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
   }
 }
 
-// ارسال ایمیل تایید به کاربر
 export async function sendConfirmationEmail(
   userEmail: string,
   userName: string
@@ -108,7 +97,5 @@ export async function sendConfirmationEmail(
     console.log("Confirmation email sent successfully");
   } catch (error) {
     console.error("Error sending confirmation email:", error);
-    // این خطا را throw نمی‌کنیم چون ارسال ایمیل تایید اختیاری است
   }
 }
-

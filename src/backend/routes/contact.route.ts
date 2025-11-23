@@ -7,7 +7,6 @@ import {
 
 export async function POST(request: NextRequest) {
   try {
-    // بررسی Rate Limit
     const rateLimitCheck = await checkContactRateLimit(request);
 
     if (!rateLimitCheck.allowed && rateLimitCheck.rateLimit) {
@@ -35,7 +34,6 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    // ایجاد Contact
     const result = await createContact(body);
 
     if (!result.success) {
@@ -80,7 +78,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// برای دریافت لیست contacts (اختیاری - برای ادمین)
 export async function GET() {
   try {
     const contacts = await getAllContacts();
@@ -93,4 +90,3 @@ export async function GET() {
     );
   }
 }
-

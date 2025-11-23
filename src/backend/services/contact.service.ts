@@ -1,28 +1,19 @@
 import { z } from "zod";
 import { formSchema } from "@/validation/validations";
-import { saveContact, getContacts, Contact } from "../utils/storage";
+import { getContacts, saveContact } from "../utils/storage";
 import { checkRateLimit, getClientIP } from "../lib/rate-limit";
 import { sendContactEmail, sendConfirmationEmail } from "../lib/email";
+import {
+  IContact,
+  IContactServiceResponse,
+  IRateLimitResponse,
+} from "@/types/type";
 
 export type ContactData = z.infer<typeof formSchema>;
 
-export interface ContactServiceResponse {
-  success: boolean;
-  message: string;
-  data?: Contact;
-  errors?: unknown;
-}
-
-export interface RateLimitResponse {
-  allowed: boolean;
-  remaining: number;
-  resetTime: number;
-}
-
-// بررسی Rate Limit
 export async function checkContactRateLimit(
   request: Request
-): Promise<{ allowed: boolean; rateLimit?: RateLimitResponse }> {
+): Promise<{ allowed: boolean; rateLimit?: IRateLimitResponse }> {
   const clientIP = getClientIP(request);
   const rateLimit = await checkRateLimit(clientIP);
 
@@ -33,24 +24,18 @@ export async function checkContactRateLimit(
   return { allowed: true, rateLimit };
 }
 
-// ایجاد Contact جدید
 export async function createContact(
   data: ContactData
-): Promise<ContactServiceResponse> {
+): Promise<IContactServiceResponse> {
   try {
-    // اعتبارسنجی با Zod
     const validatedData = formSchema.parse(data);
 
-    // ذخیره در فایل JSON
     const savedContact = await saveContact(validatedData);
 
-    // ارسال ایمیل به ادمین (در background - منتظر نمی‌مانیم)
     sendContactEmail(validatedData).catch((error) => {
       console.error("Failed to send admin email:", error);
-      // خطا را لاگ می‌کنیم اما به کاربر نشان نمی‌دهیم
     });
 
-    // ارسال ایمیل تایید به کاربر (در background)
     sendConfirmationEmail(validatedData.email, validatedData.name).catch(
       (error) => {
         console.error("Failed to send confirmation email:", error);
@@ -63,7 +48,6 @@ export async function createContact(
       data: savedContact,
     };
   } catch (error) {
-    // بررسی خطای Zod
     if (
       error &&
       typeof error === "object" &&
@@ -85,8 +69,6 @@ export async function createContact(
   }
 }
 
-// دریافت لیست Contacts
-export async function getAllContacts(): Promise<Contact[]> {
+export async function getAllContacts(): Promise<IContact[]> {
   return await getContacts();
 }
-

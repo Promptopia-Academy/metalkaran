@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // آپلود فایل
     const result = await uploadFile(file);
 
     if (!result.success) {
@@ -45,4 +44,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

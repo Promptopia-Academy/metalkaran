@@ -1,49 +1,38 @@
 import { writeFile, mkdir, readFile } from "fs/promises";
-import { existsSync } from "fs";
 import path from "path";
+import { existsSync } from "fs";
+import { IContact } from "@/types/type";
 
-// مسیر ذخیره داده‌ها
 const DATA_DIR = path.join(process.cwd(), "data");
-const CONTACTS_FILE = path.join(DATA_DIR, "contacts.json");
+const IContactS_FILE = path.join(DATA_DIR, "IContacts.json");
 
-export interface Contact {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-  company: string;
-  createdAt: string;
-}
-
-// تابع برای خواندن contacts
-export async function getContacts(): Promise<Contact[]> {
-  if (!existsSync(CONTACTS_FILE)) {
+export async function getContacts(): Promise<IContact[]> {
+  if (!existsSync(IContactS_FILE)) {
     return [];
   }
   try {
-    const fileContent = await readFile(CONTACTS_FILE, "utf-8");
+    const fileContent = await readFile(IContactS_FILE, "utf-8");
     return JSON.parse(fileContent);
   } catch {
     return [];
   }
 }
 
-// تابع برای ذخیره contact
-export async function saveContact(contact: Omit<Contact, "id" | "createdAt">): Promise<Contact> {
-  // ایجاد پوشه data اگر وجود نداشته باشد
+export async function saveContact(
+  IContact: Omit<IContact, "id" | "createdAt">
+): Promise<IContact> {
   if (!existsSync(DATA_DIR)) {
     await mkdir(DATA_DIR, { recursive: true });
   }
 
-  const contacts = await getContacts();
-  const newContact: Contact = {
+  const IContacts = await getContacts();
+  const newIContact: IContact = {
     id: Date.now().toString(),
-    ...contact,
+    ...IContact,
     createdAt: new Date().toISOString(),
   };
-  contacts.push(newContact);
+  IContacts.push(newIContact);
 
-  await writeFile(CONTACTS_FILE, JSON.stringify(contacts, null, 2), "utf-8");
-  return newContact;
+  await writeFile(IContactS_FILE, JSON.stringify(IContacts, null, 2), "utf-8");
+  return newIContact;
 }
-

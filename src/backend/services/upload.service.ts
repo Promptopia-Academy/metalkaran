@@ -1,20 +1,8 @@
+import { IUploadServiceResponse } from "@/types/type";
 import { validateFile, saveFile } from "../utils/file-utils";
 
-export interface UploadServiceResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    url: string;
-    fileName: string;
-    size: number;
-    type: string;
-  };
-}
-
-// آپلود فایل
-export async function uploadFile(file: File): Promise<UploadServiceResponse> {
+export async function uploadFile(file: File): Promise<IUploadServiceResponse> {
   try {
-    // اعتبارسنجی فایل
     const validation = validateFile(file);
     if (!validation.valid) {
       return {
@@ -23,7 +11,6 @@ export async function uploadFile(file: File): Promise<UploadServiceResponse> {
       };
     }
 
-    // ذخیره فایل
     const { url, fileName } = await saveFile(file);
 
     return {
@@ -44,4 +31,3 @@ export async function uploadFile(file: File): Promise<UploadServiceResponse> {
     };
   }
 }
-
