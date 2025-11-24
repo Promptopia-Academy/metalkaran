@@ -3,6 +3,7 @@ import { formSchema } from "@/validation/validations";
 import { getContacts, saveContact } from "../utils/storage";
 import { checkRateLimit, getClientIP } from "../lib/rate-limit";
 import { sendContactEmail, sendConfirmationEmail } from "../lib/email";
+import { logger } from "../lib/logger";
 import {
   IContact,
   IContactServiceResponse,
@@ -33,14 +34,16 @@ export async function createContact(
     const savedContact = await saveContact(validatedData);
 
     sendContactEmail(validatedData).catch((error) => {
-      console.error("Failed to send admin email:", error);
+      logger.error("Failed to send admin email", error as Error);
     });
 
     sendConfirmationEmail(validatedData.email, validatedData.name).catch(
       (error) => {
-        console.error("Failed to send confirmation email:", error);
+        logger.error("Failed to send confirmation email", error as Error);
       }
     );
+
+    logger.info("Contact created successfully", { id: savedContact.id });
 
     return {
       success: true,
@@ -54,6 +57,7 @@ export async function createContact(
       "name" in error &&
       error.name === "ZodError"
     ) {
+      logger.warn("Contact validation failed", { error });
       return {
         success: false,
         message: "اطلاعات وارد شده معتبر نیست",
@@ -61,7 +65,7 @@ export async function createContact(
       };
     }
 
-    console.error("Error creating contact:", error);
+    logger.error("Error creating contact", error as Error);
     return {
       success: false,
       message: "خطا در ارسال پیام. لطفاً دوباره تلاش کنید.",

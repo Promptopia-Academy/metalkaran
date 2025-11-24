@@ -6,17 +6,49 @@ import {
   updateArticle,
   deleteArticle,
 } from "../utils/article-storage";
+import { logger } from "../lib/logger";
+import { PaginationParams, PaginatedResponse, paginate } from "../utils/pagination";
 
-export async function getAllArticles(): Promise<IArticleServiceResponse> {
+export async function getAllArticles(
+  paginationParams?: PaginationParams
+): Promise<IArticleServiceResponse & { pagination?: PaginatedResponse<IArticle>["pagination"] }> {
   try {
-    const articles = await getArticles();
+    // Use pagination params or default values
+    const params = paginationParams || { page: 1, limit: 100 };
+    const result = await getArticles(params);
+    
+    if (paginationParams) {
+      const totalPages = Math.ceil(result.total / paginationParams.limit);
+      const pagination = {
+        page: paginationParams.page,
+        limit: paginationParams.limit,
+        total: result.total,
+        totalPages,
+        hasNext: paginationParams.page < totalPages,
+        hasPrev: paginationParams.page > 1,
+      };
+      
+      logger.info("Articles retrieved with pagination", {
+        total: result.total,
+        page: paginationParams.page,
+      });
+      
+      return {
+        success: true,
+        message: "Articles retrieved successfully",
+        data: result.data,
+        pagination,
+      };
+    }
+    
+    logger.info("All articles retrieved", { count: result.data.length });
     return {
       success: true,
       message: "Articles retrieved successfully",
-      data: articles,
+      data: result.data,
     };
   } catch (error) {
-    console.error("Error getting articles:", error);
+    logger.error("Error getting articles", error as Error);
     return {
       success: false,
       message: "خطا در دریافت اطلاعات",
@@ -39,7 +71,7 @@ export async function getArticle(id: number): Promise<IArticleServiceResponse> {
       data: article,
     };
   } catch (error) {
-    console.error("Error getting article:", error);
+    logger.error("Error getting article", error as Error, { id });
     return {
       success: false,
       message: "خطا در دریافت اطلاعات",
@@ -52,13 +84,14 @@ export async function createArticle(
 ): Promise<IArticleServiceResponse> {
   try {
     const newArticle = await saveArticle(article);
+    logger.info("Article created successfully", { id: newArticle.id, title: newArticle.title });
     return {
       success: true,
       message: "Article created successfully",
       data: newArticle,
     };
   } catch (error) {
-    console.error("Error creating article:", error);
+    logger.error("Error creating article", error as Error);
     return {
       success: false,
       message: "خطا در ایجاد article",
@@ -84,7 +117,7 @@ export async function updateArticleById(
       data: updatedArticle,
     };
   } catch (error) {
-    console.error("Error updating article:", error);
+    logger.error("Error updating article", error as Error, { id });
     return {
       success: false,
       message: "خطا در آپدیت article",
@@ -98,17 +131,19 @@ export async function deleteArticleById(
   try {
     const deleted = await deleteArticle(id);
     if (!deleted) {
+      logger.warn("Article not found for deletion", { id });
       return {
         success: false,
         message: "Article not found",
       };
     }
+    logger.info("Article deleted successfully", { id });
     return {
       success: true,
       message: "Article deleted successfully",
     };
   } catch (error) {
-    console.error("Error deleting article:", error);
+    logger.error("Error deleting article", error as Error, { id });
     return {
       success: false,
       message: "خطا در حذف article",

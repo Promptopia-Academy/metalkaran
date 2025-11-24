@@ -28,19 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fa" dir="rtl">
       <body
         className={`${sourceCode.variable} ${geistMono.variable} antialiased box-border overflow-x-hidden min-h-screen`}
       >
-        <header>
-          <Header />
-        </header>
-        <main>{children}</main>
-        <footer>
-          <AnimatedSection delay={0.1} variant="fade">
-            <Footer />
-          </AnimatedSection>
-        </footer>
+        {children}
       </body>
     </html>
   );

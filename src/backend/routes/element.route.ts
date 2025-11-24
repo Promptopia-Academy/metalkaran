@@ -6,14 +6,24 @@ import {
   updateElementById,
   deleteElementById,
 } from "../services/element.service";
+import { requireAuth } from "../lib/auth";
+import { elementSchema, elementUpdateSchema } from "@/validation/validations";
+import { logger } from "../lib/logger";
+import { parsePaginationParams } from "../utils/pagination";
 
+// GET - Public endpoint
 export async function GET(request: NextRequest) {
+  const startTime = Date.now();
+  
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
     if (id) {
       const result = await getElement(parseInt(id));
+      const duration = Date.now() - startTime;
+      logger.request("GET", `/api/element?id=${id}`, result.success ? 200 : 404, duration);
+      
       if (!result.success) {
         return NextResponse.json(
           {
@@ -26,12 +36,23 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(result);
     }
 
-    const result = await getAllElements();
+    // Parse pagination params
+    const paginationParams = parsePaginationParams(searchParams);
+    const result = await getAllElements(paginationParams);
+    
+    const duration = Date.now() - startTime;
+    logger.request("GET", "/api/element", result.success ? 200 : 500, duration, {
+      paginated: !!paginationParams,
+    });
+    
     return NextResponse.json(result, {
       status: result.success ? 200 : 500,
     });
   } catch (error) {
-    console.error("Error in element API:", error);
+    const duration = Date.now() - startTime;
+    logger.error("Error in element API GET", error as Error);
+    logger.request("GET", "/api/element", 500, duration);
+    
     return NextResponse.json(
       {
         success: false,
@@ -42,16 +63,50 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+// POST - Protected endpoint
+export const POST = requireAuth(async function POST(request: NextRequest) {
+  const startTime = Date.now();
+  
   try {
     const body = await request.json();
-    const result = await createElement(body);
-
+    
+    // Validate request body
+    const validatedData = elementSchema.parse(body);
+    
+    const result = await createElement(validatedData);
+    
+    const duration = Date.now() - startTime;
+    logger.request("POST", "/api/element", result.success ? 201 : 400, duration);
+    
     return NextResponse.json(result, {
       status: result.success ? 201 : 400,
     });
   } catch (error) {
-    console.error("Error in element API:", error);
+    const duration = Date.now() - startTime;
+    
+    // Handle validation errors
+    if (
+      error &&
+      typeof error === "object" &&
+      "name" in error &&
+      error.name === "ZodError"
+    ) {
+      logger.warn("Element validation failed", { error });
+      logger.request("POST", "/api/element", 400, duration);
+      
+      return NextResponse.json(
+        {
+          success: false,
+          message: "اطلاعات وارد شده معتبر نیست",
+          errors: error,
+        },
+        { status: 400 }
+      );
+    }
+    
+    logger.error("Error in element API POST", error as Error);
+    logger.request("POST", "/api/element", 500, duration);
+    
     return NextResponse.json(
       {
         success: false,
@@ -60,14 +115,20 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});
 
-export async function PUT(request: NextRequest) {
+// PUT - Protected endpoint
+export const PUT = requireAuth(async function PUT(request: NextRequest) {
+  const startTime = Date.now();
+  
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
     if (!id) {
+      const duration = Date.now() - startTime;
+      logger.request("PUT", "/api/element", 400, duration);
+      
       return NextResponse.json(
         {
           success: false,
@@ -78,13 +139,44 @@ export async function PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const result = await updateElementById(parseInt(id), body);
-
+    
+    // Validate request body
+    const validatedData = elementUpdateSchema.parse(body);
+    
+    const result = await updateElementById(parseInt(id), validatedData);
+    
+    const duration = Date.now() - startTime;
+    logger.request("PUT", `/api/element?id=${id}`, result.success ? 200 : 404, duration);
+    
     return NextResponse.json(result, {
       status: result.success ? 200 : 404,
     });
   } catch (error) {
-    console.error("Error in element API:", error);
+    const duration = Date.now() - startTime;
+    
+    // Handle validation errors
+    if (
+      error &&
+      typeof error === "object" &&
+      "name" in error &&
+      error.name === "ZodError"
+    ) {
+      logger.warn("Element update validation failed", { error });
+      logger.request("PUT", "/api/element", 400, duration);
+      
+      return NextResponse.json(
+        {
+          success: false,
+          message: "اطلاعات وارد شده معتبر نیست",
+          errors: error,
+        },
+        { status: 400 }
+      );
+    }
+    
+    logger.error("Error in element API PUT", error as Error);
+    logger.request("PUT", "/api/element", 500, duration);
+    
     return NextResponse.json(
       {
         success: false,
@@ -93,14 +185,20 @@ export async function PUT(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});
 
-export async function DELETE(request: NextRequest) {
+// DELETE - Protected endpoint
+export const DELETE = requireAuth(async function DELETE(request: NextRequest) {
+  const startTime = Date.now();
+  
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
     if (!id) {
+      const duration = Date.now() - startTime;
+      logger.request("DELETE", "/api/element", 400, duration);
+      
       return NextResponse.json(
         {
           success: false,
@@ -111,12 +209,18 @@ export async function DELETE(request: NextRequest) {
     }
 
     const result = await deleteElementById(parseInt(id));
-
+    
+    const duration = Date.now() - startTime;
+    logger.request("DELETE", `/api/element?id=${id}`, result.success ? 200 : 404, duration);
+    
     return NextResponse.json(result, {
       status: result.success ? 200 : 404,
     });
   } catch (error) {
-    console.error("Error in element API:", error);
+    const duration = Date.now() - startTime;
+    logger.error("Error in element API DELETE", error as Error);
+    logger.request("DELETE", "/api/element", 500, duration);
+    
     return NextResponse.json(
       {
         success: false,
@@ -125,4 +229,4 @@ export async function DELETE(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});

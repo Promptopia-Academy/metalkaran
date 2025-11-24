@@ -1,36 +1,46 @@
+"use server";
+
 import { IContactFormData } from "@/types/type";
 import nodemailer from "nodemailer";
-
-const emailConfig = {
-  host: process.env.SMTP_HOST || "smtp.gmail.com",
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: process.env.SMTP_SECURE === "true",
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-};
+import { getEnvConfig } from "./env";
+import { logger } from "./logger";
 
 function createTransporter() {
-  if (!emailConfig.auth.user || !emailConfig.auth.pass) {
+  const envConfig = getEnvConfig();
+
+  if (!envConfig.email.enabled) {
+    throw new Error("Email service is not configured");
+  }
+
+  if (!envConfig.email.user || !envConfig.email.pass) {
     throw new Error("SMTP credentials not configured");
   }
 
   return nodemailer.createTransport({
-    host: emailConfig.host,
-    port: emailConfig.port,
-    secure: emailConfig.secure,
-    auth: emailConfig.auth,
+    host: envConfig.email.host,
+    port: envConfig.email.port,
+    secure: envConfig.email.secure,
+    auth: {
+      user: envConfig.email.user,
+      pass: envConfig.email.pass,
+    },
   });
 }
 
 export async function sendContactEmail(data: IContactFormData): Promise<void> {
   try {
+    const envConfig = getEnvConfig();
+
+    if (!envConfig.email.enabled) {
+      logger.warn("Email service is disabled, skipping contact email");
+      return;
+    }
+
     const transporter = createTransporter();
-    const adminEmail = process.env.ADMIN_EMAIL || emailConfig.auth.user;
+    const adminEmail = envConfig.email.adminEmail || envConfig.email.user;
 
     const mailOptions = {
-      from: `"Metalkaran Contact Form" <${emailConfig.auth.user}>`,
+      from: `"Metalkaran Contact Form" <${envConfig.email.user}>`,
       to: adminEmail,
       subject: `پیام جدید از فرم تماس - ${data.name}`,
       html: `
@@ -54,9 +64,9 @@ export async function sendContactEmail(data: IContactFormData): Promise<void> {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("Contact email sent successfully");
+    logger.info("Contact email sent successfully", { to: adminEmail });
   } catch (error) {
-    console.error("Error sending email:", error);
+    logger.error("Error sending contact email", error as Error);
     throw error;
   }
 }
@@ -66,10 +76,17 @@ export async function sendConfirmationEmail(
   userName: string
 ): Promise<void> {
   try {
+    const envConfig = getEnvConfig();
+
+    if (!envConfig.email.enabled) {
+      logger.warn("Email service is disabled, skipping confirmation email");
+      return;
+    }
+
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: `"Metalkaran" <${emailConfig.auth.user}>`,
+      from: `"Metalkaran" <${envConfig.email.user}>`,
       to: userEmail,
       subject: "دریافت پیام شما - Metalkaran",
       html: `
@@ -94,8 +111,8 @@ export async function sendConfirmationEmail(
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("Confirmation email sent successfully");
+    logger.info("Confirmation email sent successfully", { to: userEmail });
   } catch (error) {
-    console.error("Error sending confirmation email:", error);
+    logger.error("Error sending confirmation email", error as Error);
   }
 }
