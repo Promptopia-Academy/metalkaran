@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Source_Code_Pro } from "next/font/google";
-import Header from "@/components/header/Header";
-
 import "./globals.css";
-import Footer from "@/components/footer/Footer";
-import AnimatedSection from "@/components/ui/animated-section";
 
 const sourceCode = Source_Code_Pro({
   variable: "--source-code",
@@ -39,7 +35,9 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
   alternates: {
     canonical: "/",
   },

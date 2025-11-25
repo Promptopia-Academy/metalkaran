@@ -1,21 +1,14 @@
-/**
- * Database operations for Elements
- * عملیات دیتابیس برای المنت‌ها
- */
-
 import { prisma } from "@/lib/prisma";
 import { IElement } from "@/types/type";
 import { logger } from "../../lib/logger";
 
-export async function getElements(
-  paginationParams?: {
-    page?: number;
-    limit?: number;
-    search?: string;
-    sortBy?: string;
-    sortOrder?: "asc" | "desc";
-  }
-): Promise<{
+export async function getElements(paginationParams?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}): Promise<{
   data: IElement[];
   total: number;
 }> {
@@ -28,7 +21,6 @@ export async function getElements(
 
     const skip = (page - 1) * limit;
 
-    // Build where clause for search
     const where = search
       ? {
           OR: [
@@ -39,7 +31,6 @@ export async function getElements(
         }
       : {};
 
-    // Build orderBy
     const orderBy: any = {};
     if (sortBy === "title") {
       orderBy.title = sortOrder;
@@ -49,10 +40,8 @@ export async function getElements(
       orderBy.id = sortOrder;
     }
 
-    // Get total count
     const total = await prisma.element.count({ where });
 
-    // Get paginated data
     const elements = await prisma.element.findMany({
       where,
       orderBy,
@@ -62,23 +51,23 @@ export async function getElements(
 
     return {
       data: elements.map((element) => ({
-      id: element.id,
-      image: element.image || "",
-      title: element.title,
-      introduction: element.introduction,
-      usage: element.usage,
-      standards: element.standards || "",
-      chemicalComposition: element.chemicalComposition || "",
-      physicalProperties: element.physicalProperties || "",
-      thermalExpansion: element.thermalExpansion || "",
-      corrosionResistance: element.corrosionResistance || "",
-      heatResistance: element.heatResistance || "",
-      manufacturing: element.manufacturing || "",
-      hotForming: element.hotForming || "",
-      coldForming: element.coldForming || "",
-      welding: element.welding || "",
-      machining: element.machining || "",
-    })),
+        id: element.id,
+        image: element.image || "",
+        title: element.title,
+        introduction: element.introduction,
+        usage: element.usage,
+        standards: element.standards || "",
+        chemicalComposition: element.chemicalComposition || "",
+        physicalProperties: element.physicalProperties || "",
+        thermalExpansion: element.thermalExpansion || "",
+        corrosionResistance: element.corrosionResistance || "",
+        heatResistance: element.heatResistance || "",
+        manufacturing: element.manufacturing || "",
+        hotForming: element.hotForming || "",
+        coldForming: element.coldForming || "",
+        welding: element.welding || "",
+        machining: element.machining || "",
+      })),
       total,
     };
   } catch (error) {
@@ -210,7 +199,9 @@ export async function updateElement(
         ...(element.coldForming !== undefined && {
           coldForming: element.coldForming || null,
         }),
-        ...(element.welding !== undefined && { welding: element.welding || null }),
+        ...(element.welding !== undefined && {
+          welding: element.welding || null,
+        }),
         ...(element.machining !== undefined && {
           machining: element.machining || null,
         }),
@@ -238,7 +229,6 @@ export async function updateElement(
   } catch (error) {
     logger.error("Error updating element in database", error as Error);
     if ((error as any).code === "P2025") {
-      // Record not found
       return null;
     }
     throw error;
@@ -254,10 +244,8 @@ export async function deleteElement(id: number): Promise<boolean> {
   } catch (error) {
     logger.error("Error deleting element from database", error as Error);
     if ((error as any).code === "P2025") {
-      // Record not found
       return false;
     }
     throw error;
   }
 }
-

@@ -1,8 +1,3 @@
-/**
- * Structured Logging System
- * سیستم لاگینگ ساختاریافته با سطوح مختلف
- */
-
 type LogLevel = "debug" | "info" | "warn" | "error";
 
 interface LogEntry {

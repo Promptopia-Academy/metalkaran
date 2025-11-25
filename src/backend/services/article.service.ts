@@ -7,16 +7,19 @@ import {
   deleteArticle,
 } from "../utils/article-storage";
 import { logger } from "../lib/logger";
-import { PaginationParams, PaginatedResponse, paginate } from "../utils/pagination";
+import { PaginationParams, PaginatedResponse } from "../utils/pagination";
 
 export async function getAllArticles(
   paginationParams?: PaginationParams
-): Promise<IArticleServiceResponse & { pagination?: PaginatedResponse<IArticle>["pagination"] }> {
+): Promise<
+  IArticleServiceResponse & {
+    pagination?: PaginatedResponse<IArticle>["pagination"];
+  }
+> {
   try {
-    // Use pagination params or default values
     const params = paginationParams || { page: 1, limit: 100 };
     const result = await getArticles(params);
-    
+
     if (paginationParams) {
       const totalPages = Math.ceil(result.total / paginationParams.limit);
       const pagination = {
@@ -27,12 +30,12 @@ export async function getAllArticles(
         hasNext: paginationParams.page < totalPages,
         hasPrev: paginationParams.page > 1,
       };
-      
+
       logger.info("Articles retrieved with pagination", {
         total: result.total,
         page: paginationParams.page,
       });
-      
+
       return {
         success: true,
         message: "Articles retrieved successfully",
@@ -40,7 +43,7 @@ export async function getAllArticles(
         pagination,
       };
     }
-    
+
     logger.info("All articles retrieved", { count: result.data.length });
     return {
       success: true,
@@ -84,7 +87,10 @@ export async function createArticle(
 ): Promise<IArticleServiceResponse> {
   try {
     const newArticle = await saveArticle(article);
-    logger.info("Article created successfully", { id: newArticle.id, title: newArticle.title });
+    logger.info("Article created successfully", {
+      id: newArticle.id,
+      title: newArticle.title,
+    });
     return {
       success: true,
       message: "Article created successfully",

@@ -29,7 +29,10 @@ export default function AdminContactsPage() {
         setContacts(response.data || []);
       }
     } catch (error: any) {
-      if (error.message.includes("401") || error.message.includes("Unauthorized")) {
+      if (
+        error.message.includes("401") ||
+        error.message.includes("Unauthorized")
+      ) {
         alert("لطفاً ابتدا API Key را در تنظیمات وارد کنید");
       }
       console.error("Error loading contacts:", error);
@@ -54,7 +57,8 @@ export default function AdminContactsPage() {
       <Card>
         <CardContent className="py-12 text-center">
           <p className="text-muted-foreground mb-4">
-            برای مشاهده پیام‌های تماس، لطفاً ابتدا API Key را در تنظیمات وارد کنید
+            برای مشاهده پیام‌های تماس، لطفاً ابتدا API Key را در تنظیمات وارد
+            کنید
           </p>
           <a href="/admin/settings" className="text-primary hover:underline">
             رفتن به تنظیمات
@@ -111,7 +115,9 @@ export default function AdminContactsPage() {
                   <div className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-muted-foreground" />
                     <div>
-                      <p className="text-sm text-muted-foreground">شماره تماس</p>
+                      <p className="text-sm text-muted-foreground">
+                        شماره تماس
+                      </p>
                       <a
                         href={`tel:${contact.phone}`}
                         className="text-primary hover:underline"
@@ -136,4 +142,3 @@ export default function AdminContactsPage() {
     </div>
   );
 }
-

@@ -25,7 +25,6 @@ const optionalEnvVars = {
 } as const;
 
 export interface EnvConfig {
-  // Email (optional)
   email: {
     enabled: boolean;
     host?: string;
@@ -36,14 +35,12 @@ export interface EnvConfig {
     adminEmail?: string;
   };
 
-  // Auth
   auth: {
     jwtSecret?: string;
     apiKey?: string;
     enabled: boolean;
   };
 
-  // App
   app: {
     nodeEnv: string;
     apiBaseUrl: string;
@@ -76,7 +73,6 @@ export function validateEnv(): EnvConfig {
     },
   };
 
-  // Check Email configuration
   const emailVars = [
     requiredEnvVars.SMTP_HOST,
     requiredEnvVars.SMTP_PORT,
@@ -100,7 +96,6 @@ export function validateEnv(): EnvConfig {
     );
   }
 
-  // Check Authentication configuration
   if (requiredEnvVars.JWT_SECRET || requiredEnvVars.API_KEY) {
     config.auth = {
       enabled: true,
@@ -121,5 +116,4 @@ export function getEnvConfig(): EnvConfig {
   return validateEnv();
 }
 
-// Validate on module load
 validateEnv();

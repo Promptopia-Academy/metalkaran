@@ -1,8 +1,3 @@
-/**
- * Backup System
- * سیستم پشتیبان‌گیری خودکار برای فایل‌های JSON
- */
-
 import { copyFile, mkdir, readdir, stat } from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
@@ -18,9 +13,6 @@ export interface BackupResult {
   timestamp?: string;
 }
 
-/**
- * Create backup directory if it doesn't exist
- */
 async function ensureBackupDir(): Promise<void> {
   if (!existsSync(BACKUP_DIR)) {
     await mkdir(BACKUP_DIR, { recursive: true });
@@ -28,9 +20,6 @@ async function ensureBackupDir(): Promise<void> {
   }
 }
 
-/**
- * Clean old backups (keep only last N backups)
- */
 async function cleanOldBackups(maxBackups: number = 10): Promise<void> {
   try {
     if (!existsSync(BACKUP_DIR)) {
@@ -45,7 +34,6 @@ async function cleanOldBackups(maxBackups: number = 10): Promise<void> {
       }))
       .filter((f) => f.name.endsWith(".json.backup"));
 
-    // Get file stats for sorting
     const filesWithStats = await Promise.all(
       backupFiles.map(async (file) => {
         const stats = await stat(file.path);
@@ -56,10 +44,8 @@ async function cleanOldBackups(maxBackups: number = 10): Promise<void> {
       })
     );
 
-    // Sort by modification time (newest first)
     filesWithStats.sort((a, b) => b.mtime.getTime() - a.mtime.getTime());
 
-    // Delete old backups
     if (filesWithStats.length > maxBackups) {
       const toDelete = filesWithStats.slice(maxBackups);
       for (const file of toDelete) {
@@ -73,9 +59,6 @@ async function cleanOldBackups(maxBackups: number = 10): Promise<void> {
   }
 }
 
-/**
- * Backup a specific file
- */
 export async function backupFile(
   fileName: string,
   createTimestamp: boolean = true
@@ -104,7 +87,6 @@ export async function backupFile(
       backupPath,
     });
 
-    // Clean old backups
     await cleanOldBackups();
 
     return {
@@ -122,9 +104,6 @@ export async function backupFile(
   }
 }
 
-/**
- * Backup all data files
- */
 export async function backupAllFiles(): Promise<BackupResult[]> {
   const dataFiles = [
     "articles.json",
@@ -143,15 +122,10 @@ export async function backupAllFiles(): Promise<BackupResult[]> {
   return results;
 }
 
-/**
- * Create automatic backup before write operations
- */
 export async function autoBackup(fileName: string): Promise<void> {
   try {
     await backupFile(fileName, true);
   } catch (error) {
-    // Don't throw error if backup fails - just log it
     logger.warn("Auto backup failed", { fileName, error });
   }
 }
-

@@ -1,21 +1,14 @@
-/**
- * Database operations for Articles
- * عملیات دیتابیس برای مقالات
- */
-
 import { prisma } from "@/lib/prisma";
 import { IArticle } from "@/types/type";
 import { logger } from "../../lib/logger";
 
-export async function getArticles(
-  paginationParams?: {
-    page?: number;
-    limit?: number;
-    search?: string;
-    sortBy?: string;
-    sortOrder?: "asc" | "desc";
-  }
-): Promise<{
+export async function getArticles(paginationParams?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}): Promise<{
   data: IArticle[];
   total: number;
 }> {
@@ -28,7 +21,6 @@ export async function getArticles(
 
     const skip = (page - 1) * limit;
 
-    // Build where clause for search
     const where = search
       ? {
           OR: [
@@ -41,7 +33,6 @@ export async function getArticles(
         }
       : {};
 
-    // Build orderBy
     const orderBy: any = {};
     if (sortBy === "title") {
       orderBy.title = sortOrder;
@@ -51,10 +42,8 @@ export async function getArticles(
       orderBy.id = sortOrder;
     }
 
-    // Get total count
     const total = await prisma.article.count({ where });
 
-    // Get paginated data
     const articles = await prisma.article.findMany({
       where,
       orderBy,
@@ -64,22 +53,22 @@ export async function getArticles(
 
     return {
       data: articles.map((article) => ({
-      id: article.id,
-      image: article.image || "",
-      title: article.title,
-      introduction: article.introduction,
-      title1: article.title1,
-      content1: article.content1,
-      title2: article.title2 || "",
-      content2: article.content2 || "",
-      title3: article.title3 || "",
-      content3: article.content3 || "",
-      title4: article.title4 || "",
-      content4: article.content4 || "",
-      title5: article.title5 || "",
-      content5: article.content5 || "",
-      sources: article.sources || "",
-    })),
+        id: article.id,
+        image: article.image || "",
+        title: article.title,
+        introduction: article.introduction,
+        title1: article.title1,
+        content1: article.content1,
+        title2: article.title2 || "",
+        content2: article.content2 || "",
+        title3: article.title3 || "",
+        content3: article.content3 || "",
+        title4: article.title4 || "",
+        content4: article.content4 || "",
+        title5: article.title5 || "",
+        content5: article.content5 || "",
+        sources: article.sources || "",
+      })),
       total,
     };
   } catch (error) {
@@ -198,7 +187,9 @@ export async function updateArticle(
         ...(article.content5 !== undefined && {
           content5: article.content5 || null,
         }),
-        ...(article.sources !== undefined && { sources: article.sources || null }),
+        ...(article.sources !== undefined && {
+          sources: article.sources || null,
+        }),
       },
     });
 
@@ -222,7 +213,6 @@ export async function updateArticle(
   } catch (error) {
     logger.error("Error updating article in database", error as Error);
     if ((error as any).code === "P2025") {
-      // Record not found
       return null;
     }
     throw error;
@@ -238,10 +228,8 @@ export async function deleteArticle(id: number): Promise<boolean> {
   } catch (error) {
     logger.error("Error deleting article from database", error as Error);
     if ((error as any).code === "P2025") {
-      // Record not found
       return false;
     }
     throw error;
   }
 }
-

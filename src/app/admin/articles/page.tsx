@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Search, Edit, Trash2, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Edit,
+  Trash2,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
 import { api } from "@/lib/api";
 import { IArticle } from "@/types/type";
 import Link from "next/link";
@@ -18,7 +25,6 @@ export default function AdminArticlesPage() {
   const [apiKey, setApiKey] = useState("");
 
   useEffect(() => {
-    // Load API key from localStorage
     const savedApiKey = localStorage.getItem("admin_api_key");
     if (savedApiKey) {
       setApiKey(savedApiKey);
@@ -37,7 +43,7 @@ export default function AdminArticlesPage() {
         limit: 10,
         search: search || undefined,
       });
-      
+
       if (response.success) {
         setArticles(response.data || []);
         if (response.pagination) {
@@ -105,7 +111,6 @@ export default function AdminArticlesPage() {
         </CardContent>
       </Card>
 
-      {/* Articles List */}
       {loading ? (
         <div className="text-center py-12">در حال بارگذاری...</div>
       ) : articles.length === 0 ? (
@@ -147,7 +152,6 @@ export default function AdminArticlesPage() {
         </div>
       )}
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-4">
           <Button
@@ -174,4 +178,3 @@ export default function AdminArticlesPage() {
     </div>
   );
 }
-

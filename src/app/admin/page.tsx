@@ -16,29 +16,37 @@ export default function AdminDashboard() {
   useEffect(() => {
     const loadStats = async () => {
       try {
-        // Load articles count
         const articlesRes = await api.getArticles({ limit: 1 });
         const articlesCount = articlesRes.data?.length || 0;
         if (articlesRes.pagination) {
-          setStats((prev) => ({ ...prev, articles: articlesRes.pagination.total }));
+          setStats((prev) => ({
+            ...prev,
+            articles: articlesRes.pagination.total,
+          }));
         } else {
-          // If no pagination, count manually
           const allArticles = await api.getArticles();
-          setStats((prev) => ({ ...prev, articles: allArticles.data?.length || 0 }));
+          setStats((prev) => ({
+            ...prev,
+            articles: allArticles.data?.length || 0,
+          }));
         }
 
-        // Load elements count
         const elementsRes = await api.getElements({ limit: 1 });
         if (elementsRes.pagination) {
-          setStats((prev) => ({ ...prev, elements: elementsRes.pagination.total }));
+          setStats((prev) => ({
+            ...prev,
+            elements: elementsRes.pagination.total,
+          }));
         } else {
           const allElements = await api.getElements();
-          setStats((prev) => ({ ...prev, elements: allElements.data?.length || 0 }));
+          setStats((prev) => ({
+            ...prev,
+            elements: allElements.data?.length || 0,
+          }));
         }
 
-        // Check health
         try {
-          const healthRes = await fetch('/api/health');
+          const healthRes = await fetch("/api/health");
           const health = await healthRes.json();
           setStats((prev) => ({ ...prev, health: health.status }));
         } catch {
@@ -56,10 +64,11 @@ export default function AdminDashboard() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold mb-2">داشبورد مدیریت</h1>
-        <p className="text-muted-foreground">خوش آمدید به پنل مدیریت Metalkaran</p>
+        <p className="text-muted-foreground">
+          خوش آمدید به پنل مدیریت Metalkaran
+        </p>
       </div>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -90,7 +99,9 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.contacts}</div>
-            <p className="text-xs text-muted-foreground">تعداد پیام‌های دریافتی</p>
+            <p className="text-xs text-muted-foreground">
+              تعداد پیام‌های دریافتی
+            </p>
           </CardContent>
         </Card>
 
@@ -111,7 +122,6 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
-      {/* Quick Actions */}
       <Card>
         <CardHeader>
           <CardTitle>دسترسی سریع</CardTitle>
@@ -124,7 +134,9 @@ export default function AdminDashboard() {
             >
               <FileText className="h-6 w-6 mb-2" />
               <h3 className="font-semibold">مدیریت مقالات</h3>
-              <p className="text-sm text-muted-foreground">افزودن، ویرایش و حذف مقالات</p>
+              <p className="text-sm text-muted-foreground">
+                افزودن، ویرایش و حذف مقالات
+              </p>
             </a>
             <a
               href="/admin/elements"
@@ -132,7 +144,9 @@ export default function AdminDashboard() {
             >
               <Box className="h-6 w-6 mb-2" />
               <h3 className="font-semibold">مدیریت المنت‌ها</h3>
-              <p className="text-sm text-muted-foreground">افزودن، ویرایش و حذف المنت‌ها</p>
+              <p className="text-sm text-muted-foreground">
+                افزودن، ویرایش و حذف المنت‌ها
+              </p>
             </a>
             <a
               href="/admin/contacts"
@@ -140,7 +154,9 @@ export default function AdminDashboard() {
             >
               <MessageSquare className="h-6 w-6 mb-2" />
               <h3 className="font-semibold">پیام‌های تماس</h3>
-              <p className="text-sm text-muted-foreground">مشاهده و مدیریت پیام‌ها</p>
+              <p className="text-sm text-muted-foreground">
+                مشاهده و مدیریت پیام‌ها
+              </p>
             </a>
           </div>
         </CardContent>
@@ -148,4 +164,3 @@ export default function AdminDashboard() {
     </div>
   );
 }
-

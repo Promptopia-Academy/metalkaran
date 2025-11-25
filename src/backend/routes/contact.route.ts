@@ -9,7 +9,7 @@ import { requireAuth } from "../lib/auth";
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
-  
+
   try {
     const rateLimitCheck = await checkContactRateLimit(request);
 
@@ -20,8 +20,10 @@ export async function POST(request: NextRequest) {
       );
 
       const duration = Date.now() - startTime;
-      logger.request("POST", "/api/contact", 429, duration, { rateLimited: true });
-      
+      logger.request("POST", "/api/contact", 429, duration, {
+        rateLimited: true,
+      });
+
       return NextResponse.json(
         {
           success: false,
@@ -55,8 +57,13 @@ export async function POST(request: NextRequest) {
     }
 
     const duration = Date.now() - startTime;
-    logger.request("POST", "/api/contact", result.success ? 201 : 400, duration);
-    
+    logger.request(
+      "POST",
+      "/api/contact",
+      result.success ? 201 : 400,
+      duration
+    );
+
     return NextResponse.json(
       {
         success: true,
@@ -80,7 +87,7 @@ export async function POST(request: NextRequest) {
     const duration = Date.now() - startTime;
     logger.error("Error in contact API POST", error as Error);
     logger.request("POST", "/api/contact", 500, duration);
-    
+
     return NextResponse.json(
       {
         success: false,
@@ -91,22 +98,21 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET - Protected endpoint (only admins should see contacts)
 export const GET = requireAuth(async function GET() {
   const startTime = Date.now();
-  
+
   try {
     const contacts = await getAllContacts();
-    
+
     const duration = Date.now() - startTime;
     logger.request("GET", "/api/contact", 200, duration);
-    
+
     return NextResponse.json({ success: true, data: contacts });
   } catch (error) {
     const duration = Date.now() - startTime;
     logger.error("Error reading contacts", error as Error);
     logger.request("GET", "/api/contact", 500, duration);
-    
+
     return NextResponse.json(
       { success: false, message: "خطا در خواندن اطلاعات" },
       { status: 500 }

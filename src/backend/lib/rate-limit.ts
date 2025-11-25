@@ -1,8 +1,3 @@
-/**
- * Rate Limiting System
- * سیستم محدودیت نرخ درخواست
- */
-
 import { checkRateLimit as checkRateLimitDB } from "../utils/db/rate-limit-db";
 
 export function getClientIP(request: Request): string {

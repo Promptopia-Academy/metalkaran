@@ -3,7 +3,13 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Save, Eye, EyeOff } from "lucide-react";
 
 export default function AdminSettingsPage() {
@@ -37,8 +43,8 @@ export default function AdminSettingsPage() {
         <CardHeader>
           <CardTitle>احراز هویت</CardTitle>
           <CardDescription>
-            برای استفاده از API، لطفاً API Key خود را وارد کنید. این کلید از فایل .env.local
-            سرور شما دریافت می‌شود.
+            برای استفاده از API، لطفاً API Key خود را وارد کنید. این کلید از
+            فایل .env.local سرور شما دریافت می‌شود.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -65,7 +71,8 @@ export default function AdminSettingsPage() {
               </button>
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              این کلید در مرورگر شما ذخیره می‌شود و فقط برای احراز هویت API استفاده می‌شود.
+              این کلید در مرورگر شما ذخیره می‌شود و فقط برای احراز هویت API
+              استفاده می‌شود.
             </p>
           </div>
 
@@ -114,4 +121,3 @@ export default function AdminSettingsPage() {
     </div>
   );
 }
-

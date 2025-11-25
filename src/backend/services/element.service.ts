@@ -7,16 +7,19 @@ import {
   deleteElement,
 } from "../utils/element-storage";
 import { logger } from "../lib/logger";
-import { PaginationParams, PaginatedResponse, paginate } from "../utils/pagination";
+import { PaginationParams, PaginatedResponse } from "../utils/pagination";
 
 export async function getAllElements(
   paginationParams?: PaginationParams
-): Promise<IElementServiceResponse & { pagination?: PaginatedResponse<IElement>["pagination"] }> {
+): Promise<
+  IElementServiceResponse & {
+    pagination?: PaginatedResponse<IElement>["pagination"];
+  }
+> {
   try {
-    // Use pagination params or default values
     const params = paginationParams || { page: 1, limit: 100 };
     const result = await getElements(params);
-    
+
     if (paginationParams) {
       const totalPages = Math.ceil(result.total / paginationParams.limit);
       const pagination = {
@@ -27,12 +30,12 @@ export async function getAllElements(
         hasNext: paginationParams.page < totalPages,
         hasPrev: paginationParams.page > 1,
       };
-      
+
       logger.info("Elements retrieved with pagination", {
         total: result.total,
         page: paginationParams.page,
       });
-      
+
       return {
         success: true,
         message: "Elements retrieved successfully",
@@ -40,7 +43,7 @@ export async function getAllElements(
         pagination,
       };
     }
-    
+
     logger.info("All elements retrieved", { count: result.data.length });
     return {
       success: true,
@@ -84,7 +87,10 @@ export async function createElement(
 ): Promise<IElementServiceResponse> {
   try {
     const newElement = await saveElement(element);
-    logger.info("Element created successfully", { id: newElement.id, title: newElement.title });
+    logger.info("Element created successfully", {
+      id: newElement.id,
+      title: newElement.title,
+    });
     return {
       success: true,
       message: "Element created successfully",

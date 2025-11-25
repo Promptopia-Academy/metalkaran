@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Search, Edit, Trash2, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Edit,
+  Trash2,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
 import { api } from "@/lib/api";
 import { IElement } from "@/types/type";
 import Link from "next/link";
@@ -36,7 +43,7 @@ export default function AdminElementsPage() {
         limit: 10,
         search: search || undefined,
       });
-      
+
       if (response.success) {
         setElements(response.data || []);
         if (response.pagination) {
@@ -84,7 +91,6 @@ export default function AdminElementsPage() {
         </Link>
       </div>
 
-      {/* Search */}
       <Card>
         <CardContent className="pt-6">
           <div className="flex gap-4">
@@ -104,7 +110,6 @@ export default function AdminElementsPage() {
         </CardContent>
       </Card>
 
-      {/* Elements List */}
       {loading ? (
         <div className="text-center py-12">در حال بارگذاری...</div>
       ) : elements.length === 0 ? (
@@ -146,7 +151,6 @@ export default function AdminElementsPage() {
         </div>
       )}
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-4">
           <Button
@@ -173,4 +177,3 @@ export default function AdminElementsPage() {
     </div>
   );
 }
-

@@ -1,4 +1,3 @@
-// Re-export from database functions
 export {
   getElements,
   getElementById,

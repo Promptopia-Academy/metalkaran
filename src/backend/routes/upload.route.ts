@@ -3,10 +3,9 @@ import { uploadFile } from "../services/upload.service";
 import { requireAuth } from "../lib/auth";
 import { logger } from "../lib/logger";
 
-// POST - Protected endpoint
 export const POST = requireAuth(async function POST(request: NextRequest) {
   const startTime = Date.now();
-  
+
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File;
@@ -14,7 +13,7 @@ export const POST = requireAuth(async function POST(request: NextRequest) {
     if (!file) {
       const duration = Date.now() - startTime;
       logger.request("POST", "/api/upload", 400, duration);
-      
+
       return NextResponse.json(
         { success: false, message: "فایلی ارسال نشده است" },
         { status: 400 }
@@ -26,7 +25,7 @@ export const POST = requireAuth(async function POST(request: NextRequest) {
     if (!result.success) {
       const duration = Date.now() - startTime;
       logger.request("POST", "/api/upload", 400, duration);
-      
+
       return NextResponse.json(
         {
           success: false,
@@ -41,7 +40,7 @@ export const POST = requireAuth(async function POST(request: NextRequest) {
       fileName: result.data?.fileName,
       fileSize: result.data?.size,
     });
-    
+
     return NextResponse.json(
       {
         success: true,
@@ -54,7 +53,7 @@ export const POST = requireAuth(async function POST(request: NextRequest) {
     const duration = Date.now() - startTime;
     logger.error("Error in upload API", error as Error);
     logger.request("POST", "/api/upload", 500, duration);
-    
+
     return NextResponse.json(
       {
         success: false,

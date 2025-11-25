@@ -1,10 +1,4 @@
-/**
- * Database operations for Rate Limiting
- * عملیات دیتابیس برای Rate Limiting
- */
-
 import { prisma } from "@/lib/prisma";
-import { IRateLimitEntry } from "@/types/type";
 import { logger } from "../../lib/logger";
 
 const RATE_LIMIT_CONFIG = {
@@ -18,9 +12,8 @@ export async function checkRateLimit(ip: string): Promise<{
   resetTime: number;
 }> {
   const now = Date.now();
-  
+
   try {
-    // Delete expired entries
     await prisma.rateLimit.deleteMany({
       where: {
         resetTime: {
@@ -29,7 +22,6 @@ export async function checkRateLimit(ip: string): Promise<{
       },
     });
 
-    // Find existing entry for this IP
     const existingEntry = await prisma.rateLimit.findFirst({
       where: {
         ip,
@@ -43,7 +35,6 @@ export async function checkRateLimit(ip: string): Promise<{
     });
 
     if (!existingEntry) {
-      // Create new entry
       const newEntry = await prisma.rateLimit.create({
         data: {
           ip,
@@ -67,7 +58,6 @@ export async function checkRateLimit(ip: string): Promise<{
       };
     }
 
-    // Increment count
     const updatedEntry = await prisma.rateLimit.update({
       where: { id: existingEntry.id },
       data: { count: { increment: 1 } },
@@ -80,7 +70,6 @@ export async function checkRateLimit(ip: string): Promise<{
     };
   } catch (error) {
     logger.error("Error checking rate limit", error as Error);
-    // On error, allow the request
     return {
       allowed: true,
       remaining: RATE_LIMIT_CONFIG.maxRequests,
@@ -88,4 +77,3 @@ export async function checkRateLimit(ip: string): Promise<{
     };
   }
 }
-

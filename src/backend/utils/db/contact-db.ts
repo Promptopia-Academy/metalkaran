@@ -1,8 +1,3 @@
-/**
- * Database operations for Contacts
- * عملیات دیتابیس برای تماس‌ها
- */
-
 import { prisma } from "@/lib/prisma";
 import { IContact } from "@/types/type";
 import { logger } from "../../lib/logger";
@@ -53,4 +48,3 @@ export async function saveContact(
     throw error;
   }
 }
-

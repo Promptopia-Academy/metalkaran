@@ -31,7 +31,7 @@ export default function NewArticlePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const apiKey = localStorage.getItem("admin_api_key");
     if (!apiKey) {
       alert("لطفاً ابتدا API Key را در تنظیمات وارد کنید");
@@ -69,7 +69,9 @@ export default function NewArticlePage() {
               <Input
                 id="title"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 required
                 minLength={3}
               />
@@ -81,7 +83,9 @@ export default function NewArticlePage() {
                 id="image"
                 type="url"
                 value={formData.image}
-                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, image: e.target.value })
+                }
               />
             </div>
 
@@ -91,7 +95,9 @@ export default function NewArticlePage() {
                 id="introduction"
                 className="w-full min-h-[100px] rounded-md border border-input bg-transparent px-3 py-2 text-sm"
                 value={formData.introduction}
-                onChange={(e) => setFormData({ ...formData, introduction: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, introduction: e.target.value })
+                }
                 required
                 minLength={10}
               />
@@ -103,7 +109,9 @@ export default function NewArticlePage() {
                 <Input
                   id="title1"
                   value={formData.title1}
-                  onChange={(e) => setFormData({ ...formData, title1: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title1: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -113,7 +121,9 @@ export default function NewArticlePage() {
                   id="content1"
                   className="w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm"
                   value={formData.content1}
-                  onChange={(e) => setFormData({ ...formData, content1: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, content1: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -125,9 +135,14 @@ export default function NewArticlePage() {
                   <Label htmlFor={`title${num}`}>عنوان {num}</Label>
                   <Input
                     id={`title${num}`}
-                    value={formData[`title${num}` as keyof typeof formData] as string}
+                    value={
+                      formData[`title${num}` as keyof typeof formData] as string
+                    }
                     onChange={(e) =>
-                      setFormData({ ...formData, [`title${num}`]: e.target.value })
+                      setFormData({
+                        ...formData,
+                        [`title${num}`]: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -136,9 +151,16 @@ export default function NewArticlePage() {
                   <textarea
                     id={`content${num}`}
                     className="w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm"
-                    value={formData[`content${num}` as keyof typeof formData] as string}
+                    value={
+                      formData[
+                        `content${num}` as keyof typeof formData
+                      ] as string
+                    }
                     onChange={(e) =>
-                      setFormData({ ...formData, [`content${num}`]: e.target.value })
+                      setFormData({
+                        ...formData,
+                        [`content${num}`]: e.target.value,
+                      })
                     }
                   />
                 </div>
@@ -151,7 +173,9 @@ export default function NewArticlePage() {
                 id="sources"
                 className="w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm"
                 value={formData.sources}
-                onChange={(e) => setFormData({ ...formData, sources: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, sources: e.target.value })
+                }
               />
             </div>
           </CardContent>
@@ -161,11 +185,7 @@ export default function NewArticlePage() {
           <Button type="submit" disabled={loading}>
             {loading ? "در حال ذخیره..." : "ذخیره مقاله"}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.back()}
-          >
+          <Button type="button" variant="outline" onClick={() => router.back()}>
             <ArrowRight className="w-4 h-4 ml-2" />
             بازگشت
           </Button>
@@ -174,4 +194,3 @@ export default function NewArticlePage() {
     </div>
   );
 }
-

@@ -1,8 +1,3 @@
-/**
- * Health Check Endpoint
- * بررسی وضعیت سلامت سیستم
- */
-
 import { NextResponse } from "next/server";
 import { getEnvConfig } from "@/backend/lib/env";
 import { existsSync } from "fs";
@@ -10,7 +5,7 @@ import path from "path";
 
 export async function GET() {
   const startTime = Date.now();
-  
+
   try {
     const health = {
       status: "healthy",
@@ -26,23 +21,23 @@ export async function GET() {
       },
       checks: {
         dataDirectory: false,
-        diskSpace: true, // Assume true for now
+        diskSpace: true,
       },
     };
 
     const envConfig = getEnvConfig();
 
-    // Check data directory
     const dataDir = path.join(process.cwd(), "data");
     health.checks.dataDirectory = existsSync(dataDir);
 
-    // Check email service
-    health.services.email = envConfig.email.enabled ? "configured" : "not configured";
+    health.services.email = envConfig.email.enabled
+      ? "configured"
+      : "not configured";
 
-    // Check auth service
-    health.services.auth = envConfig.auth.enabled ? "configured" : "not configured";
+    health.services.auth = envConfig.auth.enabled
+      ? "configured"
+      : "not configured";
 
-    // Determine overall status
     const allServicesOk =
       health.services.api === "operational" &&
       health.services.database === "operational" &&
@@ -63,7 +58,7 @@ export async function GET() {
     );
   } catch (error) {
     const responseTime = Date.now() - startTime;
-    
+
     return NextResponse.json(
       {
         status: "unhealthy",
@@ -77,4 +72,3 @@ export async function GET() {
     );
   }
 }
-

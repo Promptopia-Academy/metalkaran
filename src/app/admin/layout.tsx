@@ -6,11 +6,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background" dir="rtl">
       <div className="flex">
         <AdminSidebar />
-        <main className="flex-1 mr-64 p-8">
-          {children}
-        </main>
+        <main className="flex-1 mr-64 p-8">{children}</main>
       </div>
     </div>
   );
 }
-

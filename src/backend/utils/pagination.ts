@@ -1,9 +1,3 @@
-/**
- * Pagination Utilities
- * ابزارهای صفحه‌بندی و جستجو
- */
-
-import { z } from "zod";
 import { paginationSchema } from "@/validation/validations";
 
 export interface PaginationParams {
@@ -46,7 +40,6 @@ export function paginate<T>(
 ): PaginatedResponse<T> {
   let filtered = [...items];
 
-  // Apply search filter
   if (params.search) {
     const searchLower = params.search.toLowerCase();
     filtered = filtered.filter((item) => {
@@ -55,7 +48,6 @@ export function paginate<T>(
     });
   }
 
-  // Apply sorting
   if (params.sortBy) {
     filtered.sort((a, b) => {
       const aVal = (a as any)[params.sortBy!];
@@ -69,7 +61,6 @@ export function paginate<T>(
     });
   }
 
-  // Calculate pagination
   const total = filtered.length;
   const totalPages = Math.ceil(total / params.limit);
   const startIndex = (params.page - 1) * params.limit;
@@ -88,4 +79,3 @@ export function paginate<T>(
     },
   };
 }
-
