@@ -5,22 +5,22 @@ import Badge from "./Badge";
 const badges = [
   {
     text: "پشتیبانی",
-    icon: <UsersRound className="text-background w-20 h-24" />,
+    icon: <UsersRound className="text-background w-16 h-20 md:w-20 md:h-24" />,
   },
   {
     text: "تضمین  قیمت",
-    icon: <ShieldCheck className="text-background w-20 h-24" />,
+    icon: <ShieldCheck className="text-background w-16 h-20 md:w-20 md:h-24" />,
   },
   {
     text: "تضمین کیفیت",
-    icon: <Heart className="text-background w-20 h-24" />,
+    icon: <Heart className="text-background w-16 h-20 md:w-20 md:h-24" />,
   },
 ];
 
 const Badges = () => {
   return (
-    <section id="badges" className="mt-32">
-      <div className="flex justify-center gap-40">
+    <section id="badges" className="mt-12 md:mt-20 lg:mt-32 px-4">
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-8 md:gap-16 lg:gap-24 xl:gap-40">
         {badges.map((badge, index) => (
           <Badge key={index} text={badge.text} icon={badge.icon} />
         ))}
