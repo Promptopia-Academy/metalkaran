@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main>
       {/* carousel */}
-      <section className="px-32 mt-20">
+      <section className="px-4 md:px-8 lg:px-16 xl:px-32 mt-8 md:mt-12 lg:mt-20">
         <CarouselHero />
       </section>
       <Badges />

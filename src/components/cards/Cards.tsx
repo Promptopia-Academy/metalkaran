@@ -43,13 +43,13 @@ const cardItems = [
 
 const Cards = () => {
   return (
-    <section className="mt-20 w-full">
+    <section className="mt-12 md:mt-16 lg:mt-20 w-full px-4 md:px-8 lg:px-16 xl:px-32">
       <Carousel className="w-full">
-        <CarouselContent className="flex gap-4 items-stretch pb-10">
+        <CarouselContent className="flex gap-3 md:gap-4 items-stretch pb-6 md:pb-10">
           {cardItems.map((item, index) => (
             <CarouselItem
               key={index}
-              className="flex-shrink-0 basis-[16rem] rounded-2xl bg-card pl-0"
+              className="flex-shrink-0 basis-[85%] sm:basis-[70%] md:basis-[45%] lg:basis-[35%] xl:basis-[16rem] rounded-xl md:rounded-2xl bg-card pl-0"
               style={{ boxShadow: "3px 5px 10px 4px rgba(0, 0, 0, 0.25)" }}
             >
               <CardElement
@@ -60,8 +60,8 @@ const Cards = () => {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="hidden md:flex" />
+        <CarouselNext className="hidden md:flex" />
       </Carousel>
     </section>
   );

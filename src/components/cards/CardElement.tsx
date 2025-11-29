@@ -10,25 +10,25 @@ interface CardElementProps {
 
 export default function CardElement({ image, title, slug }: CardElementProps) {
   return (
-    <div className="w-full pb-4 bg-card rounded-2xl shrink-0 overflow-hidden min-w-0">
-      <div className="relative w-full h-60">
+    <div className="w-full pb-3 md:pb-4 bg-card rounded-xl md:rounded-2xl shrink-0 overflow-hidden min-w-0">
+      <div className="relative w-full h-48 md:h-56 lg:h-60">
         <Image
           src={image}
           alt="Card image"
           fill
-          className="rounded-2xl object-cover"
+          className="rounded-t-xl md:rounded-t-2xl object-cover"
         />
       </div>
-      <div className="flex flex-col gap-2 justify-center items-center p-4">
-        <h2 className="text-center text-lg font-medium text-button">{title}</h2>
-        <p className="text-center text-sm font-normal text-button">{slug}</p>
+      <div className="flex flex-col gap-1.5 md:gap-2 justify-center items-center p-3 md:p-4">
+        <h2 className="text-center text-base md:text-lg font-medium text-button">{title}</h2>
+        <p className="text-center text-xs md:text-sm font-normal text-button">{slug}</p>
         <Button
           variant={"default"}
-          className="bg-primary mx-auto text-base font-semibold px-6 py-2"
+          className="bg-primary mx-auto text-sm md:text-base font-semibold px-4 md:px-6 py-1.5 md:py-2"
         >
           اطلاعات بیشتر
           <span>
-            <ArrowRight className="ml-2 w-4 h-4 text-white" />
+            <ArrowRight className="ml-2 w-3 h-3 md:w-4 md:h-4 text-white" />
           </span>
         </Button>
       </div>
