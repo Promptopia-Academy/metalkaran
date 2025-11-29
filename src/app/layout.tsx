@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Source_Code_Pro } from "next/font/google";
+import { Vazirmatn } from "next/font/google";
 import Header from "@/components/header/Header";
 
 import "./globals.css";
 
-const sourceCode = Source_Code_Pro({
-  variable: "--source-code",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const Vazir = Vazirmatn({
+  weight: ["300", "400", "500", "700", "800", "900"],
+  variable: "--font-vazir-sans",
+  subsets: ["arabic", "latin"],
 });
 
 export const metadata: Metadata = {
@@ -92,9 +88,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fa" dir="rtl">
       <body
-        className={`${sourceCode.variable} ${geistMono.variable} antialiased box-border overflow-x-hidden`}
+        className={`${Vazir.variable} font-sans antialiased box-border overflow-x-hidden`}
       >
         <header>
           <Header />
