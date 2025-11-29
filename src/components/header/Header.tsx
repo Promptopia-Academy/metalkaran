@@ -29,26 +29,11 @@ const Header = () => {
     <>
       <section className="w-full max-w-[95%] md:max-w-[90%] lg:max-w-[85%] h-auto md:h-[72px] bg-primary flex items-center mx-auto mt-4 md:mt-8 px-4 md:px-8 lg:px-32 rounded-xl md:rounded-2xl justify-center relative z-50">
         <div className="flex items-center justify-between w-full gap-2 md:gap-4">
-          {/* Logo - Left Side */}
-          <Link href="/" className="flex-shrink-0">
-            <Image
-              src="/logo.png"
-              alt="Metalkaran Logo"
-              width={86}
-              height={63}
-              className="w-12 h-auto md:w-16 lg:w-20 lg:h-auto hover:opacity-80 transition-opacity"
-            />
-          </Link>
-          
-          {/* Search Icon - Center */}
-          <div className="flex-1 flex justify-center">
-            <MagnifyingGlassIcon className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-background flex-shrink-0" />
-          </div>
-
-          {/* Right Side - Desktop Navigation or Mobile Hamburger */}
           <div className="flex items-center gap-2 md:gap-4">
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-2 md:gap-4 lg:gap-6 text-sm md:text-lg lg:text-xl font-medium" dir="rtl">
+            <nav
+              className="hidden md:flex items-center gap-2 md:gap-4 lg:gap-6 text-sm md:text-lg lg:text-xl font-medium"
+              dir="rtl"
+            >
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
@@ -73,6 +58,20 @@ const Header = () => {
               )}
             </button>
           </div>
+
+          <div className="flex-1 flex justify-center">
+            <MagnifyingGlassIcon className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-background flex-shrink-0" />
+          </div>
+
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src="/logo.png"
+              alt="Metalkaran Logo"
+              width={86}
+              height={63}
+              className="w-12 h-auto md:w-16 lg:w-20 lg:h-auto hover:opacity-80 transition-opacity"
+            />
+          </Link>
         </div>
       </section>
 
