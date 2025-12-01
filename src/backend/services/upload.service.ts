@@ -1,0 +1,33 @@
+import { IUploadServiceResponse } from "@/types/type";
+import { validateFile, saveFile } from "../utils/file-utils";
+
+export async function uploadFile(file: File): Promise<IUploadServiceResponse> {
+  try {
+    const validation = validateFile(file);
+    if (!validation.valid) {
+      return {
+        success: false,
+        message: validation.message || "فایل معتبر نیست",
+      };
+    }
+
+    const { url, fileName } = await saveFile(file);
+
+    return {
+      success: true,
+      message: "عکس با موفقیت آپلود شد",
+      data: {
+        url,
+        fileName,
+        size: file.size,
+        type: file.type,
+      },
+    };
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    return {
+      success: false,
+      message: "خطا در آپلود فایل. لطفاً دوباره تلاش کنید.",
+    };
+  }
+}
