@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+!.env.production.example
 
 # vercel
 .vercel
@@ -62,3 +64,10 @@ next-env.d.ts
 .env.production
 .env.development
 config/secrets.json
+
+# PM2 logs
+logs/
+*.log
+
+# backups
+/var/backups
