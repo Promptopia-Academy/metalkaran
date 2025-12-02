@@ -3,6 +3,8 @@ import { Vazirmatn } from "next/font/google";
 import Header from "@/components/header/Header";
 
 import "./globals.css";
+import Footer from "@/components/footer/Footer";
+import AnimatedSection from "@/components/ui/animated-section";
 
 const Vazir = Vazirmatn({
   weight: ["300", "400", "500", "700", "800", "900"],
@@ -95,7 +97,12 @@ export default function RootLayout({
         <header>
           <Header />
         </header>
-        {children}
+        <main>{children}</main>
+        <footer>
+          <AnimatedSection delay={0.1} variant="fade">
+            <Footer />
+          </AnimatedSection>
+        </footer>
       </body>
     </html>
   );
