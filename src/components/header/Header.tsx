@@ -27,7 +27,10 @@ const Header = () => {
 
   return (
     <>
-      <section className="w-full max-w-[95%] md:max-w-[90%] lg:max-w-[85%] h-auto md:h-[72px] bg-primary flex items-center mx-auto mt-4 md:mt-8 px-4 md:px-8 lg:px-32 rounded-xl md:rounded-2xl justify-center relative z-50">
+      <section
+        dir="rtl"
+        className="w-full max-w-[95%] md:max-w-[90%] lg:max-w-[85%] h-auto md:h-[72px] bg-primary flex items-center mx-auto mt-4 md:mt-8 px-4 md:px-8 lg:px-32 rounded-xl md:rounded-2xl justify-center relative z-50"
+      >
         <div className="flex items-center justify-between w-full gap-2 md:gap-4">
           <div className="flex items-center gap-2 md:gap-4">
             <nav

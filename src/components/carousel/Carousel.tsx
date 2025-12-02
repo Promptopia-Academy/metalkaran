@@ -15,39 +15,52 @@ const images = [
     slug: 1,
     src: "/carousel-img/img-1.jpg",
     alt: "Carousel Image 1",
-    basis: "basis-full md:basis-2/3 lg:basis-7/10",
+    size: { width: 882, height: 480 },
+    basis: "lg:basis-7/10",
   },
   {
     slug: 2,
     src: "/carousel-img/img-2.jpg",
     alt: "Carousel Image 2",
-    basis: "hidden md:basis-1/6 lg:basis-3/13",
+    size: { width: 278, height: 480 },
+    basis: "lg:basis-3/13",
   },
   {
     slug: 3,
     src: "/carousel-img/img-3.jpg",
     alt: "Carousel Image 3",
-    basis: "hidden md:basis-1/6 lg:basis-3/10",
+    size: { width: 278, height: 480 },
+    basis: "lg:basis-3/10",
   },
 ];
 
 const CarouselHero = () => {
   return (
-    <Carousel className="w-full">
-      <CarouselContent className="-ml-1">
+    <Carousel
+      className="w-full"
+      opts={{
+        align: "start",
+        loop: true,
+      }}
+    >
+      <CarouselContent className="-ml-2 md:-ml-1">
         {images.map((image, index) => (
-          <CarouselItem key={index} className={`pl-1 ${image.basis}`}>
-            <div className="group shrink-0 rounded-xl md:rounded-2xl overflow-hidden relative transition-all duration-500 ease-out hover:shadow-2xl hover:scale-[1.02] aspect-video md:aspect-auto md:h-[480px]">
+          <CarouselItem
+            key={index}
+            className={`pl-2 md:pl-1 basis-[90%] sm:basis-[85%] md:basis-full ${image.basis}`}
+          >
+            <div className="group shrink-0 rounded-xl md:rounded-2xl overflow-hidden relative transition-all duration-500 ease-out hover:shadow-2xl hover:scale-[1.02] h-[350px] sm:h-[400px] md:h-[450px] lg:h-[480px] w-full">
               <Image
                 src={image.src}
                 alt={image.alt}
                 fill
                 className="rounded-xl md:rounded-2xl object-cover transform transition-transform duration-700 group-hover:scale-110 group-hover:brightness-90"
+                priority={index === 0}
               />
               {image.slug === 1 && (
-                <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center px-4 md:px-8 lg:pl-14 bg-gray-900/50">
+                <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center px-4 sm:px-6 md:items-start md:pl-8 lg:pl-14 bg-gray-900/50">
                   <h1
-                    className="w-full max-w-xs md:max-w-sm lg:max-w-md xl:w-80 text-center text-xl md:text-2xl lg:text-3xl xl:text-4xl font-extrabold text-background tracking-tight md:tracking-normal lg:tracking-[2.88px] drop-shadow-lg"
+                    className="w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:w-80 text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold text-background tracking-tight sm:tracking-normal lg:tracking-[2.88px] drop-shadow-lg"
                     dir="rtl"
                   >
                     <TextAnimate animation="blurInUp" by="word" once>
@@ -56,9 +69,9 @@ const CarouselHero = () => {
                   </h1>
                   <Link
                     href="#git"
-                    className="absolute bottom-4 md:bottom-6 lg:bottom-10 right-4 md:right-6 lg:right-10 border border-white rounded-full p-2 md:px-2 md:py-1 hover:bg-white/20 transition-colors transition-all duration-300 hover:bg-white/20 hover:scale-110 hover:shadow-lg"
+                    className="absolute bottom-4 sm:bottom-6 md:bottom-8 lg:bottom-10 right-4 sm:right-6 md:right-8 lg:right-10 border border-white rounded-full p-1.5 sm:p-2 transition-all duration-300 hover:bg-white/20 hover:scale-110 hover:shadow-lg"
                   >
-                    <ChevronRight className="text-white w-3 h-3 md:w-4 md:h-4" />
+                    <ChevronRight className="text-white w-3 h-3 sm:w-4 sm:h-4" />
                   </Link>
                 </div>
               )}
@@ -67,8 +80,8 @@ const CarouselHero = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="hidden md:flex" />
-      <CarouselNext className="hidden md:flex" />
+      <CarouselPrevious className="hidden md:flex left-2 lg:left-4" />
+      <CarouselNext className="hidden md:flex right-2 lg:right-4" />
     </Carousel>
   );
 };

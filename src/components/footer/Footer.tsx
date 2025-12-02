@@ -10,28 +10,39 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="w-full h-60 mt-5 flex justify-between px-24 rounded-t-2xl py-8 bg-primary gap-52">
-      <div id="left" className="flex flex-col  w-full">
-        <div id="top" className="flex items-center justify-between">
-          <Image src="/logo.png" alt="Logo" width={120} height={40} />
+    <div className="w-full min-h-60 mt-5 flex flex-col md:flex-row justify-between px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 rounded-t-2xl py-6 md:py-8 bg-primary gap-8 md:gap-16 lg:gap-32 xl:gap-52">
+      <div id="left" className="flex flex-col w-full order-2 md:order-1">
+        <div
+          id="top"
+          className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0"
+        >
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={100}
+            height={33}
+            className="sm:w-[110px] md:w-[120px]"
+          />
           <div
-            className="flex flex-col justify-between font-bold text-lg text-background gap-4"
+            className="flex flex-col justify-between font-bold text-sm sm:text-base md:text-lg text-background gap-2 md:gap-4 text-center sm:text-right"
             dir="rtl"
           >
             <p>شماره تماس: {PHONE_NUMBER}</p>
-            <p>آدرس ایمیل: sh.abbasi7527@gmail.com</p>
+            <p className="text-xs sm:text-sm md:text-base">
+              آدرس ایمیل: sh.abbasi7527@gmail.com
+            </p>
           </div>
         </div>
-        <div className="w-full h-[2px] bg-background mb-4"></div>
-        <div className="flex gap-16">
-          <InstagramLogoIcon className="w-6 h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-6" />
-          <LinkedInLogoIcon className="w-6 h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:-rotate-6" />
-          <TwitterLogoIcon className="w-6 h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-3" />
+        <div className="w-full h-[2px] bg-background my-4 md:mb-4"></div>
+        <div className="flex gap-8 sm:gap-12 md:gap-16 justify-center sm:justify-start">
+          <InstagramLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-6" />
+          <LinkedInLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:-rotate-6" />
+          <TwitterLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-3" />
         </div>
       </div>
       <div
         id="right"
-        className="flex flex-col gap-4 text-background font-bold text-lg min-w-36"
+        className="flex flex-col gap-3 md:gap-4 text-background font-bold text-base md:text-lg min-w-36 order-1 md:order-2 items-center md:items-start"
         dir="rtl"
       >
         <Link
