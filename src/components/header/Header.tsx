@@ -34,7 +34,7 @@ const Header = () => {
             سوالات متداول
           </Link>
           <Link
-            href="#"
+            href="/about-us"
             className="text-background font-semibold hover:underline"
           >
             درباره ما
