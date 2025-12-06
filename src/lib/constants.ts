@@ -9,17 +9,17 @@ export const PHONE_NUMBER = "09123456789";
 export const ABOUT_US_CARDS = [
   {
     id: 1,
-    image: "/images/about-us-card-1.png",
+    image: "/images/about-us1.png",
     title: "رویکرد مشتری محور",
   },
   {
     id: 2,
-    image: "/images/about-us-card-2.png",
+    image: "/images/about-us2.png",
     title: "تمرکز بر صنعت",
   },
   {
     id: 3,
-    image: "/images/about-us-card-3.png",
+    image: "/images/about-us3.png",
     title: "کیفیت بی‌نظیر",
   },
 ];

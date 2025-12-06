@@ -8,9 +8,11 @@ const ContactUs = () => {
       <AnimatedSection variant="down">
         <h2 className="text-3xl font-semibold">ارتباط با ما</h2>
       </AnimatedSection>
+      
       <AnimatedSection delay={0.05}>
         <FormSection />
       </AnimatedSection>
+
       <AnimatedSection delay={0.1}>
         <CallSection />
       </AnimatedSection>
