@@ -19,10 +19,10 @@ const Header = () => {
 
   const navLinks = [
     { href: "#", label: "خانه" },
-    { href: "#", label: "تماس با ما" },
+    { href: "/contact-us", label: "تماس با ما" },
     { href: "#", label: "محصولات" },
-    { href: "#", label: "سوالات متداول" },
-    { href: "#", label: "درباره ما" },
+    { href: "/questions", label: "سوالات متداول" },
+    { href: "/about-us", label: "درباره ما" },
   ];
 
   return (

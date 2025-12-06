@@ -1,6 +1,5 @@
 import { QuestionSection } from "@/components/questions/QuestionsSection";
 import AnimatedSection from "@/components/ui/animated-section";
-import React from "react";
 
 const Questions = () => {
   return (

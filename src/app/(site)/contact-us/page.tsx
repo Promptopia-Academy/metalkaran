@@ -1,7 +1,6 @@
 import CallSection from "@/components/call-us/CallSection";
 import FormSection from "@/components/form/FormSection";
 import AnimatedSection from "@/components/ui/animated-section";
-import React from "react";
 
 const ContactUs = () => {
   return (
