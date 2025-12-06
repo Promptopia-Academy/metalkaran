@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Source_Code_Pro } from "next/font/google";
+import { Vazirmatn } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/footer/Footer";
+import AnimatedSection from "@/components/ui/animated-section";
 
-const sourceCode = Source_Code_Pro({
-  variable: "--source-code",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const Vazir = Vazirmatn({
+  weight: ["300", "400", "500", "700", "800", "900"],
+  variable: "--font-vazir-sans",
+  subsets: ["arabic", "latin"],
 });
 
 export const metadata: Metadata = {
@@ -17,8 +15,14 @@ export const metadata: Metadata = {
     default: "Metalkaran | نوارهای فلزی دقیق",
     template: "%s | Metalkaran",
   },
+
+  title: {
+    default: "Metalkaran | نوارهای فلزی دقیق",
+    template: "%s | Metalkaran",
+  },
   description:
     "ما رهبران صنعت نوارهای فلزی دقیق هستیم و مطمئن‌ترین و به‌روزترین راه‌حل‌هایی را که به دنبال آن هستید، تولید می‌کنیم.",
+
   keywords: [
     "نوار فلزی",
     "فویل فلزی",
@@ -35,12 +39,15 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
   ),
+
   alternates: {
     canonical: "/",
   },
+
   openGraph: {
     type: "website",
     locale: "fa_IR",
@@ -81,9 +88,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <html lang="fa">
     <html lang="fa" dir="rtl">
       <body
-        className={`${sourceCode.variable} ${geistMono.variable} antialiased box-border overflow-x-hidden min-h-screen`}
+        className={`${Vazir.variable} font-sans antialiased box-border overflow-x-hidden`}
       >
         {children}
       </body>

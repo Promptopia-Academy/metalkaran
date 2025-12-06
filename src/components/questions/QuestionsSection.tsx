@@ -27,7 +27,7 @@ export function QuestionSection() {
           </div>
           <div className="bg-white text-center w-64 sm:w-[400px] rounded-2xl">
             <AccordionContent className="flex flex-col gap-4 text-balance">
-              <p>
+              <p className="mt-1">
                 اطمینان حاصل کردن از اینکه بازرسی ۱۰۰٪ بر اساس استانداردهای
                 بین‌المللی و مطابق با نیاز مشتری انجام می‌شود.ما تجهیزات بازرسی
                 پیشرفته‌ای داریم که می‌تواند کیفیت بالای نوارهای فولادی ضد زنگ
