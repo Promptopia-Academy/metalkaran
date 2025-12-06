@@ -1,10 +1,10 @@
 "use client";
 
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { Search } from "../search/Search";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,7 +29,7 @@ const Header = () => {
     <>
       <section
         dir="rtl"
-        className="w-full max-w-[95%] md:max-w-[90%] lg:max-w-[85%] h-auto md:h-[72px] bg-primary flex items-center mx-auto mt-4 md:mt-8 px-4 md:px-8 lg:px-32 rounded-xl md:rounded-2xl justify-center relative z-50"
+        className="w-full max-w-[95%] md:max-w-[90%] lg:max-w-[85%] h-auto md:h-[72px] bg-primary flex items-center mx-auto mt-4 md:mt-8 px-4 md:px-8 lg:px-24 rounded-xl md:rounded-2xl justify-between relative z-50"
       >
         <div className="flex items-center justify-between w-full gap-2 md:gap-4">
           <div className="flex items-center gap-2 md:gap-4">
@@ -62,19 +62,21 @@ const Header = () => {
             </button>
           </div>
 
-          <div className="flex-1 flex justify-center">
-            <MagnifyingGlassIcon className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8 text-background flex-shrink-0" />
-          </div>
+          <div className="flex items-center justify-between w-20 md:w-32">
+            <div className="w-full h-full">
+              <Search />
+            </div>
 
-          <Link href="/" className="flex-shrink-0">
-            <Image
-              src="/logo.png"
-              alt="Metalkaran Logo"
-              width={86}
-              height={63}
-              className="w-12 h-auto md:w-16 lg:w-20 lg:h-auto hover:opacity-80 transition-opacity"
-            />
-          </Link>
+            <Link href="/" className="flex-shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Metalkaran Logo"
+                width={86}
+                height={63}
+                className="w-12 h-auto md:w-16 lg:w-20 lg:h-auto hover:opacity-80 transition-opacity"
+              />
+            </Link>
+          </div>
         </div>
       </section>
 
