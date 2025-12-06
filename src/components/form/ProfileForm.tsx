@@ -54,11 +54,12 @@ export function ProfileForm() {
         });
         form.reset();
       } else {
-        // بررسی Rate Limit
         if (response.status === 429) {
           setSubmitMessage({
             type: "error",
-            text: data.message || "تعداد درخواست‌های شما بیش از حد مجاز است. لطفاً کمی صبر کنید.",
+            text:
+              data.message ||
+              "تعداد درخواست‌های شما بیش از حد مجاز است. لطفاً کمی صبر کنید.",
           });
         } else {
           setSubmitMessage({
@@ -153,7 +154,6 @@ export function ProfileForm() {
           )}
         />
 
-        {/* پیام موفقیت/خطا */}
         {submitMessage && (
           <div
             className={`w-[250px] sm:w-[400px] p-3 rounded-2xl text-sm ${

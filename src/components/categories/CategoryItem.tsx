@@ -1,14 +1,13 @@
 import Image from "next/image";
 import { Tooltip, TooltipContent } from "../ui/tooltip";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
+import { ICategoryItemProps } from "@/types/type";
 
-interface ItemProps {
-  src: string;
-  alt: string;
-  title: string;
-}
-
-export const CategoryItem: React.FC<ItemProps> = ({ src, alt, title }) => {
+export const CategoryItem: React.FC<ICategoryItemProps> = ({
+  src,
+  alt,
+  title,
+}) => {
   return (
     <div className="p-2">
       <div className="group w-24 h-24 md:w-32 md:h-32 lg:w-44 lg:h-44 transform rotate-45 border relative border-gray-300 rounded-2xl shadow-md bg-transparent flex items-center justify-center overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-xl hover:border-primary-secondary/60">

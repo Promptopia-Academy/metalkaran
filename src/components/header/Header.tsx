@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Search } from "../search/Search";
+import { NAV_LINKS } from "@/lib/constants";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,14 +17,6 @@ const Header = () => {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
-
-  const navLinks = [
-    { href: "#", label: "خانه" },
-    { href: "/contact-us", label: "تماس با ما" },
-    { href: "#", label: "محصولات" },
-    { href: "/questions", label: "سوالات متداول" },
-    { href: "/about-us", label: "درباره ما" },
-  ];
 
   return (
     <>
@@ -37,7 +30,7 @@ const Header = () => {
               className="hidden md:flex items-center gap-2 md:gap-4 lg:gap-6 text-sm md:text-lg lg:text-xl font-medium"
               dir="rtl"
             >
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -114,7 +107,7 @@ const Header = () => {
 
               {/* Mobile Menu Links */}
               <nav className="flex flex-col p-4 gap-4 flex-1">
-                {navLinks.map((link) => (
+                {NAV_LINKS.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}

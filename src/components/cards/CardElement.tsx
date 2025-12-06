@@ -1,14 +1,9 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
+import { ICardElementProps } from "@/types/type";
 
-interface CardElementProps {
-  image: string;
-  title: string;
-  slug: string;
-}
-
-export default function CardElement({ image, title, slug }: CardElementProps) {
+export default function CardElement({ image, title, slug }: ICardElementProps) {
   return (
     <div className="group w-full pb-3 md:pb-4 bg-card rounded-xl md:rounded-2xl shrink-0 overflow-hidden min-w-0 relative transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2">
       <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-60">
