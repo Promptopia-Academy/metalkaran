@@ -96,3 +96,8 @@ export interface IUploadServiceResponse {
     type: string;
   };
 }
+
+export interface AboutUsCardProps {
+  image: string;
+  title: string;
+}

@@ -1,9 +1,5 @@
 import Image from "next/image";
-
-export interface AboutUsCardProps {
-  image: string;
-  title: string;
-}
+import { AboutUsCardProps } from "@/types/type";
 
 const AboutUsCard = ({ image, title }: AboutUsCardProps) => {
   return (
