@@ -18,7 +18,7 @@ export function QuestionSection() {
       >
         <AccordionItem
           value="item-1"
-          className="flex flex-col bg-white rounded-2xl"
+          className="flex flex-col bg-white rounded-2xl gap-4"
         >
           <div className="bg-[#1E78AA] flex justify-center items-center rounded-2xl text-white w-64 sm:w-[400px]">
             <AccordionTrigger>
@@ -39,7 +39,7 @@ export function QuestionSection() {
 
         <AccordionItem
           value="item-2"
-          className="flex flex-col bg-white rounded-2xl"
+          className="flex flex-col bg-white rounded-2xl gap-4"
         >
           <div className="bg-[#1E78AA] flex justify-center items-center rounded-2xl text-white w-64 sm:w-[400px]">
             <AccordionTrigger>
@@ -60,7 +60,7 @@ export function QuestionSection() {
 
         <AccordionItem
           value="item-3"
-          className="flex flex-col bg-white rounded-2xl"
+          className="flex flex-col bg-white rounded-2xl gap-4"
         >
           <div className="bg-[#1E78AA] flex justify-center items-center rounded-2xl text-white w-64 sm:w-[400px]">
             <AccordionTrigger>
@@ -81,7 +81,7 @@ export function QuestionSection() {
 
         <AccordionItem
           value="item-4"
-          className="flex flex-col bg-white rounded-2xl"
+          className="flex flex-col bg-white rounded-2xl gap-4"
         >
           <div className="bg-[#1E78AA] flex justify-center items-center rounded-2xl text-white w-64 sm:w-[400px]">
             <AccordionTrigger>
@@ -102,7 +102,7 @@ export function QuestionSection() {
 
         <AccordionItem
           value="item-5"
-          className="flex flex-col bg-white rounded-2xl"
+          className="flex flex-col bg-white rounded-2xl gap-4"
         >
           <div className="bg-[#1E78AA] flex justify-center items-center rounded-2xl text-white w-64 sm:w-[400px]">
             <AccordionTrigger>
@@ -123,7 +123,7 @@ export function QuestionSection() {
 
         <AccordionItem
           value="item-6"
-          className="flex flex-col bg-white rounded-2xl"
+          className="flex flex-col bg-white rounded-2xl gap-4"
         >
           <div className="bg-[#1E78AA] flex justify-center items-center rounded-2xl text-white w-64 sm:w-[400px]">
             <AccordionTrigger>
