@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/footer/Footer";
-import AnimatedSection from "@/components/ui/animated-section";
 
 const Vazir = Vazirmatn({
   weight: ["300", "400", "500", "700", "800", "900"],
@@ -16,10 +14,6 @@ export const metadata: Metadata = {
     template: "%s | Metalkaran",
   },
 
-  title: {
-    default: "Metalkaran | نوارهای فلزی دقیق",
-    template: "%s | Metalkaran",
-  },
   description:
     "ما رهبران صنعت نوارهای فلزی دقیق هستیم و مطمئن‌ترین و به‌روزترین راه‌حل‌هایی را که به دنبال آن هستید، تولید می‌کنیم.",
 
@@ -89,7 +83,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fa">
-    <html lang="fa" dir="rtl">
       <body
         className={`${Vazir.variable} font-sans antialiased box-border overflow-x-hidden`}
       >
