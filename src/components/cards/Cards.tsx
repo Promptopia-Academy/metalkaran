@@ -1,4 +1,4 @@
-import React from "react";
+import { CARD_ITEMS } from "@/lib/constants";
 import {
   Carousel,
   CarouselContent,
@@ -7,39 +7,6 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import CardElement from "./CardElement";
-
-const cardItems = [
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-];
 
 const Cards = () => {
   return (
@@ -52,7 +19,7 @@ const Cards = () => {
         }}
       >
         <CarouselContent className="-ml-2 md:-ml-4">
-          {cardItems.map((item, index) => (
+          {CARD_ITEMS.map((item, index) => (
             <CarouselItem
               key={index}
               className="pl-2 md:pl-4 basis-[85%] sm:basis-[60%] md:basis-[45%] lg:basis-[33.33%] xl:basis-[25%] hover:z-10"

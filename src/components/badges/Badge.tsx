@@ -1,11 +1,6 @@
-import React from "react";
+import { IBadgeProps } from "@/types/type";
 
-interface BadgeProps {
-  text: string;
-  icon: React.ReactNode;
-}
-
-const Badge = ({ text, icon }: BadgeProps) => {
+const Badge = ({ text, icon }: IBadgeProps) => {
   return (
     <div className="group flex flex-col gap-2 md:gap-3 items-center transition-all duration-300">
       <div

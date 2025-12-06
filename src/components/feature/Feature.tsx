@@ -1,25 +1,22 @@
 "use client";
 
-import * as React from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { INDUSTRIES_CAROUSEL } from "@/lib/constants";
 
 export default function IndustriesCarousel() {
-  const [current, setCurrent] = React.useState(1);
+  const [current, setCurrent] = useState(1);
 
-  const industries = [
-    { id: 1, image: "/images/industry-oil.jpg", title: "صنعت نفت و گاز" },
-    { id: 2, image: "/images/industry-tech.jpg", title: "الکترونیک و فناوری" },
-    { id: 3, image: "/images/industry-auto.jpg", title: "خودروسازی" },
-    { id: 4, image: "/images/industry-jet.jpg", title: "خودروسازی" },
-    { id: 5, image: "/images/industry-jet.jpg", title: "خودروسازی" },
-  ];
-
-  const next = () => setCurrent((prev) => (prev + 1) % industries.length);
+  const next = () =>
+    setCurrent((prev) => (prev + 1) % INDUSTRIES_CAROUSEL.length);
   const prev = () =>
-    setCurrent((prev) => (prev - 1 + industries.length) % industries.length);
+    setCurrent(
+      (prev) =>
+        (prev - 1 + INDUSTRIES_CAROUSEL.length) % INDUSTRIES_CAROUSEL.length
+    );
 
   return (
     <section className="w-full py-12 bg-[#eaf1f4]">
@@ -29,16 +26,15 @@ export default function IndustriesCarousel() {
 
       <div className="relative flex items-center justify-center overflow-hidden h-[400px]">
         <AnimatePresence>
-          {industries.map((item, index) => {
-            // distance from current index
+          {INDUSTRIES_CAROUSEL.map((item, index) => {
             const diff =
-              (index - current + industries.length) % industries.length;
+              (index - current + INDUSTRIES_CAROUSEL.length) %
+              INDUSTRIES_CAROUSEL.length;
 
-            // determine scale and position
             const scale =
               diff === 0
                 ? 1
-                : diff === 1 || diff === industries.length - 1
+                : diff === 1 || diff === INDUSTRIES_CAROUSEL.length - 1
                 ? 0.8
                 : 0.6;
             const x =
@@ -46,7 +42,7 @@ export default function IndustriesCarousel() {
                 ? 0
                 : diff === 1
                 ? 220
-                : diff === industries.length - 1
+                : diff === INDUSTRIES_CAROUSEL.length - 1
                 ? -220
                 : diff === 2
                 ? 440
@@ -54,10 +50,11 @@ export default function IndustriesCarousel() {
             const zIndex =
               diff === 0
                 ? 30
-                : diff === 1 || diff === industries.length - 1
+                : diff === 1 || diff === INDUSTRIES_CAROUSEL.length - 1
                 ? 20
                 : 10;
-            const opacity = diff > 2 && diff < industries.length - 2 ? 0 : 1;
+            const opacity =
+              diff > 2 && diff < INDUSTRIES_CAROUSEL.length - 2 ? 0 : 1;
 
             return (
               <motion.div
@@ -93,7 +90,6 @@ export default function IndustriesCarousel() {
           })}
         </AnimatePresence>
 
-        {/* Navigation Arrows */}
         <button
           onClick={prev}
           className="absolute left-8 top-1/2 -translate-y-1/2 bg-white shadow rounded-full px-2 py-1 flex text-xl hover:bg-gray-100"

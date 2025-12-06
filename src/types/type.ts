@@ -101,3 +101,27 @@ export interface AboutUsCardProps {
   image: string;
   title: string;
 }
+
+export interface IApiOptions {
+  method?: "GET" | "POST" | "PUT" | "DELETE";
+  body?: any;
+  headers?: Record<string, string>;
+  apiKey?: string;
+}
+
+export interface ICategoryItemProps {
+  src: string;
+  alt: string;
+  title: string;
+}
+
+export interface ICardElementProps {
+  image: string;
+  title: string;
+  slug: string;
+}
+
+export interface IBadgeProps {
+  text: string;
+  icon: React.ReactNode;
+}

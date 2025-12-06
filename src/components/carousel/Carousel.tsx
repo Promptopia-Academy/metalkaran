@@ -9,30 +9,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { TextAnimate } from "../ui/text-animate";
-
-const images = [
-  {
-    slug: 1,
-    src: "/carousel-img/img-1.jpg",
-    alt: "Carousel Image 1",
-    size: { width: 882, height: 480 },
-    basis: "lg:basis-7/10",
-  },
-  {
-    slug: 2,
-    src: "/carousel-img/img-2.jpg",
-    alt: "Carousel Image 2",
-    size: { width: 278, height: 480 },
-    basis: "lg:basis-3/13",
-  },
-  {
-    slug: 3,
-    src: "/carousel-img/img-3.jpg",
-    alt: "Carousel Image 3",
-    size: { width: 278, height: 480 },
-    basis: "lg:basis-3/10",
-  },
-];
+import { CAROUSEL_IMAGES } from "@/lib/constants";
 
 const CarouselHero = () => {
   return (
@@ -44,7 +21,7 @@ const CarouselHero = () => {
       }}
     >
       <CarouselContent className="-ml-2 md:-ml-1">
-        {images.map((image, index) => (
+        {CAROUSEL_IMAGES.map((image, index) => (
           <CarouselItem
             key={index}
             className={`pl-2 md:pl-1 basis-[90%] sm:basis-[85%] md:basis-full ${image.basis}`}
