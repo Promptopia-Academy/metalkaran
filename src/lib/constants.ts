@@ -27,11 +27,12 @@ export const ABOUT_US_CARDS = [
 ];
 
 export const NAV_LINKS = [
-  { href: "#", label: "خانه" },
-  { href: "/contact-us", label: "تماس با ما" },
   { href: "#", label: "محصولات" },
+  { href: "/articles", label: "مقالات" },
+  { href: "/services", label: "سرویس ها" },
   { href: "/questions", label: "سوالات متداول" },
   { href: "/about-us", label: "درباره ما" },
+  { href: "/contact-us", label: "تماس با ما" },
 ];
 
 export const INDUSTRIES_CAROUSEL = [
