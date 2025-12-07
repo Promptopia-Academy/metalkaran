@@ -7,7 +7,7 @@ import {
 
 export function QuestionSection() {
   return (
-    <div className="min-h-96 mt-10">
+    <div className="h-96 mt-10 md:px-28">
       <div className="text-center pt-3">
         <h1 className="text-3xl font-semibold">سوالات متداول</h1>
       </div>
