@@ -8,6 +8,8 @@ export const FORM_SUB_PARAPH =
 
 export const PHONE_NUMBER = "09123456789";
 
+export const EMAIL_ADDRESS = "sh.abbasi7527@gmail.com";
+
 export const ABOUT_US_CARDS = [
   {
     id: 1,

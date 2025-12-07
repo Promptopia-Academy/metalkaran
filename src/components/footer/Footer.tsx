@@ -1,4 +1,4 @@
-import { PHONE_NUMBER } from "@/lib/constants";
+import { EMAIL_ADDRESS, PHONE_NUMBER } from "@/lib/constants";
 import {
   InstagramLogoIcon,
   LinkedInLogoIcon,
@@ -15,23 +15,30 @@ const Footer = () => {
           id="top"
           className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0"
         >
-          <Image
-            src="/logo.png"
-            alt="Logo"
-            width={100}
-            height={33}
-            className="sm:w-[110px] md:w-[120px]"
-          />
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={100}
+              height={33}
+              className="sm:w-[110px] md:w-[120px]"
+            />
+          </Link>
+
           <div
             className="flex flex-col justify-between font-bold text-sm sm:text-base md:text-lg text-background gap-2 md:gap-4 text-center sm:text-right"
             dir="rtl"
           >
-            <p>شماره تماس: {PHONE_NUMBER}</p>
+            <p>
+              شماره تماس :<a href={`tel:${PHONE_NUMBER}`}> {PHONE_NUMBER}</a>
+            </p>
             <p className="text-xs sm:text-sm md:text-base">
-              آدرس ایمیل: sh.abbasi7527@gmail.com
+              آدرس ایمیل :
+              <a href={`mailto:${EMAIL_ADDRESS}`}> {EMAIL_ADDRESS}</a>
             </p>
           </div>
         </div>
+
         <div className="w-full h-[2px] bg-background my-4 md:mb-4"></div>
         <div className="flex gap-8 sm:gap-12 md:gap-16 justify-center sm:justify-start">
           <InstagramLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-6" />
