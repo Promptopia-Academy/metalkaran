@@ -1,16 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Server-only modules configuration for Next.js 15
+  // Server-only modules configuration for Next.js 16
   serverExternalPackages: ["nodemailer"],
   
-  // Request size limits
-  api: {
-    bodyParser: {
-      sizeLimit: "10mb", // Maximum request body size
-    },
-    responseLimit: "10mb",
-  },
+  // Note: api.bodyParser is deprecated in Next.js 16
+  // Use route segment config (export const maxDuration, export const runtime, etc.) in route files instead
   
   // Headers for security and CORS
   async headers() {

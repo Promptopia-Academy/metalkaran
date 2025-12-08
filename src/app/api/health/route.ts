@@ -3,6 +3,9 @@ import { getEnvConfig } from "@/backend/lib/env";
 import { existsSync } from "fs";
 import path from "path";
 
+export const maxDuration = 10;
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const startTime = Date.now();
 
