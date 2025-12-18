@@ -16,7 +16,7 @@ export default function CardElement({ image, title, slug }: ICardElementProps) {
         <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-t from-black/40 via-black/10 to-transparent transition-opacity duration-500" />
       </div>
       <div className="flex flex-col gap-1.5 md:gap-2 justify-center items-center p-3 md:p-4">
-        <h2 className="text-center text-sm sm:text-base md:text-lg font-medium text-button transition-colors duration-300 group-hover:text-primary-secondary">
+        <h2 className="text-center text-sm sm:text-base md:text-lg font-medium text-button transition-colors duration-300 ">
           {title}
         </h2>
         <p className="text-center text-xs sm:text-sm font-normal text-button/80 transition-opacity duration-300 group-hover:opacity-90">
