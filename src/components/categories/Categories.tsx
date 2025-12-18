@@ -12,16 +12,16 @@ export default function CategoryGrid() {
       </h2>
 
       <div className="container mx-auto flex flex-wrap justify-center relative p-2 md:p-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 md:gap-8 lg:gap-x-14 w-full">
+        <div className="grid place-items-center grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-10 xl:gap-x-14 w-full max-w-6xl">
           {CATEGORIES_ARRAY.slice(0, 4).map((item, index) => (
-            <div key={index} className="flex justify-center">
+            <div key={index} className="flex justify-center w-full">
               <CategoryItem src={item.src} alt={item.alt} title={item.alt} />
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-x-14 -mt-4 md:-mt-8 w-full">
+        <div className="grid place-items-center grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 md:gap-6 lg:gap-10 xl:gap-x-14 mt-3 sm:mt-4 md:-mt-6 lg:-mt-8 w-full max-w-6xl">
           {CATEGORIES_ARRAY.slice(4, 7).map((item, index) => (
-            <div key={index} className="flex justify-center">
+            <div key={index} className="flex justify-center w-full">
               <CategoryItem src={item.src} alt={item.alt} title={item.alt} />
             </div>
           ))}

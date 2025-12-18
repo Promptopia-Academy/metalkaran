@@ -11,7 +11,11 @@ import AnimatedSection from "@/components/ui/animated-section";
 export default function Home() {
   return (
     <section>
-      <AnimatedSection className="px-32 mt-20" variant="down" duration={0.6}>
+      <AnimatedSection
+        className="px-4 sm:px-6 md:px-10 lg:px-20 xl:px-32 mt-10 md:mt-20"
+        variant="down"
+        duration={0.6}
+      >
         <CarouselHero />
       </AnimatedSection>
 

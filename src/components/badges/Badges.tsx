@@ -20,7 +20,7 @@ const BADGES_ARRAY = [
 const Badges = () => {
   return (
     <section id="BADGES_ARRAY" className="mt-12 md:mt-20 lg:mt-32 px-4">
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-8 md:gap-16 lg:gap-24 xl:gap-40">
+      <div className="flex sm:flex-row justify-center items-center gap-8 md:gap-16 lg:gap-24 xl:gap-40">
         {BADGES_ARRAY.map((badge, index) => (
           <Badge key={index} text={badge.text} icon={badge.icon} />
         ))}
