@@ -17,7 +17,7 @@ export async function checkRateLimit(ip: string): Promise<{
     await prisma.rateLimit.deleteMany({
       where: {
         resetTime: {
-          lt: now,
+          lt: BigInt(now),
         },
       },
     });
@@ -26,7 +26,7 @@ export async function checkRateLimit(ip: string): Promise<{
       where: {
         ip,
         resetTime: {
-          gte: now,
+          gte: BigInt(now),
         },
       },
       orderBy: {
@@ -39,14 +39,14 @@ export async function checkRateLimit(ip: string): Promise<{
         data: {
           ip,
           count: 1,
-          resetTime: now + RATE_LIMIT_CONFIG.windowMs,
+          resetTime: BigInt(now + RATE_LIMIT_CONFIG.windowMs),
         },
       });
 
       return {
         allowed: true,
         remaining: RATE_LIMIT_CONFIG.maxRequests - 1,
-        resetTime: newEntry.resetTime,
+        resetTime: Number(newEntry.resetTime),
       };
     }
 
@@ -54,7 +54,7 @@ export async function checkRateLimit(ip: string): Promise<{
       return {
         allowed: false,
         remaining: 0,
-        resetTime: existingEntry.resetTime,
+        resetTime: Number(existingEntry.resetTime),
       };
     }
 
@@ -66,7 +66,7 @@ export async function checkRateLimit(ip: string): Promise<{
     return {
       allowed: true,
       remaining: RATE_LIMIT_CONFIG.maxRequests - updatedEntry.count,
-      resetTime: updatedEntry.resetTime,
+      resetTime: Number(updatedEntry.resetTime),
     };
   } catch (error) {
     logger.error("Error checking rate limit", error as Error);

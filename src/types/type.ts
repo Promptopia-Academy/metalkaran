@@ -9,21 +9,21 @@ export interface IContact {
 
 export type IElement = {
   id: number;
-  image: string;
+  image?: string;
   title: string;
   introduction: string; // معرفی
   usage: string; // کاربرد
-  standards: string; // استانداردها
-  chemicalComposition: string; // ترکیبات شیمیایی
-  physicalProperties: string; // مشخصات فیزیکی
-  thermalExpansion: string; // ضریب انبساط حرارتی
-  corrosionResistance: string; // مقاومت در برابر خوردگی
-  heatResistance: string; // مقاومت حرارتی
-  manufacturing: string; // مشخصات ساخت و پردازش
-  hotForming: string; // شکل دهی داغ
-  coldForming: string; // شکل دهی سرد
-  welding: string; // جوشکاری
-  machining: string; // ماشینکاری
+  standards?: string; // استانداردها
+  chemicalComposition?: string; // ترکیبات شیمیایی
+  physicalProperties?: string; // مشخصات فیزیکی
+  thermalExpansion?: string; // ضریب انبساط حرارتی
+  corrosionResistance?: string; // مقاومت در برابر خوردگی
+  heatResistance?: string; // مقاومت حرارتی
+  manufacturing?: string; // مشخصات ساخت و پردازش
+  hotForming?: string; // شکل دهی داغ
+  coldForming?: string; // شکل دهی سرد
+  welding?: string; // جوشکاری
+  machining?: string; // ماشینکاری
 };
 
 export type IArticle = {
