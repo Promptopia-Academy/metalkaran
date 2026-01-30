@@ -54,7 +54,9 @@ function verifyJWT(token: string): boolean {
     jwt.verify(token, jwtSecret);
     return true;
   } catch (error) {
-    logger.warn("JWT verification failed", error as Error);
+    logger.warn("JWT verification failed", {
+      message: error instanceof Error ? error.message : String(error),
+    });
     return false;
   }
 }
