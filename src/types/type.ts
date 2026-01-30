@@ -28,20 +28,20 @@ export type IElement = {
 
 export type IArticle = {
   id: number;
-  image: string;
+  image?: string;
   title: string;
   introduction: string;
   title1: string;
   content1: string;
-  title2: string;
-  content2: string;
-  title3: string;
-  content3: string;
-  title4: string;
-  content4: string;
-  title5: string;
-  content5: string;
-  sources: string;
+  title2?: string;
+  content2?: string;
+  title3?: string;
+  content3?: string;
+  title4?: string;
+  content4?: string;
+  title5?: string;
+  content5?: string;
+  sources?: string;
 };
 
 export interface IContactFormData {
