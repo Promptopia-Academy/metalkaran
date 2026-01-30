@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import jwt from "jsonwebtoken";
 import { getEnvConfig } from "./env";
 import { logger } from "./logger";
 
@@ -50,13 +51,10 @@ function verifyJWT(token: string): boolean {
   }
 
   try {
-    const parts = token.split(".");
-    if (parts.length !== 3) {
-      return false;
-    }
-
+    jwt.verify(token, jwtSecret);
     return true;
-  } catch {
+  } catch (error) {
+    logger.warn("JWT verification failed", error as Error);
     return false;
   }
 }
