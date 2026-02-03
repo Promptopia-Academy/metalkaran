@@ -10,7 +10,7 @@ import CardElement from "./CardElement";
 
 const Cards = () => {
   return (
-    <section className="mt-12 p-4 pb-10 md:mt-16 lg:mt-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+    <section className="mt-12 pb-10 md:mt-16 lg:mt-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
       <Carousel
         className="w-full"
         opts={{

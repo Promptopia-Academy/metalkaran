@@ -29,7 +29,7 @@ export const ABOUT_US_CARDS = [
 ];
 
 export const NAV_LINKS = [
-  { href: "#", label: "محصولات" },
+  { href: "/products", label: "محصولات" },
   { href: "/articles", label: "مقالات" },
   { href: "/services", label: "سرویس ها" },
   { href: "/questions", label: "سوالات متداول" },
