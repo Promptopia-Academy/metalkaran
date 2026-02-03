@@ -24,16 +24,12 @@ const Cards = () => {
               key={index}
               className="pl-2 md:pl-4 basis-[85%] sm:basis-[60%] md:basis-[45%] lg:basis-[33.33%] xl:basis-[25%] hover:z-10"
             >
-              <div
-                className="rounded-xl md:rounded-2xl bg-card h-full"
-                style={{ boxShadow: "3px 5px 10px 4px rgba(0, 0, 0, 0.25)" }}
-              >
-                <CardElement
-                  image={item.image}
-                  title={item.title}
-                  slug={item.slug}
-                />
-              </div>
+
+              <CardElement
+                image={item.image}
+                title={item.title}
+                slug={item.slug}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
