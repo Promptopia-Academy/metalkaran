@@ -7,6 +7,7 @@ import CallSection from "@/components/call-us/CallSection";
 import FormSection from "@/components/form/FormSection";
 import IndustriesCarousel from "@/components/feature/Feature";
 import AnimatedSection from "@/components/ui/animated-section";
+import Calculator from "@/components/calculator/Calculator";
 
 export default function Home() {
   return (
@@ -29,6 +30,10 @@ export default function Home() {
 
       <AnimatedSection delay={0.15}>
         <CategoryGrid />
+      </AnimatedSection>
+
+      <AnimatedSection delay={0.1}>
+        <Calculator />
       </AnimatedSection>
 
       <AnimatedSection delay={0.1}>

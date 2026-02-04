@@ -11,19 +11,19 @@ export type IElement = {
   id: number;
   image?: string;
   title: string;
-  introduction: string; // معرفی
-  usage: string; // کاربرد
-  standards?: string; // استانداردها
-  chemicalComposition?: string; // ترکیبات شیمیایی
-  physicalProperties?: string; // مشخصات فیزیکی
-  thermalExpansion?: string; // ضریب انبساط حرارتی
-  corrosionResistance?: string; // مقاومت در برابر خوردگی
-  heatResistance?: string; // مقاومت حرارتی
-  manufacturing?: string; // مشخصات ساخت و پردازش
-  hotForming?: string; // شکل دهی داغ
-  coldForming?: string; // شکل دهی سرد
-  welding?: string; // جوشکاری
-  machining?: string; // ماشینکاری
+  introduction: string;
+  usage: string;
+  standards?: string;
+  chemicalComposition?: string;
+  physicalProperties?: string;
+  thermalExpansion?: string;
+  corrosionResistance?: string;
+  heatResistance?: string;
+  manufacturing?: string;
+  hotForming?: string;
+  coldForming?: string;
+  welding?: string;
+  machining?: string;
 };
 
 export type IArticle = {
@@ -43,6 +43,30 @@ export type IArticle = {
   content5?: string;
   sources?: string;
 };
+
+export interface ICalculateWeightParams {
+  length: string;
+  width: string;
+  height: string;
+  lengthUnit: IUnit;
+  widthUnit: IUnit;
+  heightUnit: IUnit;
+  density: number;
+}
+
+export type IUnit = "cm" | "m";
+
+export interface CalculatorInputProps {
+  id: string;
+  label: string;
+  placeholder?: string;
+  value: string;
+  onChange: (value: string) => void;
+  unit: IUnit;
+  onUnitChange: (unit: IUnit) => void;
+  inputClassName?: string;
+  selectContentClassName?: string;
+}
 
 export interface IContactFormData {
   id?: number;

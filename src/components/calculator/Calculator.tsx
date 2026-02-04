@@ -1,10 +1,5 @@
+import { CalculatorForm } from "./CalculatorForm";
 
-const Calculator = () => {
-    return (
-        <div>
-            
-        </div>
-    )
+export default function Calculator() {
+  return <CalculatorForm />;
 }
-
-export default Calculator
