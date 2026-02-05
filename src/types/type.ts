@@ -7,15 +7,46 @@ export interface IContact {
   createdAt: string;
 }
 
-export type IElement = {
+export interface ICategory {
   id: number;
   image?: string;
   title: string;
   introduction: string;
+  slug: string;
+}
+
+export interface IChemicalComposition {
+  id: number;
+  slug: string;
+  faTitle: string;
+  percentage: string;
+}
+
+export interface IMechanicalProperties {
+  id: number;
+  slug: string;
+  faTitle: string;
+  value: string;
+}
+
+export interface IPhysicalProperties {
+  id: number;
+  slug: string;
+  faTitle: string;
+  value: string;
+}
+
+export type IElement = {
+  id: number;
+  image?: string;
+  title: string;
+  category: ICategory;
+  introduction: string;
   usage: string;
   standards?: string;
-  chemicalComposition?: string;
-  physicalProperties?: string;
+  chemicalComposition?: IChemicalComposition[];
+  mechanicalProperties?: IMechanicalProperties[];
+  physicalProperties?: IPhysicalProperties[];
   thermalExpansion?: string;
   corrosionResistance?: string;
   heatResistance?: string;
@@ -24,7 +55,15 @@ export type IElement = {
   coldForming?: string;
   welding?: string;
   machining?: string;
+  createdAt: string;
 };
+
+export interface IApplication {
+  id: number;
+  slug: string;
+  faTitle: string;
+  description: string;
+}
 
 export type IArticle = {
   id: number;
@@ -42,6 +81,8 @@ export type IArticle = {
   title5?: string;
   content5?: string;
   sources?: string;
+  applicationTitle?: string;
+  application?: IApplication[];
 };
 
 export interface ICalculateWeightParams {
@@ -56,7 +97,7 @@ export interface ICalculateWeightParams {
 
 export type IUnit = "cm" | "m";
 
-export interface CalculatorInputProps {
+export interface ICalculatorInputProps {
   id: string;
   label: string;
   placeholder?: string;
@@ -148,4 +189,28 @@ export interface ICardElementProps {
 export interface IBadgeProps {
   text: string;
   icon: React.ReactNode;
+}
+
+export interface ITextsProps {
+  article: IArticle;
+  dir?: "rtl" | "ltr";
+}
+
+export interface IQuestionSectionProps {
+  questions?: IQuestion[];
+  title?: string;
+}
+
+export interface IQuestion {
+  id: number;
+  question: string;
+  answer: String;
+}
+
+export interface IPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export interface IArticleCardProps {
+  article: IArticle;
 }

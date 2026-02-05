@@ -1,7 +1,7 @@
 import Image from "next/image";
+import { ICategoryItemProps } from "@/types/type";
 import { Tooltip, TooltipContent } from "../ui/tooltip";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
-import { ICategoryItemProps } from "@/types/type";
 
 export const CategoryItem: React.FC<ICategoryItemProps> = ({
   src,

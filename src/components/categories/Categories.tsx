@@ -1,5 +1,5 @@
-import { CATEGORIES_ARRAY } from "@/lib/constants";
 import { CategoryItem } from "./CategoryItem";
+import { CATEGORIES_ARRAY } from "@/lib/constants";
 
 export default function CategoryGrid() {
   return (
