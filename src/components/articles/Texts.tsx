@@ -2,11 +2,17 @@ import Banner from "@/context/Banner";
 import type { ITextsProps } from "@/types/type";
 
 const Texts = ({ article, dir }: ITextsProps) => {
-  const header = article.title || article.title1 || undefined;
-  const content = article.introduction || article.content1 || undefined;
+  const header =
+    (article.title || article.title1 || article.applicationTitle || "").trim() ||
+    undefined;
+  const content = (article.introduction || article.content1 || "").trim() || undefined;
   const bulletPoints = article.application?.map((a) => a.faTitle);
   const banner = article.image;
-  const hasText = header || content || (bulletPoints && bulletPoints.length > 0);
+  const hasText =
+    !!header ||
+    !!content ||
+    !!(bulletPoints && bulletPoints.length > 0);
+  const showTextBlock = hasText || !!banner;
 
   return (
     <>
@@ -15,7 +21,7 @@ const Texts = ({ article, dir }: ITextsProps) => {
           <Banner imageSrc={banner} width={1150} height={400} />
         </div>
       )}
-      {hasText && (
+      {showTextBlock && (
         <div dir={dir}>
           {header && <h2 className="text-4xl font-bold mb-4 my-4">{header}</h2>}
           {content && <p className="mb-4 text-2xl">{content}</p>}
