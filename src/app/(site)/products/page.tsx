@@ -4,15 +4,8 @@ import { ARTICLE_ITEMS } from "@/lib/constants";
 const page = () => {
   return (
     <div className="px-36 py-16">
-      {ARTICLE_ITEMS.map((item, index) => (
-        <Texts
-          key={index}
-          header={item.title}
-          content={item.description}
-          bulletPoints={item.bulletpoints}
-          banner={item.image}
-          dir="rtl"
-        />
+      {ARTICLE_ITEMS.map((item) => (
+        <Texts key={item.id} article={item} dir="rtl" />
       ))}
     </div>
   );

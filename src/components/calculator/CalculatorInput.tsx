@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CalculatorInputProps, IUnit } from "@/types/type";
+import { ICalculatorInputProps, IUnit } from "@/types/type";
 import {
   Select,
   SelectContent,
@@ -21,7 +21,7 @@ export function CalculatorInput({
   onUnitChange,
   inputClassName,
   selectContentClassName,
-}: CalculatorInputProps) {
+}: ICalculatorInputProps) {
   return (
     <div className="grid grid-cols-[1fr_auto] gap-2 items-end">
       <div className="space-y-1">

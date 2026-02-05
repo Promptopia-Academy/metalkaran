@@ -1,5 +1,5 @@
-import CallSection from "@/components/call-us/CallSection";
 import FormSection from "@/components/form/FormSection";
+import CallSection from "@/components/call-us/CallSection";
 import AnimatedSection from "@/components/ui/animated-section";
 
 const ContactUs = () => {
@@ -8,7 +8,7 @@ const ContactUs = () => {
       <AnimatedSection variant="down">
         <h2 className="text-3xl font-semibold">ارتباط با ما</h2>
       </AnimatedSection>
-      
+
       <AnimatedSection delay={0.05}>
         <FormSection />
       </AnimatedSection>
