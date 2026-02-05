@@ -1,5 +1,5 @@
-import { QuestionSection } from "@/components/questions/QuestionsSection";
 import AnimatedSection from "@/components/ui/animated-section";
+import { QuestionSection } from "@/components/questions/QuestionsSection";
 
 const Questions = () => {
   return (
