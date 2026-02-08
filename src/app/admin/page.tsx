@@ -46,9 +46,8 @@ export default function AdminDashboard() {
         }
 
         try {
-          const healthRes = await fetch("/api/health");
-          const health = await healthRes.json();
-          setStats((prev) => ({ ...prev, health: health.status }));
+          const { status } = await api.healthCheck();
+          setStats((prev) => ({ ...prev, health: status }));
         } catch {
           setStats((prev) => ({ ...prev, health: "unhealthy" }));
         }

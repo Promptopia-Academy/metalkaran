@@ -126,6 +126,35 @@ export const api = {
       apiKey,
     }),
 
+  submitContact: async (data: {
+    name: string;
+    phone: string;
+    email: string;
+    company: string;
+  }) => {
+    const base = process.env.NEXT_PUBLIC_API_URL || "/api";
+    const url = `${base}/contact`;
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    const json = await res.json().catch(() => ({}));
+    return { success: json.success, message: json.message, status: res.status };
+  },
+
+  healthCheck: async () => {
+    try {
+      const base = process.env.NEXT_PUBLIC_API_URL || "/api";
+      const url = `${base}/health`;
+      const res = await fetch(url);
+      const json = await res.json().catch(() => ({}));
+      return { status: json.status ?? "unknown", response: json };
+    } catch {
+      return { status: "unhealthy", response: {} };
+    }
+  },
+
   uploadFile: (file: File, apiKey: string) => {
     const formData = new FormData();
     formData.append("file", file);

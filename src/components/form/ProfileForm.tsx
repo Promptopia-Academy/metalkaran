@@ -14,6 +14,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { api } from "@/lib/api";
 
 export function ProfileForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,34 +38,26 @@ export function ProfileForm() {
     setSubmitMessage(null);
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      const { success, message, status } = await api.submitContact(values);
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (success) {
         setSubmitMessage({
           type: "success",
           text: "پیام شما با موفقیت ارسال شد! ما در اسرع وقت با شما تماس خواهیم گرفت.",
         });
         form.reset();
       } else {
-        if (response.status === 429) {
+        if (status === 429) {
           setSubmitMessage({
             type: "error",
             text:
-              data.message ||
+              message ||
               "تعداد درخواست‌های شما بیش از حد مجاز است. لطفاً کمی صبر کنید.",
           });
         } else {
           setSubmitMessage({
             type: "error",
-            text: data.message || "خطا در ارسال پیام. لطفاً دوباره تلاش کنید.",
+            text: message || "خطا در ارسال پیام. لطفاً دوباره تلاش کنید.",
           });
         }
       }

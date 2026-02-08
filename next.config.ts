@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Server-only modules configuration for Next.js 16
-  serverExternalPackages: ["nodemailer"],
-  
   // Note: api.bodyParser is deprecated in Next.js 16
   // Use route segment config (export const maxDuration, export const runtime, etc.) in route files instead
   
