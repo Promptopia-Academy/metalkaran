@@ -17,23 +17,23 @@ export interface ICategory {
 
 export interface IChemicalComposition {
   id: number;
-  slug: string;
-  faTitle: string;
-  percentage: string;
+  title: string;
+  value: string;
 }
 
 export interface IMechanicalProperties {
-  id: number;
-  slug: string;
-  faTitle: string;
-  value: string;
+  hardness: string                 //سختی
+  elasticModulus: string           //مدول الاستیک
+  elongation: string               //درصد تغییر طول در 50 میلی متر
+  yieldStrength: string            //استحکام تسلیم
+  tensileStrength: string          //استحکام کششی
 }
 
 export interface IPhysicalProperties {
-  id: number;
-  slug: string;
-  faTitle: string;
-  value: string;
+  density: string                  //چگالی
+  electricalResistivity: string    //مقاومت الکتریکی
+  meltingPoint: string             //نقطه ذوب
+  molarHeatCapacity: string        //ظرفیت گرمایی ویژه
 }
 
 export type IElement = {
@@ -45,8 +45,8 @@ export type IElement = {
   usage: string;
   standards?: string;
   chemicalComposition?: IChemicalComposition[];
-  mechanicalProperties?: IMechanicalProperties[];
-  physicalProperties?: IPhysicalProperties[];
+  mechanicalProperties?: IMechanicalProperties;
+  physicalProperties?: IPhysicalProperties;
   thermalExpansion?: string;
   corrosionResistance?: string;
   heatResistance?: string;
