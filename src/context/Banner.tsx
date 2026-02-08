@@ -1,14 +1,6 @@
 import Image from "next/image";
-import React from "react";
+import { IBannerProps } from "@/types/type";
 
-interface BannerProps {
-  imageSrc: string;
-  text?: string;
-  width?: number;
-  height?: number;
-  overlay?: boolean;
-  overlayColor?: string;
-}
 
 const Banner = ({
   imageSrc,
@@ -17,7 +9,7 @@ const Banner = ({
   height,
   overlay,
   overlayColor,
-}: BannerProps) => {
+}: IBannerProps) => {
   return (
     <div>
       <Image
@@ -28,9 +20,8 @@ const Banner = ({
       />
       {overlay && (
         <div
-          className={`absolute inset-0 bg-${
-            overlayColor || "black"
-          } opacity-50 w-full h-full`}
+          className={`absolute inset-0 bg-${overlayColor || "black"
+            } opacity-50 w-full h-full`}
         >
           <div className=" flex items-center justify-center w-full h-full">
             {text && <p className="text-white text-lg font-semibold">{text}</p>}

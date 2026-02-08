@@ -1,4 +1,6 @@
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import {
   Dialog,
   DialogContent,
@@ -6,8 +8,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 export function Search() {
   return (

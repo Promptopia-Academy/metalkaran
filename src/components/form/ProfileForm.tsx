@@ -1,5 +1,12 @@
 "use client";
 
+import { z } from "zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { formSchema } from "@/validation/validations";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -7,13 +14,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { formSchema } from "@/validation/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 
 export function ProfileForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -156,11 +156,10 @@ export function ProfileForm() {
 
         {submitMessage && (
           <div
-            className={`w-[250px] sm:w-[400px] p-3 rounded-2xl text-sm ${
-              submitMessage.type === "success"
+            className={`w-[250px] sm:w-[400px] p-3 rounded-2xl text-sm ${submitMessage.type === "success"
                 ? "bg-green-100 text-green-800 border-2 border-green-300"
                 : "bg-red-100 text-red-800 border-2 border-red-300"
-            }`}
+              }`}
             dir="rtl"
           >
             {submitMessage.text}

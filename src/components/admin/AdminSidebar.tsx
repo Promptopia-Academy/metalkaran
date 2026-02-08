@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { LogOut } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LogOut } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { ADMIN_MENU_ITEMS } from "@/lib/constants";
 
 export default function AdminSidebar() {

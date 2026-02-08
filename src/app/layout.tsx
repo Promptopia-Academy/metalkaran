@@ -1,6 +1,6 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Vazirmatn } from "next/font/google";
-import "./globals.css";
 
 const Vazir = Vazirmatn({
   weight: ["300", "400", "500", "700", "800", "900"],

@@ -1,11 +1,11 @@
+import { QUESTION_ITEMS } from "@/lib/constants";
+import type { IQuestionSectionProps } from "@/types/type";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { QUESTION_ITEMS } from "@/lib/constants";
-import type { IQuestionSectionProps } from "@/types/type";
 
 export function QuestionSection({
   questions = QUESTION_ITEMS,

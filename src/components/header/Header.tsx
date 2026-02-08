@@ -1,9 +1,9 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
-import Image from "next/image";
+import { useState } from "react";
 import Link from "next/link";
-import React, { useState } from "react";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
 import { Search } from "../search/Search";
 import { NAV_LINKS } from "@/lib/constants";
 
@@ -79,9 +79,8 @@ const Header = () => {
             onClick={closeMenu}
           />
           <div
-            className={`fixed top-0 right-0 h-full w-64 bg-primary shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-              isMenuOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+            className={`fixed top-0 right-0 h-full w-64 bg-primary shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+              }`}
             dir="rtl"
           >
             <div className="flex flex-col h-full">

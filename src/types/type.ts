@@ -180,6 +180,15 @@ export interface ICategoryItemProps {
   title: string;
 }
 
+export interface IBannerProps {
+  text?: string;
+  width?: number;
+  height?: number;
+  imageSrc: string;
+  overlay?: boolean;
+  overlayColor?: string;
+}
+
 export interface ICardElementProps {
   image: string;
   title: string;

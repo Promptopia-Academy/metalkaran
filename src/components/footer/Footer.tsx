@@ -1,11 +1,11 @@
+import Link from "next/link";
+import Image from "next/image";
 import { EMAIL_ADDRESS, PHONE_NUMBER } from "@/lib/constants";
 import {
   InstagramLogoIcon,
   LinkedInLogoIcon,
   TwitterLogoIcon,
 } from "@radix-ui/react-icons";
-import Image from "next/image";
-import Link from "next/link";
 
 const Footer = () => {
   return (

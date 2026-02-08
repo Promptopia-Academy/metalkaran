@@ -1,5 +1,5 @@
-import { ABOUT_ARRAY } from "@/lib/constants";
 import { Button } from "../ui/button";
+import { ABOUT_ARRAY } from "@/lib/constants";
 
 export default function About() {
   return (

@@ -1,6 +1,5 @@
-import { Heart, ShieldCheck, UsersRound } from "lucide-react";
-import React from "react";
 import Badge from "./Badge";
+import { Heart, ShieldCheck, UsersRound } from "lucide-react";
 
 const BADGES_ARRAY = [
   {

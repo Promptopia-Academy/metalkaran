@@ -1,4 +1,8 @@
+import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight } from "lucide-react";
+import { TextAnimate } from "../ui/text-animate";
+import { CAROUSEL_IMAGES } from "@/lib/constants";
 import {
   Carousel,
   CarouselContent,
@@ -6,10 +10,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import Image from "next/image";
-import Link from "next/link";
-import { TextAnimate } from "../ui/text-animate";
-import { CAROUSEL_IMAGES } from "@/lib/constants";
 
 const CarouselHero = () => {
   return (

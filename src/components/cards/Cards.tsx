@@ -1,3 +1,4 @@
+import CardElement from "./CardElement";
 import { CARD_ITEMS } from "@/lib/constants";
 import {
   Carousel,
@@ -6,7 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import CardElement from "./CardElement";
 
 const Cards = () => {
   return (

@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { INDUSTRIES_CAROUSEL } from "@/lib/constants";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function IndustriesCarousel() {
   const [current, setCurrent] = useState(1);
@@ -35,24 +35,24 @@ export default function IndustriesCarousel() {
               diff === 0
                 ? 1
                 : diff === 1 || diff === INDUSTRIES_CAROUSEL.length - 1
-                ? 0.8
-                : 0.6;
+                  ? 0.8
+                  : 0.6;
             const x =
               diff === 0
                 ? 0
                 : diff === 1
-                ? 220
-                : diff === INDUSTRIES_CAROUSEL.length - 1
-                ? -220
-                : diff === 2
-                ? 440
-                : -440;
+                  ? 220
+                  : diff === INDUSTRIES_CAROUSEL.length - 1
+                    ? -220
+                    : diff === 2
+                      ? 440
+                      : -440;
             const zIndex =
               diff === 0
                 ? 30
                 : diff === 1 || diff === INDUSTRIES_CAROUSEL.length - 1
-                ? 20
-                : 10;
+                  ? 20
+                  : 10;
             const opacity =
               diff > 2 && diff < INDUSTRIES_CAROUSEL.length - 2 ? 0 : 1;
 

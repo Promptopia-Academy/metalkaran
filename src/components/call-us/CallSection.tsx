@@ -1,5 +1,4 @@
 import { PHONE_NUMBER } from "@/lib/constants";
-import React from "react";
 
 const CallSection = () => {
   return (
