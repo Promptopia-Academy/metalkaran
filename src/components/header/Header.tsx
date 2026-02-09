@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Search } from "../search/Search";
-import { NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS, CATEGORIES_ARRAY } from "@/lib/constants";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,29 +25,58 @@ const Header = () => {
         dir="rtl"
         className="w-full max-w-[95%] md:max-w-[90%] lg:max-w-[85%] h-auto md:h-[72px] bg-primary flex items-center mx-auto mt-4 md:mt-8 px-4 md:px-8 lg:px-24 rounded-xl justify-between md:rounded-2xl relative z-50"
       >
-          <div className="flex items-center justify-between w-full gap-2 md:gap-4">
-            <div className="flex items-center justify-end">
-              {/* Mobile Hamburger Button */}
-              <button
-                onClick={toggleMenu}
-                className="md:hidden flex items-center justify-center w-10 h-10 text-background hover:bg-white/10 rounded-lg transition-colors"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
-              <Search />
-            </div>
+        <div className="flex items-center justify-between w-full gap-2 md:gap-4">
+          <div className="flex items-center justify-end">
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={toggleMenu}
+              className="md:hidden flex items-center justify-center w-10 h-10 text-background hover:bg-white/10 rounded-lg transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+            <Search />
+          </div>
 
-            <div className="flex items-center gap-2 md:gap-4">
-              <nav
-                className="hidden md:flex items-center gap-2 md:gap-4 lg:gap-6 text-sm md:text-lg lg:text-xl font-medium"
-                dir="rtl"
-              >
-                {NAV_LINKS.map((link) => (
+          <div className="flex items-center gap-2 md:gap-4">
+            <nav
+              className="hidden md:flex items-center gap-2 md:gap-4 lg:gap-6 text-sm md:text-lg lg:text-xl font-medium"
+              dir="rtl"
+            >
+              {NAV_LINKS.map((link) =>
+                link.href === "/products" ? (
+                  <HoverCard key={link.label} openDelay={150} closeDelay={100}>
+                    <HoverCardTrigger asChild>
+                      <Link
+                        href={link.href}
+                        className="text-background font-semibold hover:underline whitespace-nowrap"
+                      >
+                        {link.label}
+                      </Link>
+                    </HoverCardTrigger>
+                    <HoverCardContent
+                      align="center"
+                      side="bottom"
+                      className="w-[276px] rounded-lg p-3 shadow-md border-0 bg-primary-secondary"
+                    >
+                      <div className="flex flex-col gap-1.5">
+                        {CATEGORIES_ARRAY.map((category) => (
+                          <Link
+                            key={category.id}
+                            href={`/categories/${category.slug}`}
+                            className="bg-[#1E78AA] block py-1.5 text-center px-2 rounded hover:opacity-90 transition-opacity"
+                          >
+                            <span className="text-lg font-medium text-white">{category.title}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                ) : (
                   <Link
                     key={link.label}
                     href={link.href}
@@ -54,19 +84,20 @@ const Header = () => {
                   >
                     {link.label}
                   </Link>
-                ))}
-              </nav>
-            </div>
-            <Link href="/" className="flex-shrink-0">
-              <Image
-                src="/logo.png"
-                alt="Metalkaran Logo"
-                width={86}
-                height={63}
-                className="w-12 h-auto md:w-16 lg:w-20 lg:h-auto hover:opacity-80 transition-opacity"
-              />
-            </Link>
+                )
+              )}
+            </nav>
           </div>
+          <Link href="/" className="flex-shrink-0">
+            <Image
+              src="/logo.png"
+              alt="Metalkaran Logo"
+              width={86}
+              height={63}
+              className="w-12 h-auto md:w-16 lg:w-20 lg:h-auto hover:opacity-80 transition-opacity"
+            />
+          </Link>
+        </div>
       </section>
 
       {/* Mobile Menu Overlay */}
