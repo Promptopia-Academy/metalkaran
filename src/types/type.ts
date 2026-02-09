@@ -190,6 +190,17 @@ export interface IBannerProps {
   overlayColor?: string;
 }
 
+export interface DataTableColumn<T extends object = object> {
+  header: string;
+  accessor: keyof T & string;
+}
+
+export interface IDataTableProps<T extends object> {
+  columns: DataTableColumn<T>[];
+  data: T;
+  title?: string;
+}
+
 export interface ICardElementProps {
   id: number;
   image: string;
@@ -226,3 +237,7 @@ export interface IArticleCardProps {
   article: IArticle;
 }
 
+export interface IProductTableProps {
+  mechanicalProperties?: IMechanicalProperties | null;
+  physicalProperties?: IPhysicalProperties | null;
+}

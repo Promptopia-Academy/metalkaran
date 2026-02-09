@@ -1,5 +1,5 @@
 import { Box, FileText, Home, MessageSquare, Settings } from "lucide-react";
-import type { IArticle, ICategory, IProduct, IQuestion } from "@/types/type";
+import type { IArticle, ICategory, IMechanicalProperties, IPhysicalProperties, IProduct, IQuestion } from "@/types/type";
 
 export const FORM_MAIN_PARAPH =
   "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.";
@@ -347,4 +347,19 @@ export const QUESTION_ITEMS: IQuestion[] = [
     answer:
       "پرداخت بر اساس اعتبار اسنادی (LC)، حواله بانکی (TT) و در برخی موارد چک و سفته با هماهنگی قبلی امکان‌پذیر است.",
   },
+];
+
+export const MECHANICAL_COLUMNS: { header: string; accessor: keyof IMechanicalProperties }[] = [
+  { header: "سختی (HV)", accessor: "hardness" },
+  { header: "مدول الاستیک (GPa)", accessor: "elasticModulus" },
+  { header: "درصد تغییر طول در 50 میلی‌متر", accessor: "elongation" },
+  { header: "استحکام تسلیم (MPa)", accessor: "yieldStrength" },
+  { header: "استحکام کششی (MPa)", accessor: "tensileStrength" },
+];
+
+export const PHYSICAL_COLUMNS: { header: string; accessor: keyof IPhysicalProperties }[] = [
+  { header: "چگالی (g/cm³)", accessor: "density" },
+  { header: "مقاومت الکتریکی (µΩ.cm)", accessor: "electricalResistivity" },
+  { header: "نقطه ذوب (°C)", accessor: "meltingPoint" },
+  { header: "ظرفیت گرمایی ویژه (J/mol.°C)", accessor: "molarHeatCapacity" },
 ];

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { IProduct } from "@/types/type";
+import ProductTable from "@/components/product/product-table/ProductTable";
 
 interface ProductDetailProps {
   product: IProduct;
@@ -60,55 +61,11 @@ export default function ProductDetail({ product }: ProductDetailProps) {
             </div>
           </div>
         )}
-        {product.mechanicalProperties && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">خواص مکانیکی</h2>
-            <div className="space-y-2 rounded-lg border bg-card p-4">
-              <p>
-                <span className="font-medium">سختی: </span>
-                {product.mechanicalProperties.hardness}
-              </p>
-              <p>
-                <span className="font-medium">مدول الاستیک: </span>
-                {product.mechanicalProperties.elasticModulus}
-              </p>
-              <p>
-                <span className="font-medium">درصد تغییر طول: </span>
-                {product.mechanicalProperties.elongation}
-              </p>
-              <p>
-                <span className="font-medium">استحکام تسلیم: </span>
-                {product.mechanicalProperties.yieldStrength}
-              </p>
-              <p>
-                <span className="font-medium">استحکام کششی: </span>
-                {product.mechanicalProperties.tensileStrength}
-              </p>
-            </div>
-          </div>
-        )}
-        {product.physicalProperties && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">خواص فیزیکی</h2>
-            <div className="space-y-2 rounded-lg border bg-card p-4">
-              <p>
-                <span className="font-medium">چگالی: </span>
-                {product.physicalProperties.density}
-              </p>
-              <p>
-                <span className="font-medium">مقاومت الکتریکی: </span>
-                {product.physicalProperties.electricalResistivity}
-              </p>
-              <p>
-                <span className="font-medium">نقطه ذوب: </span>
-                {product.physicalProperties.meltingPoint}
-              </p>
-              <p>
-                <span className="font-medium">ظرفیت گرمایی ویژه: </span>
-                {product.physicalProperties.molarHeatCapacity}
-              </p>
-            </div>
-          </div>
+        {(product.mechanicalProperties || product.physicalProperties) && (
+          <ProductTable
+            mechanicalProperties={product.mechanicalProperties}
+            physicalProperties={product.physicalProperties}
+          />
         )}
         {product.thermalExpansion && (
           <div>
