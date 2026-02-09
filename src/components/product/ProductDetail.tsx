@@ -7,6 +7,15 @@ import ProductChemicalCompositionDiv from "@/components/product/product-chemical
 export default function ProductDetail({ product }: IProductDetailProps) {
   return (
     <div dir="rtl" className="space-y-8">
+      <h1 className="text-3xl md:text-4xl font-bold">{product.title}-{product.slug}</h1>
+      {product.category && (
+        <p className="text-lg text-muted-foreground">
+          دسته‌بندی: {product.category.title}
+        </p>
+      )}
+      {product.introduction && (
+        <p className="text-xl leading-relaxed">{product.introduction}</p>
+      )}
       {product.image && (
         <div className="flex justify-center">
           <div className="relative w-full max-w-2xl aspect-video rounded-xl overflow-hidden">
@@ -20,29 +29,7 @@ export default function ProductDetail({ product }: IProductDetailProps) {
           </div>
         </div>
       )}
-
       <div className="space-y-6">
-        <h1 className="text-3xl md:text-4xl font-bold">{product.title}</h1>
-        {product.category && (
-          <p className="text-lg text-muted-foreground">
-            دسته‌بندی: {product.category.title}
-          </p>
-        )}
-        {product.introduction && (
-          <p className="text-xl leading-relaxed">{product.introduction}</p>
-        )}
-        {product.usage && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">کاربردها</h2>
-            <p className="text-lg">{product.usage}</p>
-          </div>
-        )}
-        {product.standards && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">استانداردها</h2>
-            <p className="text-lg">{product.standards}</p>
-          </div>
-        )}
         {product.chemicalComposition && product.chemicalComposition.length > 0 && (
           <div>
             <h2 className="text-2xl font-semibold mb-4">ترکیب شیمیایی</h2>
@@ -55,10 +42,28 @@ export default function ProductDetail({ product }: IProductDetailProps) {
             physicalProperties={product.physicalProperties}
           />
         )}
+        {product.description && (
+          <div>
+            <h2 className="text-2xl font-semibold mb-2">توضیحات</h2>
+            <p className="text-lg">{product.description}</p>
+          </div>
+        )}
         {product.thermalExpansion && (
           <div>
             <h2 className="text-2xl font-semibold mb-2">انبساط حرارتی</h2>
             <p className="text-lg">{product.thermalExpansion}</p>
+          </div>
+        )}
+        {product.usage && (
+          <div>
+            <h2 className="text-2xl font-semibold mb-2">کاربردها</h2>
+            <p className="text-lg">{product.usage}</p>
+          </div>
+        )}
+        {product.standards && (
+          <div>
+            <h2 className="text-2xl font-semibold mb-2">استانداردها</h2>
+            <p className="text-lg">{product.standards}</p>
           </div>
         )}
         {product.corrosionResistance && (

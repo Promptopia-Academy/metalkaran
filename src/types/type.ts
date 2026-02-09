@@ -43,6 +43,7 @@ export type IProduct = {
   slug: string;
   category: ICategory;
   introduction: string;
+  description: string;
   usage: string;
   standards?: string;
   chemicalComposition?: IChemicalComposition[];
