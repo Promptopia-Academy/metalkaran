@@ -36,10 +36,11 @@ export interface IPhysicalProperties {
   molarHeatCapacity: string        //ظرفیت گرمایی ویژه
 }
 
-export type IElement = {
+export type IProduct = {
   id: number;
   image?: string;
   title: string;
+  slug: string;
   category: ICategory;
   introduction: string;
   usage: string;
@@ -144,10 +145,10 @@ export interface IRateLimitResponse {
   resetTime: number;
 }
 
-export interface IElementServiceResponse {
+export interface IProductServiceResponse {
   success: boolean;
   message: string;
-  data?: IElement | IElement[];
+  data?: IProduct | IProduct[];
   errors?: unknown;
 }
 
@@ -190,9 +191,10 @@ export interface IBannerProps {
 }
 
 export interface ICardElementProps {
+  id: number;
   image: string;
   title: string;
-  slug: string;
+  slug?: string;
 }
 
 export interface IBadgeProps {
@@ -223,3 +225,4 @@ export interface IPageProps {
 export interface IArticleCardProps {
   article: IArticle;
 }
+

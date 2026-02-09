@@ -1,4 +1,4 @@
-import { IElement, IElementServiceResponse } from "@/types/type";
+import { IProduct, IProductServiceResponse } from "@/types/type";
 import {
   getElements,
   getElementById,
@@ -12,8 +12,8 @@ import { PaginationParams, PaginatedResponse } from "../utils/pagination";
 export async function getAllElements(
   paginationParams?: PaginationParams
 ): Promise<
-  IElementServiceResponse & {
-    pagination?: PaginatedResponse<IElement>["pagination"];
+  IProductServiceResponse & {
+    pagination?: PaginatedResponse<IProduct>["pagination"];
   }
 > {
   try {
@@ -59,7 +59,7 @@ export async function getAllElements(
   }
 }
 
-export async function getElement(id: number): Promise<IElementServiceResponse> {
+export async function getElement(id: number): Promise<IProductServiceResponse> {
   try {
     const element = await getElementById(id);
     if (!element) {
@@ -83,8 +83,8 @@ export async function getElement(id: number): Promise<IElementServiceResponse> {
 }
 
 export async function createElement(
-  element: Omit<IElement, "id">
-): Promise<IElementServiceResponse> {
+  element: Omit<IProduct, "id">
+): Promise<IProductServiceResponse> {
   try {
     const newElement = await saveElement(element);
     logger.info("Element created successfully", {
@@ -107,8 +107,8 @@ export async function createElement(
 
 export async function updateElementById(
   id: number,
-  element: Partial<Omit<IElement, "id">>
-): Promise<IElementServiceResponse> {
+  element: Partial<Omit<IProduct, "id">>
+): Promise<IProductServiceResponse> {
   try {
     const updatedElement = await updateElement(id, element);
     if (!updatedElement) {
@@ -133,7 +133,7 @@ export async function updateElementById(
 
 export async function deleteElementById(
   id: number
-): Promise<IElementServiceResponse> {
+): Promise<IProductServiceResponse> {
   try {
     const deleted = await deleteElement(id);
     if (!deleted) {

@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { IElement } from "@/types/type";
+import { IProduct } from "@/types/type";
 import { logger } from "../../lib/logger";
 
 export async function getElements(paginationParams?: {
@@ -9,7 +9,7 @@ export async function getElements(paginationParams?: {
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }): Promise<{
-  data: IElement[];
+  data: IProduct[];
   total: number;
 }> {
   try {
@@ -23,12 +23,12 @@ export async function getElements(paginationParams?: {
 
     const where = search
       ? {
-          OR: [
-            { title: { contains: search } },
-            { introduction: { contains: search } },
-            { usage: { contains: search } },
-          ],
-        }
+        OR: [
+          { title: { contains: search } },
+          { introduction: { contains: search } },
+          { usage: { contains: search } },
+        ],
+      }
       : {};
 
     const orderBy: any = {};
@@ -76,7 +76,7 @@ export async function getElements(paginationParams?: {
   }
 }
 
-export async function getElementById(id: number): Promise<IElement | null> {
+export async function getElementById(id: number): Promise<IProduct | null> {
   try {
     const element = await prisma.element.findUnique({
       where: { id },
@@ -111,8 +111,8 @@ export async function getElementById(id: number): Promise<IElement | null> {
 }
 
 export async function saveElement(
-  element: Omit<IElement, "id">
-): Promise<IElement> {
+  element: Omit<IProduct, "id">
+): Promise<IProduct> {
   try {
     const newElement = await prisma.element.create({
       data: {
@@ -160,8 +160,8 @@ export async function saveElement(
 
 export async function updateElement(
   id: number,
-  element: Partial<Omit<IElement, "id">>
-): Promise<IElement | null> {
+  element: Partial<Omit<IProduct, "id">>
+): Promise<IProduct | null> {
   try {
     const updatedElement = await prisma.element.update({
       where: { id },

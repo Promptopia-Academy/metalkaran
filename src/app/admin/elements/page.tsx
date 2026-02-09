@@ -13,11 +13,11 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { api } from "@/lib/api";
-import { IElement } from "@/types/type";
+import { IProduct } from "@/types/type";
 import Link from "next/link";
 
 export default function AdminElementsPage() {
-  const [elements, setElements] = useState<IElement[]>([]);
+  const [elements, setElements] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);

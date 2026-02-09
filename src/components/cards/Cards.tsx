@@ -1,5 +1,5 @@
 import CardElement from "./CardElement";
-import { CARD_ITEMS } from "@/lib/constants";
+import { PRODUCT_ITEMS } from "@/lib/constants";
 import {
   Carousel,
   CarouselContent,
@@ -19,16 +19,16 @@ const Cards = () => {
         }}
       >
         <CarouselContent className="-ml-2 md:-ml-4 p-6">
-          {CARD_ITEMS.map((item, index) => (
+          {PRODUCT_ITEMS.map((product) => (
             <CarouselItem
-              key={index}
+              key={product.id}
               className="pl-2 md:pl-4 basis-[85%] sm:basis-[60%] md:basis-[45%] lg:basis-[33.33%] xl:basis-[25%] hover:z-10"
             >
-
               <CardElement
-                image={item.image}
-                title={item.title}
-                slug={item.slug}
+                id={product.id}
+                image={product.image || "/carousel-img/image-1.png"}
+                title={product.title}
+                slug={product.standards || product.category?.title}
               />
             </CarouselItem>
           ))}
