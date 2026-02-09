@@ -1,13 +1,10 @@
 import Image from "next/image";
-import type { IProduct } from "@/types/type";
+import type { IProductDetailProps } from "@/types/type";
 import ProductTable from "@/components/product/product-table/ProductTable";
 import ProductChemicalCompositionDiv from "@/components/product/product-chemical/ProductChemicalCompositionDiv";
 
-interface ProductDetailProps {
-  product: IProduct;
-}
 
-export default function ProductDetail({ product }: ProductDetailProps) {
+export default function ProductDetail({ product }: IProductDetailProps) {
   return (
     <div dir="rtl" className="space-y-8">
       {product.image && (

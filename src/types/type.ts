@@ -163,7 +163,7 @@ export interface IUploadServiceResponse {
   };
 }
 
-export interface AboutUsCardProps {
+export interface IAboutUsCardProps {
   image: string;
   title: string;
 }
@@ -247,4 +247,8 @@ export interface IProductChemicalCompositionProps {
 
 export interface IProductChemicalCompositionDivProps {
   productChemicalComposition: IProduct;
+}
+
+export interface IProductDetailProps {
+  product: IProduct;
 }

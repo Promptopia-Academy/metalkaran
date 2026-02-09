@@ -1,4 +1,3 @@
-import React from "react";
 import AboutUsCard from "./AboutUsCard";
 import { ABOUT_US_CARDS } from "@/lib/constants";
 
