@@ -18,6 +18,7 @@ export interface ICategory {
 export interface IChemicalComposition {
   id: number;
   title: string;
+  slug: string;
   value: string;
 }
 
@@ -240,4 +241,13 @@ export interface IArticleCardProps {
 export interface IProductTableProps {
   mechanicalProperties?: IMechanicalProperties | null;
   physicalProperties?: IPhysicalProperties | null;
+}
+
+export interface IProductChemicalCompositionProps {
+  ChemicalComposition: IChemicalComposition;
+  color?: string;
+}
+
+export interface IProductChemicalCompositionDivProps {
+  productChemicalComposition: IProduct;
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { IProduct } from "@/types/type";
 import ProductTable from "@/components/product/product-table/ProductTable";
+import ProductChemicalCompositionDiv from "@/components/product/product-chemical/ProductChemicalCompositionDiv";
 
 interface ProductDetailProps {
   product: IProduct;
@@ -47,18 +48,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         )}
         {product.chemicalComposition && product.chemicalComposition.length > 0 && (
           <div>
-            <h2 className="text-2xl font-semibold mb-2">ترکیب شیمیایی</h2>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {product.chemicalComposition.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between rounded-lg border bg-card p-3"
-                >
-                  <span className="font-medium">{item.title}</span>
-                  <span className="text-muted-foreground">{item.value}</span>
-                </div>
-              ))}
-            </div>
+            <h2 className="text-2xl font-semibold mb-4">ترکیب شیمیایی</h2>
+            <ProductChemicalCompositionDiv productChemicalComposition={product} />
           </div>
         )}
         {(product.mechanicalProperties || product.physicalProperties) && (

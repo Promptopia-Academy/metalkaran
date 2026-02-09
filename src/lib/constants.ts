@@ -1,6 +1,17 @@
 import { Box, FileText, Home, MessageSquare, Settings } from "lucide-react";
 import type { IArticle, ICategory, IMechanicalProperties, IPhysicalProperties, IProduct, IQuestion } from "@/types/type";
 
+export const CHEMICAL_COLORS = [
+  "#AC0C0C",
+  "#000000",
+  "#238D8D",
+  "#AD9B14",
+  "#1E78AA",
+  "#2C5D3F",
+  "#9d4edd",
+  "#f28482",
+] as const;
+
 export const FORM_MAIN_PARAPH =
   "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.";
 
@@ -224,9 +235,15 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     usage: "صنایع نفت و گاز، پتروشیمی، خطوط لوله، مخازن تحت فشار",
     standards: "ASTM A240, ASME SB-625",
     chemicalComposition: [
-      { id: 1, title: "کروم", value: "19-23%" },
-      { id: 2, title: "نیکل", value: "23-28%" },
-      { id: 3, title: "مولیبدن", value: "4-5%" },
+      { id: 1, title: "کروم", value: "19-23%", slug: "chrome" },
+      { id: 2, title: "نیکل", value: "23-28%", slug: "nickel" },
+      { id: 3, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 4, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 5, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 6, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 7, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 8, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 9, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
     ],
     mechanicalProperties: {
       hardness: "حداکثر ۹۰ HRB",
