@@ -36,6 +36,12 @@ export interface IPhysicalProperties {
   molarHeatCapacity: string        //ظرفیت گرمایی ویژه
 }
 
+export interface IUsage {
+  id: string;
+  title: string;
+  image: string;
+}
+
 export type IProduct = {
   id: number;
   image?: string;
@@ -44,8 +50,8 @@ export type IProduct = {
   category: ICategory;
   introduction: string;
   description: string;
-  usage: string;
   standards?: string;
+  usage: IUsage[];
   chemicalComposition?: IChemicalComposition[];
   mechanicalProperties?: IMechanicalProperties;
   physicalProperties?: IPhysicalProperties;
@@ -252,4 +258,8 @@ export interface IProductChemicalCompositionDivProps {
 
 export interface IProductDetailProps {
   product: IProduct;
+}
+
+export interface IProductUsageProps {
+  usage: IUsage;
 }

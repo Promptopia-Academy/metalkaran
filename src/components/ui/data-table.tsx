@@ -1,7 +1,6 @@
 import { IDataTableProps } from "@/types/type";
 
 const TABLE_RADIUS = "8px";
-const HEADER_BG = "#05ABFF";
 
 export function DataTable<T extends object>({
   columns,
@@ -21,7 +20,7 @@ export function DataTable<T extends object>({
             {columns.map((col, i) => (
               <th
                 key={String(col.accessor)}
-                className={`px-4 py-3 text-base bg-[#05ABFF] text-center font-normal ${i === 0 ? "rounded-tr-lg" : ""} ${i === columns.length - 1 ? "rounded-tl-lg" : ""}`}
+                className={`px-4 py-3 text-base bg-[#05acff3d] text-center font-normal ${i === 0 ? "rounded-tr-lg" : ""} ${i === columns.length - 1 ? "rounded-tl-lg" : ""}`}
               >
                 {col.header}
               </th>
@@ -33,7 +32,7 @@ export function DataTable<T extends object>({
             {columns.map((col, i) => (
               <td
                 key={String(col.accessor)}
-                className={`px-4 py-4 text-xl text-center bg-[#bfc0c1] font-medium border-b border-border ${i === 0 ? "rounded-br-lg" : ""} ${i === columns.length - 1 ? "rounded-bl-lg" : ""}`}
+                className={`px-4 py-4 text-xl text-center bg-[#bfc0c125] font-medium border-b border-border ${i === 0 ? "rounded-br-lg" : ""} ${i === columns.length - 1 ? "rounded-bl-lg" : ""}`}
               >
                 {String(data[col.accessor as keyof T] ?? "—")}
               </td>

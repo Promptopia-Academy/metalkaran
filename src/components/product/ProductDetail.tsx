@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { IProductDetailProps } from "@/types/type";
 import ProductTable from "@/components/product/product-table/ProductTable";
 import ProductChemicalCompositionDiv from "@/components/product/product-chemical/ProductChemicalCompositionDiv";
+import ProductUsageDiv from "@/components/product/product-usage/ProductUsageDix";
 
 
 export default function ProductDetail({ product }: IProductDetailProps) {
@@ -48,16 +49,16 @@ export default function ProductDetail({ product }: IProductDetailProps) {
             <p className="text-lg">{product.description}</p>
           </div>
         )}
+        {Array.isArray(product.usage) && product.usage.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-semibold mb-4">کاربردها</h2>
+            <ProductUsageDiv usages={product.usage} />
+          </div>
+        )}
         {product.thermalExpansion && (
           <div>
             <h2 className="text-2xl font-semibold mb-2">انبساط حرارتی</h2>
             <p className="text-lg">{product.thermalExpansion}</p>
-          </div>
-        )}
-        {product.usage && (
-          <div>
-            <h2 className="text-2xl font-semibold mb-2">کاربردها</h2>
-            <p className="text-lg">{product.usage}</p>
           </div>
         )}
         {product.standards && (

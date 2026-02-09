@@ -1,5 +1,5 @@
 import { Box, FileText, Home, MessageSquare, Settings } from "lucide-react";
-import type { IArticle, ICategory, IMechanicalProperties, IPhysicalProperties, IProduct, IQuestion } from "@/types/type";
+import type { IArticle, ICategory, IMechanicalProperties, IPhysicalProperties, IProduct, IQuestion, IUsage } from "@/types/type";
 
 export const CHEMICAL_COLORS = [
   "#AC0C0C",
@@ -225,7 +225,11 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     slug: "uns-n08904",
     category: CATEGORIES_ARRAY[2],
     introduction: "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
-    usage: "صنایع نفت و گاز، پتروشیمی، خطوط لوله، مخازن تحت فشار",
+    usage: [
+      { id: "u1-1", title: "صنعت نفت و گاز", image: "/images/industry-oil.jpg" },
+      { id: "u1-2", title: "پتروشیمی", image: "/carousel-img/image-1.png" },
+      { id: "u1-3", title: "خطوط لوله و مخازن تحت فشار", image: "/images/industry-tech.jpg" },
+    ] as IUsage[],
     standards: "ASTM A240, ASME SB-625",
     chemicalComposition: [
       { id: 1, title: "کروم", value: "19-23%", slug: "chrome" },
@@ -270,7 +274,11 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     description: "نوار فولادی ۳۰۴ با مقاومت خوب در برابر خوردگی.",
     category: CATEGORIES_ARRAY[2],
     introduction: "نوار فولادی ضد زنگ ۳۰۴ پرکاربردترین گرید استنلس استیل با مقاومت خوب در برابر خوردگی.",
-    usage: "صنایع غذایی، دارویی، آشپزخانه، تزئینات",
+    usage: [
+      { id: "u2-1", title: "صنایع غذایی", image: "/carousel-img/image-1.png" },
+      { id: "u2-2", title: "دارویی و آشپزخانه", image: "/images/industry-tech.jpg" },
+      { id: "u2-3", title: "تزئینات", image: "/images/industry-auto.jpg" },
+    ] as IUsage[],
     standards: "ASTM A240, EN 10088",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
@@ -282,7 +290,10 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     description: "نوار فولادی ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
     category: CATEGORIES_ARRAY[2],
     introduction: "نوار فولادی ضد زنگ ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
-    usage: "صنایع دریایی، شیمیایی، داروسازی",
+    usage: [
+      { id: "u3-1", title: "صنایع دریایی", image: "/carousel-img/image-1.png" },
+      { id: "u3-2", title: "شیمیایی و داروسازی", image: "/images/industry-tech.jpg" },
+    ] as IUsage[],
     standards: "ASTM A240, EN 10088",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
@@ -294,7 +305,10 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     description: "نوار فولادی ۳۱۶ال با مقاومت بهتر در جوشکاری.",
     category: CATEGORIES_ARRAY[1],
     introduction: "نسخه کم‌کربن ۳۱۶ با مقاومت بهتر در جوشکاری.",
-    usage: "مخازن جوشکاری شده، تجهیزات فرآوری",
+    usage: [
+      { id: "u4-1", title: "مخازن جوشکاری شده", image: "/carousel-img/image-1.png" },
+      { id: "u4-2", title: "تجهیزات فرآوری", image: "/images/industry-oil.jpg" },
+    ] as IUsage[],
     standards: "ASTM A240",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
@@ -305,7 +319,10 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     slug: "321",
     category: CATEGORIES_ARRAY[0],
     introduction: "نوار فولادی ضد زنگ ۳۲۱ با پایداری بالا در دماهای بالا.",
-    usage: "اگزوز، مبدل حرارتی، صنعت هواپیمایی",
+    usage: [
+      { id: "u5-1", title: "اگزوز و مبدل حرارتی", image: "/images/industry-auto.jpg" },
+      { id: "u5-2", title: "صنعت هواپیمایی", image: "/images/industry-jet.jpg" },
+    ] as IUsage[],
     standards: "ASTM A240",
     description: "نوار فولادی ۴۳۰ با هزینه کمتر، مناسب برای کاربردهای عمومی.",
     createdAt: "2025-01-01T00:00:00.000Z",
@@ -318,7 +335,11 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     slug: "430",
     category: CATEGORIES_ARRAY[5],
     introduction: "نوار فولادی فرومغناطیسی با هزینه کمتر، مناسب برای کاربردهای عمومی.",
-    usage: "تزئینات، لوازم خانگی، خودروسازی",
+    usage: [
+      { id: "u6-1", title: "تزئینات", image: "/carousel-img/image-1.png" },
+      { id: "u6-2", title: "لوازم خانگی", image: "/images/industry-tech.jpg" },
+      { id: "u6-3", title: "خودروسازی", image: "/images/industry-auto.jpg" },
+    ] as IUsage[],
     standards: "ASTM A240",
     createdAt: "2025-01-01T00:00:00.000Z",
   },
