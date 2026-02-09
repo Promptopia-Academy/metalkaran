@@ -9,18 +9,22 @@ const ProductTable = ({
   return (
     <div className="flex flex-col gap-8" dir="rtl">
       {mechanicalProperties && (
-        <DataTable<IMechanicalProperties>
+        <div className="w-full overflow-x-auto">
+          <DataTable<IMechanicalProperties>
           title="خواص مکانیکی"
           columns={MECHANICAL_COLUMNS}
           data={mechanicalProperties}
         />
+        </div>
       )}
       {physicalProperties && (
-        <DataTable<IPhysicalProperties>
+        <div className="w-full overflow-x-auto">
+          <DataTable<IPhysicalProperties>
           title="خواص فیزیکی"
           columns={PHYSICAL_COLUMNS}
           data={physicalProperties}
         />
+        </div>
       )}
     </div>
   );

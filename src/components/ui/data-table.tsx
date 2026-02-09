@@ -9,13 +9,13 @@ export function DataTable<T extends object>({
   title,
 }: IDataTableProps<T>) {
   return (
-    <div className="w-full overflow-hidden rounded-[8px]" style={{ borderRadius: TABLE_RADIUS }}>
+    <div className="w-full overflow-hidden rounded-[8px] min-w-max" style={{ borderRadius: TABLE_RADIUS }}>
       {title && (
         <h3 className="text-2xl font-semibold mb-3" dir="rtl">
           {title}
         </h3>
       )}
-      <table className="w-full border-collapse overflow-hidden" dir="rtl">
+      <table className="w-full min-w-max border-collapse overflow-hidden" dir="rtl">
         <thead>
           <tr>
             {columns.map((col, i) => (
