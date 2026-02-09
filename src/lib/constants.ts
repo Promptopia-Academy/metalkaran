@@ -56,14 +56,14 @@ export const INDUSTRIES_CAROUSEL = [
   { id: 5, image: "/images/industry-jet.jpg", title: "خودروسازی" },
 ];
 
-export const CATEGORIES_ARRAY = [
-  { src: "/images/aluminum_profile.png", alt: "Aluminum Profiles" },
-  { src: "/images/metal_coils.png", alt: "Metal Coils" },
-  { src: "/images/steel_sheets.png", alt: "Steel Sheets" },
-  { src: "/images/platinum_ingots.png", alt: "Platinum Ingots" },
-  { src: "/images/aluminum_sheets.png", alt: "Aluminum Sheets" },
-  { src: "/images/tin_alloy.png", alt: "Tin Alloys" },
-  { src: "/images/ingots.png", alt: "Ingots" },
+export const CATEGORIES_ARRAY: ICategory[] = [
+  { id: 1, image: "/images/aluminum_profile.png", slug: "aluminum-profiles", title: "آلومینیوم پروفایل" },
+  { id: 2, image: "/images/metal_coils.png", slug: "metal-coils", title: "متال کویل" },
+  { id: 3, image: "/images/steel_sheets.png", slug: "steel-sheets", title: "صلب پیچ" },
+  { id: 4, image: "/images/platinum_ingots.png", slug: "platinum-ingots", title: "بلورهای پلاتین" },
+  { id: 5, image: "/images/aluminum_sheets.png", slug: "aluminum-sheets", title: "صلب صفحه ای" },
+  { id: 6, image: "/images/tin_alloy.png", slug: "tin-alloys", title: "تین آلای" },
+  { id: 7, image: "/images/ingots.png", slug: "ingots", title: "بلورهای فلزی" },
 ];
 
 export const CAROUSEL_IMAGES = [
@@ -217,20 +217,13 @@ export const ARTICLE_ITEMS: IArticle[] = [
   },
 ];
 
-const MOCK_CATEGORY: ICategory = {
-  id: 1,
-  title: "نوارهای فولادی",
-  introduction: "انواع نوارهای فولادی ضد زنگ",
-  slug: "steel-strips",
-};
-
 export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
   1: {
     id: 1,
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ضد زنگ UNS N08904",
     slug: "uns-n08904",
-    category: MOCK_CATEGORY,
+    category: CATEGORIES_ARRAY[2],
     introduction: "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
     usage: "صنایع نفت و گاز، پتروشیمی، خطوط لوله، مخازن تحت فشار",
     standards: "ASTM A240, ASME SB-625",
@@ -273,7 +266,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۰۴",
     slug: "304",
-    category: MOCK_CATEGORY,
+    category: CATEGORIES_ARRAY[2],
     introduction: "نوار فولادی ضد زنگ ۳۰۴ پرکاربردترین گرید استنلس استیل با مقاومت خوب در برابر خوردگی.",
     usage: "صنایع غذایی، دارویی، آشپزخانه، تزئینات",
     standards: "ASTM A240, EN 10088",
@@ -284,7 +277,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۱۶",
     slug: "316",
-    category: MOCK_CATEGORY,
+    category: CATEGORIES_ARRAY[2],
     introduction: "نوار فولادی ضد زنگ ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
     usage: "صنایع دریایی، شیمیایی، داروسازی",
     standards: "ASTM A240, EN 10088",
@@ -295,7 +288,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۱۶ال",
     slug: "316l",
-    category: MOCK_CATEGORY,
+    category: CATEGORIES_ARRAY[1],
     introduction: "نسخه کم‌کربن ۳۱۶ با مقاومت بهتر در جوشکاری.",
     usage: "مخازن جوشکاری شده، تجهیزات فرآوری",
     standards: "ASTM A240",
@@ -306,7 +299,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۲۱",
     slug: "321",
-    category: MOCK_CATEGORY,
+    category: CATEGORIES_ARRAY[0],
     introduction: "نوار فولادی ضد زنگ ۳۲۱ با پایداری بالا در دماهای بالا.",
     usage: "اگزوز، مبدل حرارتی، صنعت هواپیمایی",
     standards: "ASTM A240",
@@ -317,7 +310,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۴۳۰",
     slug: "430",
-    category: MOCK_CATEGORY,
+    category: CATEGORIES_ARRAY[5],
     introduction: "نوار فولادی فرومغناطیسی با هزینه کمتر، مناسب برای کاربردهای عمومی.",
     usage: "تزئینات، لوازم خانگی، خودروسازی",
     standards: "ASTM A240",

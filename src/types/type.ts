@@ -9,17 +9,16 @@ export interface IContact {
 
 export interface ICategory {
   id: number;
-  image?: string;
-  title: string;
-  introduction: string;
   slug: string;
+  title: string;
+  image?: string;
 }
 
 export interface IChemicalComposition {
   id: number;
-  title: string;
   slug: string;
   value: string;
+  title: string;
 }
 
 export interface IMechanicalProperties {
@@ -177,9 +176,7 @@ export interface IApiOptions {
 }
 
 export interface ICategoryItemProps {
-  src: string;
-  alt: string;
-  title: string;
+  category: ICategory;
 }
 
 export interface IBannerProps {
