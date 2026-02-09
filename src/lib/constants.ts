@@ -266,7 +266,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     coldForming: "قابل انجام با آنیل میانی",
     welding: "جوش قوس الکتریکی، TIG، MIG",
     machining: "قابل ماشینکاری با سرعت متوسط",
-    createdAt: new Date().toISOString(),
+    createdAt: "2025-01-01T00:00:00.000Z",
   },
   2: {
     id: 2,
@@ -277,7 +277,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     introduction: "نوار فولادی ضد زنگ ۳۰۴ پرکاربردترین گرید استنلس استیل با مقاومت خوب در برابر خوردگی.",
     usage: "صنایع غذایی، دارویی، آشپزخانه، تزئینات",
     standards: "ASTM A240, EN 10088",
-    createdAt: new Date().toISOString(),
+    createdAt: "2025-01-01T00:00:00.000Z",
   },
   3: {
     id: 3,
@@ -288,7 +288,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     introduction: "نوار فولادی ضد زنگ ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
     usage: "صنایع دریایی، شیمیایی، داروسازی",
     standards: "ASTM A240, EN 10088",
-    createdAt: new Date().toISOString(),
+    createdAt: "2025-01-01T00:00:00.000Z",
   },
   4: {
     id: 4,
@@ -299,7 +299,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     introduction: "نسخه کم‌کربن ۳۱۶ با مقاومت بهتر در جوشکاری.",
     usage: "مخازن جوشکاری شده، تجهیزات فرآوری",
     standards: "ASTM A240",
-    createdAt: new Date().toISOString(),
+    createdAt: "2025-01-01T00:00:00.000Z",
   },
   5: {
     id: 5,
@@ -310,7 +310,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     introduction: "نوار فولادی ضد زنگ ۳۲۱ با پایداری بالا در دماهای بالا.",
     usage: "اگزوز، مبدل حرارتی، صنعت هواپیمایی",
     standards: "ASTM A240",
-    createdAt: new Date().toISOString(),
+    createdAt: "2025-01-01T00:00:00.000Z",
   },
   6: {
     id: 6,
@@ -321,7 +321,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     introduction: "نوار فولادی فرومغناطیسی با هزینه کمتر، مناسب برای کاربردهای عمومی.",
     usage: "تزئینات، لوازم خانگی، خودروسازی",
     standards: "ASTM A240",
-    createdAt: new Date().toISOString(),
+    createdAt: "2025-01-01T00:00:00.000Z",
   },
 };
 
