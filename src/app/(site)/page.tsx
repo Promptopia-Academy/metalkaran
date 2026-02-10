@@ -24,31 +24,31 @@ export default function Home() {
         <Badges />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.05}>
         <Cards />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.15}>
+      <AnimatedSection delay={0.05}>
         <CategoryGrid />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.05}>
         <Calculator />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.05}>
         <About />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.15} variant="scale">
+      <AnimatedSection delay={0.05} variant="scale">
         <IndustriesCarousel />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.05}>
         <FormSection />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.05}>
         <CallSection />
       </AnimatedSection>
     </section>

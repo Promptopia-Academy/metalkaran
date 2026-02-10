@@ -82,9 +82,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa">
+    <html lang="fa" suppressHydrationWarning>
       <body
         className={`${Vazir.variable} font-sans antialiased box-border overflow-x-hidden`}
+        suppressHydrationWarning
       >
         {children}
       </body>

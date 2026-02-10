@@ -9,16 +9,16 @@ export interface IContact {
 
 export interface ICategory {
   id: number;
-  image?: string;
-  title: string;
-  introduction: string;
   slug: string;
+  title: string;
+  image?: string;
 }
 
 export interface IChemicalComposition {
   id: number;
-  title: string;
+  slug: string;
   value: string;
+  title: string;
 }
 
 export interface IMechanicalProperties {
@@ -36,14 +36,22 @@ export interface IPhysicalProperties {
   molarHeatCapacity: string        //ظرفیت گرمایی ویژه
 }
 
-export type IElement = {
+export interface IUsage {
+  id: string;
+  title: string;
+  image: string;
+}
+
+export type IProduct = {
   id: number;
   image?: string;
   title: string;
+  slug: string;
   category: ICategory;
   introduction: string;
-  usage: string;
+  description: string;
   standards?: string;
+  usage: IUsage[];
   chemicalComposition?: IChemicalComposition[];
   mechanicalProperties?: IMechanicalProperties;
   physicalProperties?: IPhysicalProperties;
@@ -117,67 +125,13 @@ export interface IContactFormData {
   company: string;
 }
 
-export interface IRateLimitEntry {
-  id: number;
-  ip: string;
-  count: number;
-  resetTime: number;
-}
-
-export interface IArticleServiceResponse {
-  success: boolean;
-  message: string;
-  data?: IArticle | IArticle[];
-  errors?: unknown;
-}
-
-export interface IContactServiceResponse {
-  success: boolean;
-  message: string;
-  data?: IContact;
-  errors?: unknown;
-}
-
-export interface IRateLimitResponse {
-  allowed: boolean;
-  remaining: number;
-  resetTime: number;
-}
-
-export interface IElementServiceResponse {
-  success: boolean;
-  message: string;
-  data?: IElement | IElement[];
-  errors?: unknown;
-}
-
-export interface IUploadServiceResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    url: string;
-    fileName: string;
-    size: number;
-    type: string;
-  };
-}
-
-export interface AboutUsCardProps {
+export interface IAboutUsCardProps {
   image: string;
   title: string;
 }
 
-export interface IApiOptions {
-  method?: "GET" | "POST" | "PUT" | "DELETE";
-  body?: any;
-  headers?: Record<string, string>;
-  apiKey?: string;
-}
-
 export interface ICategoryItemProps {
-  src: string;
-  alt: string;
-  title: string;
+  category: ICategory;
 }
 
 export interface IBannerProps {
@@ -189,10 +143,22 @@ export interface IBannerProps {
   overlayColor?: string;
 }
 
+export interface DataTableColumn<T extends object = object> {
+  header: string;
+  accessor: keyof T & string;
+}
+
+export interface IDataTableProps<T extends object> {
+  columns: DataTableColumn<T>[];
+  data: T;
+  title?: string;
+}
+
 export interface ICardElementProps {
+  id: number;
   image: string;
   title: string;
-  slug: string;
+  slug?: string;
 }
 
 export interface IBadgeProps {
@@ -222,4 +188,26 @@ export interface IPageProps {
 
 export interface IArticleCardProps {
   article: IArticle;
+}
+
+export interface IProductTableProps {
+  mechanicalProperties?: IMechanicalProperties | null;
+  physicalProperties?: IPhysicalProperties | null;
+}
+
+export interface IProductChemicalCompositionProps {
+  ChemicalComposition: IChemicalComposition;
+  color?: string;
+}
+
+export interface IProductChemicalCompositionDivProps {
+  productChemicalComposition: IProduct;
+}
+
+export interface IProductDetailProps {
+  product: IProduct;
+}
+
+export interface IProductUsageProps {
+  usage: IUsage;
 }

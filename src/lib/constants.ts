@@ -1,5 +1,16 @@
 import { Box, FileText, Home, MessageSquare, Settings } from "lucide-react";
-import type { IArticle, IQuestion } from "@/types/type";
+import type { IArticle, ICategory, IMechanicalProperties, IPhysicalProperties, IProduct, IQuestion, IUsage } from "@/types/type";
+
+export const CHEMICAL_COLORS = [
+  "#AC0C0C",
+  "#000000",
+  "#238D8D",
+  "#AD9B14",
+  "#1E78AA",
+  "#2C5D3F",
+  "#9d4edd",
+  "#f28482",
+] as const;
 
 export const FORM_MAIN_PARAPH =
   "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.";
@@ -45,14 +56,14 @@ export const INDUSTRIES_CAROUSEL = [
   { id: 5, image: "/images/industry-jet.jpg", title: "خودروسازی" },
 ];
 
-export const CATEGORIES_ARRAY = [
-  { src: "/images/aluminum_profile.png", alt: "Aluminum Profiles" },
-  { src: "/images/metal_coils.png", alt: "Metal Coils" },
-  { src: "/images/steel_sheets.png", alt: "Steel Sheets" },
-  { src: "/images/platinum_ingots.png", alt: "Platinum Ingots" },
-  { src: "/images/aluminum_sheets.png", alt: "Aluminum Sheets" },
-  { src: "/images/tin_alloy.png", alt: "Tin Alloys" },
-  { src: "/images/ingots.png", alt: "Ingots" },
+export const CATEGORIES_ARRAY: ICategory[] = [
+  { id: 1, image: "/images/aluminum_profile.png", slug: "aluminum-profiles", title: "آلومینیوم پروفایل" },
+  { id: 2, image: "/images/metal_coils.png", slug: "metal-coils", title: "متال کویل" },
+  { id: 3, image: "/images/steel_sheets.png", slug: "steel-sheets", title: "صلب پیچ" },
+  { id: 4, image: "/images/platinum_ingots.png", slug: "platinum-ingots", title: "بلورهای پلاتین" },
+  { id: 5, image: "/images/aluminum_sheets.png", slug: "aluminum-sheets", title: "صلب صفحه ای" },
+  { id: 6, image: "/images/tin_alloy.png", slug: "tin-alloys", title: "تین آلای" },
+  { id: 7, image: "/images/ingots.png", slug: "ingots", title: "بلورهای فلزی" },
 ];
 
 export const CAROUSEL_IMAGES = [
@@ -76,39 +87,6 @@ export const CAROUSEL_IMAGES = [
     alt: "Carousel Image 3",
     size: { width: 278, height: 480 },
     basis: "lg:basis-3/10",
-  },
-];
-
-export const CARD_ITEMS = [
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
-  },
-  {
-    image: "/carousel-img/image-1.png",
-    title: "نوار فولادی ضد زنگ",
-    slug: "UNS N08904",
   },
 ];
 
@@ -239,6 +217,136 @@ export const ARTICLE_ITEMS: IArticle[] = [
   },
 ];
 
+export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
+  1: {
+    id: 1,
+    image: "/carousel-img/image-1.png",
+    title: "نوار فولادی ضد زنگ UNS N08904",
+    slug: "uns-n08904",
+    category: CATEGORIES_ARRAY[2],
+    introduction: "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
+    usage: [
+      { id: "u1-1", title: "صنعت نفت و گاز", image: "/images/industry-oil.jpg" },
+      { id: "u1-2", title: "پتروشیمی", image: "/carousel-img/image-1.png" },
+      { id: "u1-3", title: "خطوط لوله و مخازن تحت فشار", image: "/images/industry-tech.jpg" },
+    ] as IUsage[],
+    standards: "ASTM A240, ASME SB-625",
+    chemicalComposition: [
+      { id: 1, title: "کروم", value: "19-23%", slug: "chrome" },
+      { id: 2, title: "نیکل", value: "23-28%", slug: "nickel" },
+      { id: 3, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 4, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 5, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 6, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 7, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 8, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+      { id: 9, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
+    ],
+    description: "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
+    mechanicalProperties: {
+      hardness: "حداکثر ۹۰ HRB",
+      elasticModulus: "۱۹۵ GPa",
+      elongation: "حداقل ۳۵٪",
+      yieldStrength: "حداقل ۲۲۰ MPa",
+      tensileStrength: "حداقل ۵۰۰ MPa",
+    },
+    physicalProperties: {
+      density: "۸٫۰۴ g/cm³",
+      electricalResistivity: "۰٫۹۵ Ω·mm²/m",
+      meltingPoint: "۱۳۵۰-۱۴۰۰ °C",
+      molarHeatCapacity: "۵۰۰ J/(kg·K)",
+    },
+    thermalExpansion: "۱۴٫۹ μm/(m·K)",
+    corrosionResistance: "مقاومت عالی در برابر خوردگی در محیط‌های کلریدی و اسیدی",
+    heatResistance: "مقاوم تا ۹۰۰ درجه سانتی‌گراد",
+    manufacturing: "نورد سرد و گرم، آنیل",
+    hotForming: "۱۰۰۰-۱۱۵۰ °C",
+    coldForming: "قابل انجام با آنیل میانی",
+    welding: "جوش قوس الکتریکی، TIG، MIG",
+    machining: "قابل ماشینکاری با سرعت متوسط",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  2: {
+    id: 2,
+    image: "/carousel-img/image-1.png",
+    title: "نوار فولادی ۳۰۴",
+    slug: "304",
+    description: "نوار فولادی ۳۰۴ با مقاومت خوب در برابر خوردگی.",
+    category: CATEGORIES_ARRAY[2],
+    introduction: "نوار فولادی ضد زنگ ۳۰۴ پرکاربردترین گرید استنلس استیل با مقاومت خوب در برابر خوردگی.",
+    usage: [
+      { id: "u2-1", title: "صنایع غذایی", image: "/carousel-img/image-1.png" },
+      { id: "u2-2", title: "دارویی و آشپزخانه", image: "/images/industry-tech.jpg" },
+      { id: "u2-3", title: "تزئینات", image: "/images/industry-auto.jpg" },
+    ] as IUsage[],
+    standards: "ASTM A240, EN 10088",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  3: {
+    id: 3,
+    image: "/carousel-img/image-1.png",
+    title: "نوار فولادی ۳۱۶",
+    slug: "316",
+    description: "نوار فولادی ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
+    category: CATEGORIES_ARRAY[2],
+    introduction: "نوار فولادی ضد زنگ ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
+    usage: [
+      { id: "u3-1", title: "صنایع دریایی", image: "/carousel-img/image-1.png" },
+      { id: "u3-2", title: "شیمیایی و داروسازی", image: "/images/industry-tech.jpg" },
+    ] as IUsage[],
+    standards: "ASTM A240, EN 10088",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  4: {
+    id: 4,
+    image: "/carousel-img/image-1.png",
+    title: "نوار فولادی ۳۱۶ال",
+    slug: "316l",
+    description: "نوار فولادی ۳۱۶ال با مقاومت بهتر در جوشکاری.",
+    category: CATEGORIES_ARRAY[1],
+    introduction: "نسخه کم‌کربن ۳۱۶ با مقاومت بهتر در جوشکاری.",
+    usage: [
+      { id: "u4-1", title: "مخازن جوشکاری شده", image: "/carousel-img/image-1.png" },
+      { id: "u4-2", title: "تجهیزات فرآوری", image: "/images/industry-oil.jpg" },
+    ] as IUsage[],
+    standards: "ASTM A240",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  5: {
+    id: 5,
+    image: "/carousel-img/image-1.png",
+    title: "نوار فولادی ۳۲۱",
+    slug: "321",
+    category: CATEGORIES_ARRAY[0],
+    introduction: "نوار فولادی ضد زنگ ۳۲۱ با پایداری بالا در دماهای بالا.",
+    usage: [
+      { id: "u5-1", title: "اگزوز و مبدل حرارتی", image: "/images/industry-auto.jpg" },
+      { id: "u5-2", title: "صنعت هواپیمایی", image: "/images/industry-jet.jpg" },
+    ] as IUsage[],
+    standards: "ASTM A240",
+    description: "نوار فولادی ۴۳۰ با هزینه کمتر، مناسب برای کاربردهای عمومی.",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+  6: {
+    id: 6,
+    description: "نوار فولادی ۴۳۰ با هزینه کمتر، مناسب برای کاربردهای عمومی.",
+    image: "/carousel-img/image-1.png",
+    title: "نوار فولادی ۴۳۰",
+    slug: "430",
+    category: CATEGORIES_ARRAY[5],
+    introduction: "نوار فولادی فرومغناطیسی با هزینه کمتر، مناسب برای کاربردهای عمومی.",
+    usage: [
+      { id: "u6-1", title: "تزئینات", image: "/carousel-img/image-1.png" },
+      { id: "u6-2", title: "لوازم خانگی", image: "/images/industry-tech.jpg" },
+      { id: "u6-3", title: "خودروسازی", image: "/images/industry-auto.jpg" },
+    ] as IUsage[],
+    standards: "ASTM A240",
+    createdAt: "2025-01-01T00:00:00.000Z",
+  },
+};
+
+export const PRODUCT_ITEMS: IProduct[] = Object.values(PRODUCT_DETAIL_MOCK);
+
 export const QUESTION_ITEMS: IQuestion[] = [
   {
     id: 1,
@@ -276,4 +384,19 @@ export const QUESTION_ITEMS: IQuestion[] = [
     answer:
       "پرداخت بر اساس اعتبار اسنادی (LC)، حواله بانکی (TT) و در برخی موارد چک و سفته با هماهنگی قبلی امکان‌پذیر است.",
   },
+];
+
+export const MECHANICAL_COLUMNS: { header: string; accessor: keyof IMechanicalProperties }[] = [
+  { header: "سختی (HV)", accessor: "hardness" },
+  { header: "مدول الاستیک (GPa)", accessor: "elasticModulus" },
+  { header: "درصد تغییر طول در 50 میلی‌متر", accessor: "elongation" },
+  { header: "استحکام تسلیم (MPa)", accessor: "yieldStrength" },
+  { header: "استحکام کششی (MPa)", accessor: "tensileStrength" },
+];
+
+export const PHYSICAL_COLUMNS: { header: string; accessor: keyof IPhysicalProperties }[] = [
+  { header: "چگالی (g/cm³)", accessor: "density" },
+  { header: "مقاومت الکتریکی (µΩ.cm)", accessor: "electricalResistivity" },
+  { header: "نقطه ذوب (°C)", accessor: "meltingPoint" },
+  { header: "ظرفیت گرمایی ویژه (J/mol.°C)", accessor: "molarHeatCapacity" },
 ];
