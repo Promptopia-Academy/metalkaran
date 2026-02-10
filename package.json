@@ -6,13 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-<<<<<<< HEAD
-    "lint": "eslint"
-=======
     "lint": "eslint",
     "deploy": "bash scripts/deploy.sh",
     "backup": "bash scripts/backup.sh"
->>>>>>> product
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
