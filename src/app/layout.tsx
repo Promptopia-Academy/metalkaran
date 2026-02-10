@@ -10,7 +10,7 @@ const Vazir = Vazirmatn({
 
 export const metadata: Metadata = {
   title: {
-    default: "Metalkaran | نوارهای فلزی دقیق",
+    default: "Metalkaran | متالکاران",
     template: "%s | Metalkaran",
   },
 
