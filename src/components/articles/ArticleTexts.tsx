@@ -1,7 +1,7 @@
 import Banner from "@/context/Banner";
-import ArticleSource from "@/components/articles/article-source/ArticleSource";
 import type { IArticleTextsProps } from "@/types/type";
 import { EXTRA_CONTENT_SECTIONS } from "@/lib/constants";
+import ArticleSource from "@/components/articles/article-source/ArticleSource";
 
 const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
   const mainTitle =
