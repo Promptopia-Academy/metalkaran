@@ -125,61 +125,9 @@ export interface IContactFormData {
   company: string;
 }
 
-export interface IRateLimitEntry {
-  id: number;
-  ip: string;
-  count: number;
-  resetTime: number;
-}
-
-export interface IArticleServiceResponse {
-  success: boolean;
-  message: string;
-  data?: IArticle | IArticle[];
-  errors?: unknown;
-}
-
-export interface IContactServiceResponse {
-  success: boolean;
-  message: string;
-  data?: IContact;
-  errors?: unknown;
-}
-
-export interface IRateLimitResponse {
-  allowed: boolean;
-  remaining: number;
-  resetTime: number;
-}
-
-export interface IProductServiceResponse {
-  success: boolean;
-  message: string;
-  data?: IProduct | IProduct[];
-  errors?: unknown;
-}
-
-export interface IUploadServiceResponse {
-  success: boolean;
-  message: string;
-  data?: {
-    url: string;
-    fileName: string;
-    size: number;
-    type: string;
-  };
-}
-
 export interface IAboutUsCardProps {
   image: string;
   title: string;
-}
-
-export interface IApiOptions {
-  method?: "GET" | "POST" | "PUT" | "DELETE";
-  body?: any;
-  headers?: Record<string, string>;
-  apiKey?: string;
 }
 
 export interface ICategoryItemProps {

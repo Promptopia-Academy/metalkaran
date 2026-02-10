@@ -16,7 +16,7 @@ import { api } from "@/lib/api";
 import { IProduct } from "@/types/type";
 import Link from "next/link";
 
-export default function AdminElementsPage() {
+export default function AdminProductPage() {
   const [elements, setElements] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
