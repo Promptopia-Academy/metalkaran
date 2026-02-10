@@ -211,3 +211,7 @@ export interface IProductDetailProps {
 export interface IProductUsageProps {
   usage: IUsage;
 }
+
+export interface ICategoryPageProps {
+  params: Promise<{ slug: string }>;
+}

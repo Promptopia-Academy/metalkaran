@@ -1,12 +1,10 @@
 import { notFound } from "next/navigation";
-import { CATEGORIES_ARRAY, PRODUCT_ITEMS } from "@/lib/constants";
+import { ICategoryPageProps } from "@/types/type";
 import CardElement from "@/components/cards/CardElement";
+import { CATEGORIES_ARRAY, PRODUCT_ITEMS } from "@/lib/constants";
 
-interface CategoryPageProps {
-  params: Promise<{ slug: string }>;
-}
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
+export default async function CategoryPage({ params }: ICategoryPageProps) {
   const { slug } = await params;
   const category = CATEGORIES_ARRAY.find((c) => c.slug === slug);
 

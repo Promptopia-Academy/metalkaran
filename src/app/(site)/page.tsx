@@ -1,13 +1,13 @@
 import About from "@/components/about/About";
-import Badges from "@/components/badges/Badges";
 import Cards from "@/components/cards/Cards";
-import CarouselHero from "@/components/carousel/Carousel";
-import CategoryGrid from "@/components/categories/Categories";
-import CallSection from "@/components/call-us/CallSection";
+import Badges from "@/components/badges/Badges";
 import FormSection from "@/components/form/FormSection";
+import CarouselHero from "@/components/carousel/Carousel";
+import CallSection from "@/components/call-us/CallSection";
+import Calculator from "@/components/calculator/Calculator";
+import CategoryGrid from "@/components/categories/Categories";
 import IndustriesCarousel from "@/components/feature/Feature";
 import AnimatedSection from "@/components/ui/animated-section";
-import Calculator from "@/components/calculator/Calculator";
 
 export default function Home() {
   return (
