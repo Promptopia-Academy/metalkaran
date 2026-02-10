@@ -73,6 +73,12 @@ export interface IApplication {
   description: string;
 }
 
+export interface IArticleSource {
+  id: number;
+  title: string;
+  url: string;
+}
+
 export type IArticle = {
   id: number;
   image?: string;
@@ -88,8 +94,8 @@ export type IArticle = {
   content4?: string;
   title5?: string;
   content5?: string;
-  sources?: string;
   applicationTitle?: string;
+  sources?: IArticleSource[];
   application?: IApplication[];
 };
 
@@ -166,7 +172,7 @@ export interface IBadgeProps {
   icon: React.ReactNode;
 }
 
-export interface ITextsProps {
+export interface IArticleTextsProps {
   article: IArticle;
   dir?: "rtl" | "ltr";
 }

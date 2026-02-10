@@ -1,5 +1,5 @@
 import { ARTICLE_ITEMS } from "@/lib/constants";
-import ArticleCard from "@/components/articles/ArticleCard";
+import ArticleCard from "@/components/articles/article-card/ArticleCard";
 
 const ArticlesPage = () => {
   return (

@@ -1,5 +1,6 @@
 import Banner from "@/context/Banner";
-import type { ITextsProps } from "@/types/type";
+import ArticleSource from "@/components/articles/article-source/ArticleSource";
+import type { IArticleTextsProps } from "@/types/type";
 
 const EXTRA_CONTENT_SECTIONS = [
   { title: "title2", content: "content2" },
@@ -8,7 +9,7 @@ const EXTRA_CONTENT_SECTIONS = [
   { title: "title5", content: "content5" },
 ] as const;
 
-const Texts = ({ article, dir }: ITextsProps) => {
+const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
   const mainTitle =
     (article.title || article.title1 || article.applicationTitle || "").trim() ||
     undefined;
@@ -16,19 +17,20 @@ const Texts = ({ article, dir }: ITextsProps) => {
   const content1 = (article.content1 || "").trim() || undefined;
   const applications = article.application ?? [];
   const banner = article.image;
-  const sources = (article.sources || "").trim() || undefined;
+  const sources = Array.isArray(article.sources) ? article.sources : [];
 
   const hasMainContent =
     !!mainTitle ||
     !!introduction ||
     !!content1 ||
     applications.length > 0 ||
-    !!sources;
+    sources.length > 0;
   const hasExtraSections = EXTRA_CONTENT_SECTIONS.some(
     (s) =>
       !!((article as unknown as Record<string, string | undefined>)[s.title]?.trim() || (article as unknown as Record<string, string | undefined>)[s.content]?.trim())
   );
-  const hasAnyContent = hasMainContent || hasExtraSections || !!banner;
+  const hasAnyContent =
+    hasMainContent || hasExtraSections || !!banner;
 
   if (!hasAnyContent) return null;
 
@@ -79,9 +81,14 @@ const Texts = ({ article, dir }: ITextsProps) => {
               ))}
             </ul>
           )}
-          {sources && (
+          {sources.length > 0 && (
             <div className="mt-6 pt-4 border-t">
-              <p className="text-lg text-muted-foreground">{sources}</p>
+              <p className="text-2xl font-semibold mb-2">منابع:</p>
+              <div className="flex flex-wrap gap-2 min-w-0">
+                {sources.map((source) => (
+                  <ArticleSource key={source.id} source={source} />
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -90,4 +97,4 @@ const Texts = ({ article, dir }: ITextsProps) => {
   );
 };
 
-export default Texts;
+export default ArticleTexts;
