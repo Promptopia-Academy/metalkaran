@@ -513,3 +513,10 @@ export const PHYSICAL_COLUMNS: { header: string; accessor: keyof IPhysicalProper
   { header: "نقطه ذوب (°C)", accessor: "meltingPoint" },
   { header: "ظرفیت گرمایی ویژه (J/mol.°C)", accessor: "molarHeatCapacity" },
 ];
+
+export const EXTRA_CONTENT_SECTIONS = [
+  { title: "title2", content: "content2" },
+  { title: "title3", content: "content3" },
+  { title: "title4", content: "content4" },
+  { title: "title5", content: "content5" },
+] as const;

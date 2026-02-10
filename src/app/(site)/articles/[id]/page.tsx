@@ -1,7 +1,7 @@
 import { IPageProps } from "@/types/type";
 import { notFound } from "next/navigation";
 import { ARTICLE_ITEMS } from "@/lib/constants";
-import ArticleTexts from "@/components/articles/article-texts/ArticleTexts";
+import ArticleTexts from "@/components/articles/ArticleTexts";
 
 const ArticleDetailPage = async ({ params }: IPageProps) => {
   const { id } = await params;

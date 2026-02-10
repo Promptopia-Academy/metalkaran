@@ -1,13 +1,7 @@
 import Banner from "@/context/Banner";
 import ArticleSource from "@/components/articles/article-source/ArticleSource";
 import type { IArticleTextsProps } from "@/types/type";
-
-const EXTRA_CONTENT_SECTIONS = [
-  { title: "title2", content: "content2" },
-  { title: "title3", content: "content3" },
-  { title: "title4", content: "content4" },
-  { title: "title5", content: "content5" },
-] as const;
+import { EXTRA_CONTENT_SECTIONS } from "@/lib/constants";
 
 const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
   const mainTitle =
@@ -36,12 +30,6 @@ const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
 
   return (
     <div dir={dir} className="space-y-8">
-      {banner && (
-        <div className="flex items-center justify-center">
-          <Banner imageSrc={banner} width={1150} height={400} />
-        </div>
-      )}
-
       {(hasMainContent || hasExtraSections) && (
         <div className="space-y-6">
           {mainTitle && (
@@ -49,6 +37,11 @@ const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
           )}
           {introduction && (
             <p className="mb-4 text-2xl">{introduction}</p>
+          )}
+          {banner && (
+            <div className="flex items-center justify-center">
+              <Banner imageSrc={banner} width={1150} height={400} />
+            </div>
           )}
           {content1 && (
             <p className="mb-4 text-2xl">{content1}</p>
