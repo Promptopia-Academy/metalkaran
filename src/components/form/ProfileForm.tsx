@@ -14,7 +14,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { api } from "@/lib/api";
 
 export function ProfileForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -150,8 +149,8 @@ export function ProfileForm() {
         {submitMessage && (
           <div
             className={`w-[250px] sm:w-[400px] p-3 rounded-2xl text-sm ${submitMessage.type === "success"
-                ? "bg-green-100 text-green-800 border-2 border-green-300"
-                : "bg-red-100 text-red-800 border-2 border-red-300"
+              ? "bg-green-100 text-green-800 border-2 border-green-300"
+              : "bg-red-100 text-red-800 border-2 border-red-300"
               }`}
             dir="rtl"
           >
