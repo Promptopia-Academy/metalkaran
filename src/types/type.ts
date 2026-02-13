@@ -22,18 +22,18 @@ export interface IChemicalComposition {
 }
 
 export interface IMechanicalProperties {
-  hardness: string                 //سختی
-  elasticModulus: string           //مدول الاستیک
-  elongation: string               //درصد تغییر طول در 50 میلی متر
-  yieldStrength: string            //استحکام تسلیم
-  tensileStrength: string          //استحکام کششی
+  hardness: string; //سختی
+  elasticModulus: string; //مدول الاستیک
+  elongation: string; //درصد تغییر طول در 50 میلی متر
+  yieldStrength: string; //استحکام تسلیم
+  tensileStrength: string; //استحکام کششی
 }
 
 export interface IPhysicalProperties {
-  density: string                  //چگالی
-  electricalResistivity: string    //مقاومت الکتریکی
-  meltingPoint: string             //نقطه ذوب
-  molarHeatCapacity: string        //ظرفیت گرمایی ویژه
+  density: string; //چگالی
+  electricalResistivity: string; //مقاومت الکتریکی
+  meltingPoint: string; //نقطه ذوب
+  molarHeatCapacity: string; //ظرفیت گرمایی ویژه
 }
 
 export interface IUsage {
@@ -134,6 +134,34 @@ export interface IContactFormData {
 export interface IAboutUsCardProps {
   image: string;
   title: string;
+}
+
+export interface IAboutUsPageCard {
+  id: number;
+  image: string;
+  title: string;
+}
+
+export interface IAboutUsPageWhyUs {
+  title: string;
+  description: string;
+}
+
+export interface IAboutUsPageDescription {
+  id: number;
+  image: string;
+  alt: string;
+  width: number;
+  height: number;
+  title: string;
+  contentClassName: string;
+  description: string;
+}
+
+export interface IAboutUsPageData {
+  whyUs: IAboutUsPageWhyUs;
+  aboutUsCards: IAboutUsPageCard[];
+  aboutUsDescription: IAboutUsPageDescription[];
 }
 
 export interface ICategoryItemProps {

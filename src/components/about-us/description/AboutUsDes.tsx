@@ -1,10 +1,10 @@
 import Image from "next/image";
-import { ABOUT_US_DESCRIPTION } from "@/lib/constants";
+import { ABOUT_US_PAGE_DATA } from "@/lib/constants";
 
 const AboutUsDes = () => {
   return (
     <div>
-      {ABOUT_US_DESCRIPTION.map((item) => (
+      {ABOUT_US_PAGE_DATA.aboutUsDescription.map((item) => (
         <div
           key={item.id}
           className="flex flex-col w-full justify-between items-center gap-6 py-14 md:flex-row md:gap-10"

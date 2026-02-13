@@ -6,7 +6,11 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Search } from "../search/Search";
 import { NAV_LINKS, CATEGORIES_ARRAY } from "@/lib/constants";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -70,7 +74,9 @@ const Header = () => {
                             href={`/categories/${category.slug}`}
                             className="bg-[#1E78AA] block py-1.5 text-center px-2 rounded hover:opacity-90 transition-opacity"
                           >
-                            <span className="text-lg font-medium text-white">{category.title}</span>
+                            <span className="text-lg font-medium text-white">
+                              {category.title}
+                            </span>
                           </Link>
                         ))}
                       </div>
@@ -84,7 +90,7 @@ const Header = () => {
                   >
                     {link.label}
                   </Link>
-                )
+                ),
               )}
             </nav>
           </div>
@@ -108,8 +114,9 @@ const Header = () => {
             onClick={closeMenu}
           />
           <div
-            className={`fixed top-0 right-0 h-full w-64 bg-primary shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${isMenuOpen ? "translate-x-0" : "translate-x-full"
-              }`}
+            className={`fixed top-0 right-0 h-full w-64 bg-primary shadow-2xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+              isMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
             dir="rtl"
           >
             <div className="flex flex-col h-full">
