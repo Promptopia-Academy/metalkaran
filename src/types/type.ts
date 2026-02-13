@@ -164,6 +164,11 @@ export interface IAboutUsPageData {
   aboutUsDescription: IAboutUsPageDescription[];
 }
 
+export interface IContactUsPageData {
+  mainParagraph: string;
+  subParagraph: string;
+}
+
 export interface ICategoryItemProps {
   category: ICategory;
 }

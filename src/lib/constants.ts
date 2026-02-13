@@ -1,5 +1,15 @@
 import { Box, FileText, Home, MessageSquare, Settings } from "lucide-react";
-import type { IAboutUsPageData, IArticle, ICategory, IMechanicalProperties, IPhysicalProperties, IProduct, IQuestion, IUsage } from "@/types/type";
+import type {
+  IAboutUsPageData,
+  IArticle,
+  ICategory,
+  IContactUsPageData,
+  IMechanicalProperties,
+  IPhysicalProperties,
+  IProduct,
+  IQuestion,
+  IUsage,
+} from "@/types/type";
 
 export const CHEMICAL_COLORS = [
   "#AC0C0C",
@@ -12,15 +22,17 @@ export const CHEMICAL_COLORS = [
   "#f28482",
 ] as const;
 
-export const FORM_MAIN_PARAPH =
-  "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.";
-
-export const FORM_SUB_PARAPH =
-  "همکاران ما در اسرع وقت با شما تماس خواهند گرفت.";
-
 export const PHONE_NUMBER = "09123456789";
 
 export const EMAIL_ADDRESS = "sh.abbasi7527@gmail.com";
+
+// ============ PAGE DATA ==============
+
+export const CONTACT_US_PAGE_DATA: IContactUsPageData = {
+  mainParagraph:
+    "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.",
+  subParagraph: "همکاران ما در اسرع وقت با شما تماس خواهند گرفت.",
+};
 
 export const ABOUT_US_PAGE_DATA: IAboutUsPageData = {
   aboutUsCards: [
@@ -71,6 +83,36 @@ export const ABOUT_US_PAGE_DATA: IAboutUsPageData = {
   ],
 };
 
+// ============ PAGES CONSTANTS ==============
+export const MECHANICAL_COLUMNS: {
+  header: string;
+  accessor: keyof IMechanicalProperties;
+}[] = [
+  { header: "سختی (HV)", accessor: "hardness" },
+  { header: "مدول الاستیک (GPa)", accessor: "elasticModulus" },
+  { header: "درصد تغییر طول در 50 میلی‌متر", accessor: "elongation" },
+  { header: "استحکام تسلیم (MPa)", accessor: "yieldStrength" },
+  { header: "استحکام کششی (MPa)", accessor: "tensileStrength" },
+];
+
+export const PHYSICAL_COLUMNS: {
+  header: string;
+  accessor: keyof IPhysicalProperties;
+}[] = [
+  { header: "چگالی (g/cm³)", accessor: "density" },
+  { header: "مقاومت الکتریکی (µΩ.cm)", accessor: "electricalResistivity" },
+  { header: "نقطه ذوب (°C)", accessor: "meltingPoint" },
+  { header: "ظرفیت گرمایی ویژه (J/mol.°C)", accessor: "molarHeatCapacity" },
+];
+
+export const EXTRA_CONTENT_SECTIONS = [
+  { title: "title2", content: "content2" },
+  { title: "title3", content: "content3" },
+  { title: "title4", content: "content4" },
+  { title: "title5", content: "content5" },
+] as const;
+
+// ============ NAV LINKS ==============
 export const NAV_LINKS = [
   { href: "/products", label: "محصولات" },
   { href: "/articles", label: "مقالات" },
@@ -88,12 +130,42 @@ export const INDUSTRIES_CAROUSEL = [
 ];
 
 export const CATEGORIES_ARRAY: ICategory[] = [
-  { id: 1, image: "/images/aluminum_profile.png", slug: "aluminum-profiles", title: "آلومینیوم پروفایل" },
-  { id: 2, image: "/images/metal_coils.png", slug: "metal-coils", title: "متال کویل" },
-  { id: 3, image: "/images/steel_sheets.png", slug: "steel-sheets", title: "صلب پیچ" },
-  { id: 4, image: "/images/platinum_ingots.png", slug: "platinum-ingots", title: "بلورهای پلاتین" },
-  { id: 5, image: "/images/aluminum_sheets.png", slug: "aluminum-sheets", title: "صلب صفحه ای" },
-  { id: 6, image: "/images/tin_alloy.png", slug: "tin-alloys", title: "تین آلای" },
+  {
+    id: 1,
+    image: "/images/aluminum_profile.png",
+    slug: "aluminum-profiles",
+    title: "آلومینیوم پروفایل",
+  },
+  {
+    id: 2,
+    image: "/images/metal_coils.png",
+    slug: "metal-coils",
+    title: "متال کویل",
+  },
+  {
+    id: 3,
+    image: "/images/steel_sheets.png",
+    slug: "steel-sheets",
+    title: "صلب پیچ",
+  },
+  {
+    id: 4,
+    image: "/images/platinum_ingots.png",
+    slug: "platinum-ingots",
+    title: "بلورهای پلاتین",
+  },
+  {
+    id: 5,
+    image: "/images/aluminum_sheets.png",
+    slug: "aluminum-sheets",
+    title: "صلب صفحه ای",
+  },
+  {
+    id: 6,
+    image: "/images/tin_alloy.png",
+    slug: "tin-alloys",
+    title: "تین آلای",
+  },
   { id: 7, image: "/images/ingots.png", slug: "ingots", title: "بلورهای فلزی" },
 ];
 
@@ -158,6 +230,8 @@ export const ADMIN_MENU_ITEMS = [
   },
 ];
 
+// ============ MOCK DATA ==============
+
 export const ARTICLE_ITEMS: IArticle[] = [
   {
     id: 1,
@@ -192,7 +266,11 @@ export const ARTICLE_ITEMS: IArticle[] = [
       "نوار و ورق استنلس استیل گرید ۴۰۹ و ۴۳۹ در ساخت لوله اگزوز، مافلر و قطعات مرتبط به‌طور گسترده استفاده می‌شود. مقاومت در برابر حرارت و گازهای خورنده از ویژگی‌های کلیدی است.",
     image: "/images/articles.png",
     sources: [
-      { id: 1, title: "ISO 9445 - نوارهای فولادی", url: "https://www.iso.org/" },
+      {
+        id: 1,
+        title: "ISO 9445 - نوارهای فولادی",
+        url: "https://www.iso.org/",
+      },
     ],
   },
   {
@@ -211,7 +289,11 @@ export const ARTICLE_ITEMS: IArticle[] = [
       "گرید ۳۰۴ برای محیط‌های کم‌خورنده و ۳۱۶ برای محیط‌های حاوی کلر یا اسید مناسب‌تر است. گرید ۳۱۶ال در جوشکاری و جلوگیری از حساس‌زدایی ترجیح داده می‌شود.",
     image: "/images/articles.png",
     sources: [
-      { id: 1, title: "FDA - مواد در تماس با غذا", url: "https://www.fda.gov/" },
+      {
+        id: 1,
+        title: "FDA - مواد در تماس با غذا",
+        url: "https://www.fda.gov/",
+      },
       { id: 2, title: "EHEDG Guidelines", url: "https://www.ehedg.org/" },
     ],
   },
@@ -253,7 +335,11 @@ export const ARTICLE_ITEMS: IArticle[] = [
       "برای هر بچ تولید، گواهی تست کارخانه شامل ترکیب شیمیایی، خواص مکانیکی و نتایج بازرسی صادر می‌شود. امکان صدور گواهی سوم شخص (۳.۱ EN 10204) وجود دارد.",
     image: "/images/articles.png",
     sources: [
-      { id: 1, title: "EN 10204 - گواهی مواد", url: "https://www.en-standard.eu/" },
+      {
+        id: 1,
+        title: "EN 10204 - گواهی مواد",
+        url: "https://www.en-standard.eu/",
+      },
       { id: 2, title: "ASTM A240", url: "https://www.astm.org/" },
     ],
   },
@@ -280,7 +366,11 @@ export const ARTICLE_ITEMS: IArticle[] = [
     image: "/images/articles.png",
     sources: [
       { id: 1, title: "ASTM A240 - ورق و نوار", url: "https://www.astm.org/" },
-      { id: 2, title: "EN 10088 - فولادهای ضد زنگ", url: "https://www.en-standard.eu/" },
+      {
+        id: 2,
+        title: "EN 10088 - فولادهای ضد زنگ",
+        url: "https://www.en-standard.eu/",
+      },
     ],
   },
   {
@@ -296,8 +386,18 @@ export const ARTICLE_ITEMS: IArticle[] = [
       "پرداخت الکتروپولیش یا پولیش مکانیکی برای کاهش زبری سطح و تمیزپذیری بهتر انجام می‌شود. جوش بدون درز یا با پرکن مناسب برای جلوگیری از تجمع آلودگی الزامی است.",
     applicationTitle: "مواد و تجهیزات تماس با دارو",
     application: [
-      { id: 1, slug: "vessel", faTitle: "ظروف و تانک‌های فرآوری", description: "گرید ۳۱۶ال با پرداخت سطح مناسب" },
-      { id: 2, slug: "piping", faTitle: "لوله و اتصالات استنلس", description: "مطابق با الزامات ASME BPE" },
+      {
+        id: 1,
+        slug: "vessel",
+        faTitle: "ظروف و تانک‌های فرآوری",
+        description: "گرید ۳۱۶ال با پرداخت سطح مناسب",
+      },
+      {
+        id: 2,
+        slug: "piping",
+        faTitle: "لوله و اتصالات استنلس",
+        description: "مطابق با الزامات ASME BPE",
+      },
     ],
     image: "/images/articles.png",
     sources: [
@@ -315,12 +415,42 @@ export const ARTICLE_ITEMS: IArticle[] = [
       "در صنایع بالادستی و پایین‌دستی نفت و گاز، نوار و لوله فولاد ضد زنگ در خطوط لوله، مخازن، جداکننده‌ها و تجهیزات فرآوری استفاده می‌شود.",
     applicationTitle: "کاربردهای صنعت نفت و گاز",
     application: [
-      { id: 1, slug: "stainless-belt", faTitle: "تسمه و سگک نواری استیل ضد زنگ", description: "برای اتصال و بست در محیط خورنده" },
-      { id: 2, slug: "welded-pipe", faTitle: "لوله جوش داده شده از جنس استنلس استیل", description: "خطوط انتقال سیال و گاز" },
-      { id: 3, slug: "flexible-hose", faTitle: "شیلنگ و لوله راه راه انعطاف پذیر از جنس استنلس استیل", description: "برای ارتعاش و جابه‌جایی محدود" },
-      { id: 4, slug: "pall-ring", faTitle: "حلقه پال بسته بندی تصادفی برج", description: "برج‌های جذب و شست‌وشو" },
-      { id: 5, slug: "heat-exchanger", faTitle: "لوله پره دار مبدل حرارتی صنعتی", description: "تبادل حرارت در واحدهای فرآوری" },
-      { id: 6, slug: "others", faTitle: "دیگران", description: "سایر کاربردها با مشاوره فنی" },
+      {
+        id: 1,
+        slug: "stainless-belt",
+        faTitle: "تسمه و سگک نواری استیل ضد زنگ",
+        description: "برای اتصال و بست در محیط خورنده",
+      },
+      {
+        id: 2,
+        slug: "welded-pipe",
+        faTitle: "لوله جوش داده شده از جنس استنلس استیل",
+        description: "خطوط انتقال سیال و گاز",
+      },
+      {
+        id: 3,
+        slug: "flexible-hose",
+        faTitle: "شیلنگ و لوله راه راه انعطاف پذیر از جنس استنلس استیل",
+        description: "برای ارتعاش و جابه‌جایی محدود",
+      },
+      {
+        id: 4,
+        slug: "pall-ring",
+        faTitle: "حلقه پال بسته بندی تصادفی برج",
+        description: "برج‌های جذب و شست‌وشو",
+      },
+      {
+        id: 5,
+        slug: "heat-exchanger",
+        faTitle: "لوله پره دار مبدل حرارتی صنعتی",
+        description: "تبادل حرارت در واحدهای فرآوری",
+      },
+      {
+        id: 6,
+        slug: "others",
+        faTitle: "دیگران",
+        description: "سایر کاربردها با مشاوره فنی",
+      },
     ],
     image: "/images/articles.png",
     sources: [
@@ -337,11 +467,20 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     title: "نوار فولادی ضد زنگ UNS N08904",
     slug: "uns-n08904",
     category: CATEGORIES_ARRAY[2],
-    introduction: "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
+    introduction:
+      "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
     usage: [
-      { id: "u1-1", title: "صنعت نفت و گاز", image: "/images/industry-oil.jpg" },
+      {
+        id: "u1-1",
+        title: "صنعت نفت و گاز",
+        image: "/images/industry-oil.jpg",
+      },
       { id: "u1-2", title: "پتروشیمی", image: "/carousel-img/image-1.png" },
-      { id: "u1-3", title: "خطوط لوله و مخازن تحت فشار", image: "/images/industry-tech.jpg" },
+      {
+        id: "u1-3",
+        title: "خطوط لوله و مخازن تحت فشار",
+        image: "/images/industry-tech.jpg",
+      },
     ] as IUsage[],
     standards: "ASTM A240, ASME SB-625",
     chemicalComposition: [
@@ -355,7 +494,8 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
       { id: 8, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
       { id: 9, title: "مولیبدن", value: "4-5%", slug: "molybdenum" },
     ],
-    description: "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
+    description:
+      "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
     mechanicalProperties: {
       hardness: "حداکثر ۹۰ HRB",
       elasticModulus: "۱۹۵ GPa",
@@ -370,7 +510,8 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
       molarHeatCapacity: "۵۰۰ J/(kg·K)",
     },
     thermalExpansion: "۱۴٫۹ μm/(m·K)",
-    corrosionResistance: "مقاومت عالی در برابر خوردگی در محیط‌های کلریدی و اسیدی",
+    corrosionResistance:
+      "مقاومت عالی در برابر خوردگی در محیط‌های کلریدی و اسیدی",
     heatResistance: "مقاوم تا ۹۰۰ درجه سانتی‌گراد",
     manufacturing: "نورد سرد و گرم، آنیل",
     hotForming: "۱۰۰۰-۱۱۵۰ °C",
@@ -386,10 +527,15 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     slug: "304",
     description: "نوار فولادی ۳۰۴ با مقاومت خوب در برابر خوردگی.",
     category: CATEGORIES_ARRAY[2],
-    introduction: "نوار فولادی ضد زنگ ۳۰۴ پرکاربردترین گرید استنلس استیل با مقاومت خوب در برابر خوردگی.",
+    introduction:
+      "نوار فولادی ضد زنگ ۳۰۴ پرکاربردترین گرید استنلس استیل با مقاومت خوب در برابر خوردگی.",
     usage: [
       { id: "u2-1", title: "صنایع غذایی", image: "/carousel-img/image-1.png" },
-      { id: "u2-2", title: "دارویی و آشپزخانه", image: "/images/industry-tech.jpg" },
+      {
+        id: "u2-2",
+        title: "دارویی و آشپزخانه",
+        image: "/images/industry-tech.jpg",
+      },
       { id: "u2-3", title: "تزئینات", image: "/images/industry-auto.jpg" },
     ] as IUsage[],
     standards: "ASTM A240, EN 10088",
@@ -400,12 +546,18 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۱۶",
     slug: "316",
-    description: "نوار فولادی ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
+    description:
+      "نوار فولادی ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
     category: CATEGORIES_ARRAY[2],
-    introduction: "نوار فولادی ضد زنگ ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
+    introduction:
+      "نوار فولادی ضد زنگ ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
     usage: [
       { id: "u3-1", title: "صنایع دریایی", image: "/carousel-img/image-1.png" },
-      { id: "u3-2", title: "شیمیایی و داروسازی", image: "/images/industry-tech.jpg" },
+      {
+        id: "u3-2",
+        title: "شیمیایی و داروسازی",
+        image: "/images/industry-tech.jpg",
+      },
     ] as IUsage[],
     standards: "ASTM A240, EN 10088",
     createdAt: "2025-01-01T00:00:00.000Z",
@@ -419,8 +571,16 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     category: CATEGORIES_ARRAY[1],
     introduction: "نسخه کم‌کربن ۳۱۶ با مقاومت بهتر در جوشکاری.",
     usage: [
-      { id: "u4-1", title: "مخازن جوشکاری شده", image: "/carousel-img/image-1.png" },
-      { id: "u4-2", title: "تجهیزات فرآوری", image: "/images/industry-oil.jpg" },
+      {
+        id: "u4-1",
+        title: "مخازن جوشکاری شده",
+        image: "/carousel-img/image-1.png",
+      },
+      {
+        id: "u4-2",
+        title: "تجهیزات فرآوری",
+        image: "/images/industry-oil.jpg",
+      },
     ] as IUsage[],
     standards: "ASTM A240",
     createdAt: "2025-01-01T00:00:00.000Z",
@@ -433,8 +593,16 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     category: CATEGORIES_ARRAY[0],
     introduction: "نوار فولادی ضد زنگ ۳۲۱ با پایداری بالا در دماهای بالا.",
     usage: [
-      { id: "u5-1", title: "اگزوز و مبدل حرارتی", image: "/images/industry-auto.jpg" },
-      { id: "u5-2", title: "صنعت هواپیمایی", image: "/images/industry-jet.jpg" },
+      {
+        id: "u5-1",
+        title: "اگزوز و مبدل حرارتی",
+        image: "/images/industry-auto.jpg",
+      },
+      {
+        id: "u5-2",
+        title: "صنعت هواپیمایی",
+        image: "/images/industry-jet.jpg",
+      },
     ] as IUsage[],
     standards: "ASTM A240",
     description: "نوار فولادی ۴۳۰ با هزینه کمتر، مناسب برای کاربردهای عمومی.",
@@ -447,7 +615,8 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     title: "نوار فولادی ۴۳۰",
     slug: "430",
     category: CATEGORIES_ARRAY[5],
-    introduction: "نوار فولادی فرومغناطیسی با هزینه کمتر، مناسب برای کاربردهای عمومی.",
+    introduction:
+      "نوار فولادی فرومغناطیسی با هزینه کمتر، مناسب برای کاربردهای عمومی.",
     usage: [
       { id: "u6-1", title: "تزئینات", image: "/carousel-img/image-1.png" },
       { id: "u6-2", title: "لوازم خانگی", image: "/images/industry-tech.jpg" },
@@ -498,25 +667,3 @@ export const QUESTION_ITEMS: IQuestion[] = [
       "پرداخت بر اساس اعتبار اسنادی (LC)، حواله بانکی (TT) و در برخی موارد چک و سفته با هماهنگی قبلی امکان‌پذیر است.",
   },
 ];
-
-export const MECHANICAL_COLUMNS: { header: string; accessor: keyof IMechanicalProperties }[] = [
-  { header: "سختی (HV)", accessor: "hardness" },
-  { header: "مدول الاستیک (GPa)", accessor: "elasticModulus" },
-  { header: "درصد تغییر طول در 50 میلی‌متر", accessor: "elongation" },
-  { header: "استحکام تسلیم (MPa)", accessor: "yieldStrength" },
-  { header: "استحکام کششی (MPa)", accessor: "tensileStrength" },
-];
-
-export const PHYSICAL_COLUMNS: { header: string; accessor: keyof IPhysicalProperties }[] = [
-  { header: "چگالی (g/cm³)", accessor: "density" },
-  { header: "مقاومت الکتریکی (µΩ.cm)", accessor: "electricalResistivity" },
-  { header: "نقطه ذوب (°C)", accessor: "meltingPoint" },
-  { header: "ظرفیت گرمایی ویژه (J/mol.°C)", accessor: "molarHeatCapacity" },
-];
-
-export const EXTRA_CONTENT_SECTIONS = [
-  { title: "title2", content: "content2" },
-  { title: "title3", content: "content3" },
-  { title: "title4", content: "content4" },
-  { title: "title5", content: "content5" },
-] as const;
