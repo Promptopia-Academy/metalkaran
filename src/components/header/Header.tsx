@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Search } from "../search/Search";
-import { NAV_LINKS, CATEGORIES_ARRAY } from "@/lib/constants";
+import { NAV_LINKS, CATEGORIES_ARRAY, LOGO_IMAGE } from "@/lib/constants";
 import {
   HoverCard,
   HoverCardContent,
@@ -124,8 +124,8 @@ const Header = () => {
               <div className="flex items-center justify-between p-4 border-b border-white/20">
                 <Link href="/" className="flex-shrink-0">
                   <Image
-                    src="/logo.png"
-                    alt="Metalkaran Logo"
+                    src={LOGO_IMAGE.src}
+                    alt={LOGO_IMAGE.alt}
                     width={60}
                     height={44}
                     className="h-auto"

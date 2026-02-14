@@ -21,6 +21,7 @@ export function CalculatorForm() {
   const [heightIUnit, setHeightIUnit] = useState<IUnit>("m");
   const [lengthIUnit, setLengthIUnit] = useState<IUnit>("m");
   const [resultKg, setResultKg] = useState<number | null>(null);
+  const [showWarning, setShowWarning] = useState(false);
 
   const categoryOptions = useMemo(() => CATEGORIES_FROM_MOCK, []);
 
@@ -51,6 +52,18 @@ export function CalculatorForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const hasLength = length.trim() !== "";
+    const hasWidth = width.trim() !== "";
+    const hasHeight = height.trim() !== "";
+    const hasProduct = productValue !== "" && density > 0;
+
+    if (!hasLength || !hasWidth || !hasHeight || !hasProduct) {
+      setShowWarning(true);
+      setResultKg(null);
+      return;
+    }
+
+    setShowWarning(false);
     const result = calculateWeight({
       length,
       width,
@@ -146,6 +159,15 @@ export function CalculatorForm() {
             aria-readonly
           />
         </div>
+
+        {showWarning && (
+          <div
+            role="alert"
+            className="rounded-md border border-amber-500/80 bg-amber-50 dark:bg-amber-950/30 text-amber-800 dark:text-amber-200 px-4 py-3 text-center text-sm"
+          >
+            لطفا همه مقادیر را وارد نمایید.
+          </div>
+        )}
 
         <Button
           type="submit"

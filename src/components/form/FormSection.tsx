@@ -8,7 +8,6 @@ const FormSection = () => {
         <p className="">{CONTACT_US_PAGE_DATA.mainParagraph}</p>
         <p className="">{CONTACT_US_PAGE_DATA.subParagraph}</p>
       </div>
-
       <ProfileForm />
     </div>
   );

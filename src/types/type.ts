@@ -20,6 +20,13 @@ export interface IHeroSection {
   alt: string;
 }
 
+export interface IHomePageAbout {
+  title: string;
+  detail: string;
+  extraTitle: string;
+  extraDetail: string;
+}
+
 export interface IChemicalComposition {
   id: number;
   slug: string;

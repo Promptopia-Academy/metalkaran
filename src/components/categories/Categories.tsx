@@ -12,12 +12,12 @@ export default function CategoryGrid() {
         دسته بندی محصولات
       </h2>
 
-      <div className="container gap-20 mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center sm:gap-6 md:gap-8 lg:gap-10 p-2 md:p-4 w-full max-w-6xl">
+      <div className="container gap-20 mx-auto flex flex-wrap justify-center items-center place-items-center sm:gap-6 md:gap-8 lg:gap-10 p-2 md:p-4 w-full max-w-6xl">
         {CATEGORIES_ARRAY.map((item) => (
           <Link
             key={item.id}
             href={`/categories/${item.slug}`}
-            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
+            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl sm:mx-4 "
           >
             <CategoryItem category={item} />
           </Link>

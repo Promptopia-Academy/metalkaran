@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { ABOUT_ARRAY } from "@/lib/constants";
+import { HOME_PAGE_ABOUT } from "@/lib/constants";
 
 export default function About() {
   return (
@@ -16,7 +16,7 @@ export default function About() {
                 className="text-[clamp(1.35rem,3.2vw,2.25rem)] font-bold text-background leading-relaxed break-words"
                 dir="rtl"
               >
-                {ABOUT_ARRAY.title}
+                {HOME_PAGE_ABOUT.title}
               </h2>
               <div className="w-full h-0.5 bg-white"></div>
               <Link href="/about-us">
@@ -31,14 +31,14 @@ export default function About() {
 
             <div className="flex flex-col gap-4 md:gap-6">
               <h3 className="text-center text-[clamp(1.05rem,2.4vw,1.5rem)] font-bold leading-relaxed text-background break-words">
-                {ABOUT_ARRAY.detail}
+                {HOME_PAGE_ABOUT.detail}
               </h3>
               <div className="w-[80%] h-0.5 bg-white mx-auto"></div>
               <h3 className="text-center text-[clamp(1.05rem,2.4vw,1.5rem)] font-bold text-background break-words">
-                {ABOUT_ARRAY.extraTitle}
+                {HOME_PAGE_ABOUT.extraTitle}
               </h3>
               <p className="leading-relaxed text-[clamp(1rem,2.2vw,1.5rem)] font-medium text-center text-background break-words">
-                {ABOUT_ARRAY.extraDetail}
+                {HOME_PAGE_ABOUT.extraDetail}
               </p>
             </div>
           </div>

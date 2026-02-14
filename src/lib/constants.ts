@@ -5,6 +5,7 @@ import type {
   ICategory,
   IContactUsPageData,
   IHeroSection,
+  IHomePageAbout,
   IMechanicalProperties,
   IPhysicalProperties,
   IProduct,
@@ -25,17 +26,6 @@ export const CHEMICAL_COLORS = [
   "#9d4edd",
   "#f28482",
 ] as const;
-
-export const PHONE_NUMBER = "09123456789";
-
-export const EMAIL_ADDRESS = "sh.abbasi7527@gmail.com";
-
-
-export const CONTACT_US_PAGE_DATA: IContactUsPageData = {
-  mainParagraph:
-    "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.",
-  subParagraph: "همکاران ما در اسرع وقت با شما تماس خواهند گرفت.",
-};
 
 export const ABOUT_US_PAGE_DATA: IAboutUsPageData = {
   aboutUsCards: [
@@ -86,7 +76,6 @@ export const ABOUT_US_PAGE_DATA: IAboutUsPageData = {
   ],
 };
 
-// ============ PAGES CONSTANTS ==============
 export const MECHANICAL_COLUMNS: {
   header: string;
   accessor: keyof IMechanicalProperties;
@@ -115,7 +104,6 @@ export const EXTRA_CONTENT_SECTIONS = [
   { title: "title5", content: "content5" },
 ] as const;
 
-// ============ NAV LINKS ==============
 export const NAV_LINKS = [
   { href: "/products", label: "محصولات" },
   { href: "/articles", label: "مقالات" },
@@ -124,13 +112,107 @@ export const NAV_LINKS = [
   { href: "/contact-us", label: "تماس با ما" },
 ];
 
-export const INDUSTRIES_CAROUSEL = [
-  { id: 1, image: "/images/industry-oil.jpg", title: "صنعت نفت و گاز" },
-  { id: 2, image: "/images/industry-tech.jpg", title: "الکترونیک و فناوری" },
-  { id: 3, image: "/images/industry-auto.jpg", title: "خودروسازی" },
-  { id: 4, image: "/images/industry-jet.jpg", title: "خودروسازی" },
-  { id: 5, image: "/images/industry-jet.jpg", title: "خودروسازی" },
+export const ADMIN_MENU_ITEMS = [
+  {
+    title: "داشبورد",
+    href: "/admin",
+    icon: Home,
+  },
+  {
+    title: "مقالات",
+    href: "/admin/articles",
+    icon: FileText,
+  },
+  {
+    title: "المنت‌ها",
+    href: "/admin/elements",
+    icon: Box,
+  },
+  {
+    title: "پیام‌های تماس",
+    href: "/admin/contacts",
+    icon: MessageSquare,
+  },
+  {
+    title: "تنظیمات",
+    href: "/admin/settings",
+    icon: Settings,
+  },
 ];
+
+// ============ NAV LINKS ==============
+
+export const LOGO_IMAGE: IHeroSection = {
+  id: 1,
+  src: "/logo.png",
+  alt: "Logo",
+}
+
+export const INDUSTRIES_CAROUSEL: IHeroSection[] = [
+  { id: 1, src: "/images/industry-oil.jpg", alt: "صنعت نفت و گاز" },
+  { id: 2, src: "/images/industry-jet.jpg", alt: "خودروسازی" },
+  { id: 3, src: "/images/industry-tech.jpg", alt: "الکترونیک و فناوری" },
+  { id: 4, src: "/images/industry-auto.jpg", alt: "خودروسازی" },
+  { id: 5, src: "/images/industry-jet.jpg", alt: "خودروسازی" },
+];
+
+export const HERO_SECTION: IHeroSection[] = [
+  {
+    id: 1,
+    src: "/carousel-img/img-1.jpg",
+    alt: "اسلاید اول",
+  },
+  {
+    id: 2,
+    src: "/carousel-img/img-2.jpg",
+    alt: "اسلاید دوم",
+  },
+  {
+    id: 3,
+    src: "/carousel-img/img-3.jpg",
+    alt: "اسلاید سوم",
+  },
+];
+
+export const HOME_PAGE_ABOUT: IHomePageAbout = {
+  title:
+    "تنها جایی که می‌توانید راه‌حل‌های ایده‌آل برای نوار فلزی برای تمام نیازهای صنعتی خود را دریافت کنید.",
+  detail:
+    "ما رهبران صنعت نوارهای فلزی دقیق هستیم و مطمئن‌ترین و به‌روزترین راه‌حل‌هایی را که به دنبال آن هستید، تولید می‌کنیم.",
+  extraTitle: "فویل‌های استیل ضد زنگ",
+  extraDetail: `فویل‌های استیل ضد زنگ خواسته‌های شما، پیگیری ما.درجه و ضخامت را می‌توان طبق درخواست شما سفارشی کرد.`,
+};
+
+// ============ MOCK DATA ==============
+
+export const COMPANY_INFORMATION = {
+  phoneNumber: "09123456789",
+  emailAddress: "sh.abbasi7527@gmail.com",
+  socialLinks: [
+    {
+      id: 1,
+      title: "Instagram",
+      url: "https://www.instagram.com/",
+    },
+    {
+      id: 2,
+      title: "LinkedIn",
+      url: "https://www.linkedin.com/",
+    },
+    {
+      id: 3,
+      title: "X",
+      url: "https://x.com/",
+    },
+
+  ]
+}
+
+export const CONTACT_US_PAGE_DATA: IContactUsPageData = {
+  mainParagraph:
+    "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.",
+  subParagraph: "همکاران ما در اسرع وقت با شما تماس خواهند گرفت.",
+};
 
 export const CATEGORIES_ARRAY: ICategory[] = [
   {
@@ -171,63 +253,6 @@ export const CATEGORIES_ARRAY: ICategory[] = [
   },
   { id: 7, image: "/images/ingots.png", slug: "ingots", title: "بلورهای فلزی" },
 ];
-
-export const HERO_SECTION: IHeroSection[] = [
-  {
-    id: 1,
-    src: "/carousel-img/img-1.jpg",
-    alt: "اسلاید اول",
-  },
-  {
-    id: 2,
-    src: "/carousel-img/img-2.jpg",
-    alt: "اسلاید دوم",
-  },
-  {
-    id: 3,
-    src: "/carousel-img/img-3.jpg",
-    alt: "اسلاید سوم",
-  },
-];
-
-export const ABOUT_ARRAY = {
-  title:
-    "تنها جایی که می‌توانید راه‌حل‌های ایده‌آل برای نوار فلزی برای تمام نیازهای صنعتی خود را دریافت کنید.",
-  detail:
-    "ما رهبران صنعت نوارهای فلزی دقیق هستیم و مطمئن‌ترین و به‌روزترین راه‌حل‌هایی را که به دنبال آن هستید، تولید می‌کنیم.",
-  extraTitle: "فویل‌های استیل ضد زنگ",
-  extraDetail: `فویل‌های استیل ضد زنگ خواسته‌های شما، پیگیری ما.درجه و ضخامت را می‌توان طبق درخواست شما سفارشی کرد.`,
-};
-
-export const ADMIN_MENU_ITEMS = [
-  {
-    title: "داشبورد",
-    href: "/admin",
-    icon: Home,
-  },
-  {
-    title: "مقالات",
-    href: "/admin/articles",
-    icon: FileText,
-  },
-  {
-    title: "المنت‌ها",
-    href: "/admin/elements",
-    icon: Box,
-  },
-  {
-    title: "پیام‌های تماس",
-    href: "/admin/contacts",
-    icon: MessageSquare,
-  },
-  {
-    title: "تنظیمات",
-    href: "/admin/settings",
-    icon: Settings,
-  },
-];
-
-// ============ MOCK DATA ==============
 
 export const ARTICLE_ITEMS: IArticle[] = [
   {

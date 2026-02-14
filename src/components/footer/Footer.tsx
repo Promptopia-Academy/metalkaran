@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { COMPANY_INFORMATION } from "@/lib/constants";
+import { COMPANY_INFORMATION, LOGO_IMAGE } from "@/lib/constants";
 import { XsocialIcon } from "@/components/icons/XsocialIcon";
 import {
   InstagramLogoIcon,
@@ -17,8 +17,8 @@ const Footer = () => {
         >
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="/logo.png"
-              alt="Logo"
+              src={LOGO_IMAGE.src}
+              alt={LOGO_IMAGE.alt}
               width={100}
               height={33}
               className="sm:w-[110px] md:w-[120px]"
