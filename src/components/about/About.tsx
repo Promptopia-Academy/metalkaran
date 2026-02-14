@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { ABOUT_ARRAY } from "@/lib/constants";
 
@@ -18,12 +19,14 @@ export default function About() {
                 {ABOUT_ARRAY.title}
               </h2>
               <div className="w-full h-0.5 bg-white"></div>
-              <Button
-                type="button"
-                className="bg-primary-secondary text-black w-full sm:w-fit px-5 h-10 text-sm md:text-base transition-transform duration-200 ease-out hover:scale-105 hover:shadow-lg"
-              >
-                اطلاعات بیشتر ...
-              </Button>
+              <Link href="/about-us">
+                <Button
+                  type="button"
+                  className="bg-primary-secondary cursor-pointer text-black w-full sm:w-fit px-5 h-10 text-sm md:text-base transition-transform duration-200 ease-out hover:scale-105 hover:shadow-lg"
+                >
+                  ما را بیشتر بشناسید ...
+                </Button>
+              </Link>
             </div>
 
             <div className="flex flex-col gap-4 md:gap-6">
