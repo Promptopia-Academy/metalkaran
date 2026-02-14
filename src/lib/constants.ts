@@ -1,18 +1,15 @@
+import { parseDensityFromProduct } from "./parseDensityFromProduct";
 import { Box, FileText, Home, MessageSquare, Settings } from "lucide-react";
 import type {
-  IAboutUsPageData,
   IArticle,
   ICategory,
-  IContactUsPageData,
-  IHeroSection,
-  IHomePageAbout,
   IMechanicalProperties,
   IPhysicalProperties,
   IProduct,
   IQuestion,
   IUsage,
+  IWebsiteContent,
 } from "@/types/type";
-import { parseDensityFromProduct } from "./parseDensityFromProduct";
 
 // ============ PAGES DATA ==============
 
@@ -26,55 +23,6 @@ export const CHEMICAL_COLORS = [
   "#9d4edd",
   "#f28482",
 ] as const;
-
-export const ABOUT_US_PAGE_DATA: IAboutUsPageData = {
-  aboutUsCards: [
-    {
-      id: 1,
-      image: "/images/about-us1.png",
-      title: "رویکرد مشتری محور",
-    },
-    {
-      id: 2,
-      image: "/images/about-us2.png",
-      title: "تمرکز بر صنعت",
-    },
-    {
-      id: 3,
-      image: "/images/about-us3.png",
-      title: "کیفیت بی‌نظیر",
-    },
-  ],
-  whyUs: {
-    title: "چرا ما را انتخاب کنید",
-    description:
-      "تمرکز بر صنعت نوارهای فولادی ضد زنگ تولید نوارهای فولادی ضد زنگ با کیفیت، از نوارهای فولادی ضد زنگ 304 با کیفیت بالا گرفته تا تولید و ارائه نوارهای فولادی ضد زنگ سوپر آستنیتی 904L دقیق، اینجا جای درستی آمده‌اید.",
-  },
-  aboutUsDescription: [
-    {
-      id: 1,
-      image: "/images/about-des.png",
-      alt: "توضیحات درباره ما",
-      width: 580,
-      height: 400,
-      title: "رویکرد مشتری محور",
-      contentClassName: "flex flex-col items-end gap-5",
-      description:
-        "برای ارائه محصولات نوار فولادی با کیفیت خوب به مشتریان، راهکارهای کامل و خدمات کامل که به هر پروژه صنعتی اجازه می‌دهد روان‌تر، ایمن‌تر و کارآمدتر اجرا شود.",
-    },
-    {
-      id: 2,
-      image: "/images/about-des.png",
-      alt: "توضیحات درباره ما",
-      width: 580,
-      height: 730,
-      title: "کیفیت بی نظیر",
-      contentClassName: "flex flex-col justify-end items-end gap-5",
-      description:
-        "روحیه شرکت ما این است که ایمنی پایه و اساس تولید است و کیفیت، مشتریان را می‌سازد. ما بیشتر به پشتیبانی کیفیت، دامنه تأمین، بازرسی، استاندارد آزمایش، بسته‌بندی حمل و نقل، خدمات پس از فروش توجه می‌کنیم. مواد اولیه آسیابی با کیفیت بالا، سنگ بنای تولید نوارهای با بالاترین کیفیت است. ما فقط کویل‌های مادر با کیفیت بالا را خریداری می‌کنیم و مطمئن می‌شویم که تمام موادی که استفاده می‌کنیم مطابق با استانداردهای کارخانه ما باشد.",
-    },
-  ],
-};
 
 export const MECHANICAL_COLUMNS: {
   header: string;
@@ -140,79 +88,94 @@ export const ADMIN_MENU_ITEMS = [
   },
 ];
 
-// ============ NAV LINKS ==============
+// ============ WEBSITE CONTENT (قابل ویرایش از بک‌اند) ==============
 
-export const LOGO_IMAGE: IHeroSection = {
-  id: 1,
-  src: "/logo.png",
-  alt: "Logo",
-}
-
-export const INDUSTRIES_CAROUSEL: IHeroSection[] = [
-  { id: 1, src: "/images/industry-oil.jpg", alt: "صنعت نفت و گاز" },
-  { id: 2, src: "/images/industry-jet.jpg", alt: "خودروسازی" },
-  { id: 3, src: "/images/industry-tech.jpg", alt: "الکترونیک و فناوری" },
-  { id: 4, src: "/images/industry-auto.jpg", alt: "خودروسازی" },
-  { id: 5, src: "/images/industry-jet.jpg", alt: "خودروسازی" },
-];
-
-export const HERO_SECTION: IHeroSection[] = [
-  {
+export const WEBSITE_CONTENT: IWebsiteContent = {
+  logoImage: {
     id: 1,
-    src: "/carousel-img/img-1.jpg",
-    alt: "اسلاید اول",
+    src: "/logo.png",
+    alt: "Logo",
   },
-  {
-    id: 2,
-    src: "/carousel-img/img-2.jpg",
-    alt: "اسلاید دوم",
+  industriesCarousel: [
+    { id: 1, src: "/images/industry-oil.jpg", alt: "صنعت نفت و گاز" },
+    { id: 2, src: "/images/industry-jet.jpg", alt: "خودروسازی" },
+    { id: 3, src: "/images/industry-tech.jpg", alt: "الکترونیک و فناوری" },
+    { id: 4, src: "/images/industry-auto.jpg", alt: "خودروسازی" },
+    { id: 5, src: "/images/industry-jet.jpg", alt: "خودروسازی" },
+  ],
+  heroSection: [
+    { id: 1, src: "/carousel-img/img-1.jpg", alt: "اسلاید اول" },
+    { id: 2, src: "/carousel-img/img-2.jpg", alt: "اسلاید دوم" },
+    { id: 3, src: "/carousel-img/img-3.jpg", alt: "اسلاید سوم" },
+  ],
+  homePageAbout: {
+    title:
+      "تنها جایی که می‌توانید راه‌حل‌های ایده‌آل برای نوار فلزی برای تمام نیازهای صنعتی خود را دریافت کنید.",
+    detail:
+      "ما رهبران صنعت نوارهای فلزی دقیق هستیم و مطمئن‌ترین و به‌روزترین راه‌حل‌هایی را که به دنبال آن هستید، تولید می‌کنیم.",
+    extraTitle: "فویل‌های استیل ضد زنگ",
+    extraDetail: `فویل‌های استیل ضد زنگ خواسته‌های شما، پیگیری ما.درجه و ضخامت را می‌توان طبق درخواست شما سفارشی کرد.`,
   },
-  {
-    id: 3,
-    src: "/carousel-img/img-3.jpg",
-    alt: "اسلاید سوم",
+  aboutUsPageData: {
+    aboutUsCards: [
+      { id: 1, image: "/images/about-us1.png", title: "رویکرد مشتری محور" },
+      { id: 2, image: "/images/about-us2.png", title: "تمرکز بر صنعت" },
+      { id: 3, image: "/images/about-us3.png", title: "کیفیت بی‌نظیر" },
+    ],
+    whyUs: {
+      title: "چرا ما را انتخاب کنید",
+      description:
+        "تمرکز بر صنعت نوارهای فولادی ضد زنگ تولید نوارهای فولادی ضد زنگ با کیفیت، از نوارهای فولادی ضد زنگ 304 با کیفیت بالا گرفته تا تولید و ارائه نوارهای فولادی ضد زنگ سوپر آستنیتی 904L دقیق، اینجا جای درستی آمده‌اید.",
+    },
+    aboutUsDescription: [
+      {
+        id: 1,
+        image: "/images/about-des.png",
+        alt: "توضیحات درباره ما",
+        width: 580,
+        height: 400,
+        title: "رویکرد مشتری محور",
+        contentClassName: "flex flex-col items-end gap-5",
+        description:
+          "برای ارائه محصولات نوار فولادی با کیفیت خوب به مشتریان، راهکارهای کامل و خدمات کامل که به هر پروژه صنعتی اجازه می‌دهد روان‌تر، ایمن‌تر و کارآمدتر اجرا شود.",
+      },
+      {
+        id: 2,
+        image: "/images/about-des.png",
+        alt: "توضیحات درباره ما",
+        width: 580,
+        height: 730,
+        title: "کیفیت بی نظیر",
+        contentClassName: "flex flex-col justify-end items-end gap-5",
+        description:
+          "روحیه شرکت ما این است که ایمنی پایه و اساس تولید است و کیفیت، مشتریان را می‌سازد. ما بیشتر به پشتیبانی کیفیت، دامنه تأمین، بازرسی، استاندارد آزمایش، بسته‌بندی حمل و نقل، خدمات پس از فروش توجه می‌کنیم. مواد اولیه آسیابی با کیفیت بالا، سنگ بنای تولید نوارهای با بالاترین کیفیت است. ما فقط کویل‌های مادر با کیفیت بالا را خریداری می‌کنیم و مطمئن می‌شویم که تمام موادی که استفاده می‌کنیم مطابق با استانداردهای کارخانه ما باشد.",
+      },
+    ],
   },
-];
-
-export const HOME_PAGE_ABOUT: IHomePageAbout = {
-  title:
-    "تنها جایی که می‌توانید راه‌حل‌های ایده‌آل برای نوار فلزی برای تمام نیازهای صنعتی خود را دریافت کنید.",
-  detail:
-    "ما رهبران صنعت نوارهای فلزی دقیق هستیم و مطمئن‌ترین و به‌روزترین راه‌حل‌هایی را که به دنبال آن هستید، تولید می‌کنیم.",
-  extraTitle: "فویل‌های استیل ضد زنگ",
-  extraDetail: `فویل‌های استیل ضد زنگ خواسته‌های شما، پیگیری ما.درجه و ضخامت را می‌توان طبق درخواست شما سفارشی کرد.`,
+  companyInformation: {
+    phoneNumber: "09123456789",
+    emailAddress: "sh.abbasi7527@gmail.com",
+    socialLinks: [
+      { id: 1, title: "Instagram", url: "https://www.instagram.com/" },
+      { id: 2, title: "LinkedIn", url: "https://www.linkedin.com/" },
+      { id: 3, title: "X", url: "https://x.com/" },
+    ],
+  },
+  contactUsPageData: {
+    mainParagraph:
+      "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.",
+    subParagraph: "همکاران ما در اسرع وقت با شما تماس خواهند گرفت.",
+  },
 };
 
-// ============ MOCK DATA ==============
-
-export const COMPANY_INFORMATION = {
-  phoneNumber: "09123456789",
-  emailAddress: "sh.abbasi7527@gmail.com",
-  socialLinks: [
-    {
-      id: 1,
-      title: "Instagram",
-      url: "https://www.instagram.com/",
-    },
-    {
-      id: 2,
-      title: "LinkedIn",
-      url: "https://www.linkedin.com/",
-    },
-    {
-      id: 3,
-      title: "X",
-      url: "https://x.com/",
-    },
-
-  ]
-}
-
-export const CONTACT_US_PAGE_DATA: IContactUsPageData = {
-  mainParagraph:
-    "ما از تمام سوالات مشتریان استقبال می‌کنیم و اگر در مورد راه‌حل‌ها و خدمات فویل‌های نوارهای دقیق ما سؤالی دارید، لطفاً از طریق فرم تماس زیر با ما تماس بگیرید.ما در اسرع وقت به شما پاسخ خواهیم داد.",
-  subParagraph: "همکاران ما در اسرع وقت با شما تماس خواهند گرفت.",
-};
+// رفرنس‌های قبلی برای سازگاری با کد موجود
+export const LOGO_IMAGE = WEBSITE_CONTENT.logoImage;
+export const INDUSTRIES_CAROUSEL = WEBSITE_CONTENT.industriesCarousel;
+export const HERO_SECTION = WEBSITE_CONTENT.heroSection;
+export const HOME_PAGE_ABOUT = WEBSITE_CONTENT.homePageAbout;
+export const ABOUT_US_PAGE_DATA = WEBSITE_CONTENT.aboutUsPageData;
+export const COMPANY_INFORMATION = WEBSITE_CONTENT.companyInformation;
+export const CONTACT_US_PAGE_DATA = WEBSITE_CONTENT.contactUsPageData;
 
 export const CATEGORIES_ARRAY: ICategory[] = [
   {

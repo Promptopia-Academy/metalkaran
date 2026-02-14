@@ -136,7 +136,7 @@ export function ProfileForm() {
             <FormItem>
               <FormControl>
                 <Input
-                  placeholder="شرکت متال‌کاران"
+                  placeholder="متال‌کاران"
                   {...field}
                   className="w-[250px] sm:w-[400px] h-11 rounded-2xl border-2 border-black pr-3"
                 />

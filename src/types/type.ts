@@ -182,6 +182,28 @@ export interface IContactUsPageData {
   subParagraph: string;
 }
 
+export interface ICompanySocialLink {
+  id: number;
+  title: string;
+  url: string;
+}
+
+export interface ICompanyInformation {
+  phoneNumber: string;
+  emailAddress: string;
+  socialLinks: ICompanySocialLink[];
+}
+
+export interface IWebsiteContent {
+  logoImage: IHeroSection;
+  industriesCarousel: IHeroSection[];
+  heroSection: IHeroSection[];
+  homePageAbout: IHomePageAbout;
+  aboutUsPageData: IAboutUsPageData;
+  companyInformation: ICompanyInformation;
+  contactUsPageData: IContactUsPageData;
+}
+
 export interface ICategoryItemProps {
   category: ICategory;
 }
