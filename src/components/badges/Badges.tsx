@@ -1,17 +1,17 @@
 import Badge from "./Badge";
 import { Heart, ShieldCheck, UsersRound } from "lucide-react";
 
-const BADGES_ARRAY = [
+export const BADGES_ARRAY = [
   {
-    text: "پشتیبانی",
+    text: "پشتیبانی ۲۴/۷",
     icon: <UsersRound className="text-background w-16 h-20 md:w-20 md:h-24" />,
   },
   {
-    text: "تضمین  قیمت",
+    text: "بهترین قیمت",
     icon: <ShieldCheck className="text-background w-16 h-20 md:w-20 md:h-24" />,
   },
   {
-    text: "تضمین کیفیت",
+    text: "کیفیت تضمینی",
     icon: <Heart className="text-background w-16 h-20 md:w-20 md:h-24" />,
   },
 ];

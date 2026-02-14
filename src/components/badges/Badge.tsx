@@ -12,7 +12,7 @@ const Badge = ({ text, icon }: IBadgeProps) => {
           <div className="scale-75 md:scale-90 lg:scale-100">{icon}</div>
         </div>
       </div>
-      <p className="text-center text-base md:text-lg font-medium text-button transition-colors duration-300 group-hover:text-primary-secondary">
+      <p className="text-center text-base md:text-lg font-medium text-button transition-colors duration-300 group-hover:text-primary">
         {text}
       </p>
     </div>
