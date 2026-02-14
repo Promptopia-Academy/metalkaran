@@ -10,6 +10,9 @@ import type {
   IQuestion,
   IUsage,
 } from "@/types/type";
+import { parseDensityFromProduct } from "./parseDensityFromProduct";
+
+// ============ PAGES DATA ==============
 
 export const CHEMICAL_COLORS = [
   "#AC0C0C",
@@ -26,7 +29,6 @@ export const PHONE_NUMBER = "09123456789";
 
 export const EMAIL_ADDRESS = "sh.abbasi7527@gmail.com";
 
-// ============ PAGE DATA ==============
 
 export const CONTACT_US_PAGE_DATA: IContactUsPageData = {
   mainParagraph:
@@ -88,22 +90,22 @@ export const MECHANICAL_COLUMNS: {
   header: string;
   accessor: keyof IMechanicalProperties;
 }[] = [
-  { header: "سختی (HV)", accessor: "hardness" },
-  { header: "مدول الاستیک (GPa)", accessor: "elasticModulus" },
-  { header: "درصد تغییر طول در 50 میلی‌متر", accessor: "elongation" },
-  { header: "استحکام تسلیم (MPa)", accessor: "yieldStrength" },
-  { header: "استحکام کششی (MPa)", accessor: "tensileStrength" },
-];
+    { header: "سختی (HV)", accessor: "hardness" },
+    { header: "مدول الاستیک (GPa)", accessor: "elasticModulus" },
+    { header: "درصد تغییر طول در 50 میلی‌متر", accessor: "elongation" },
+    { header: "استحکام تسلیم (MPa)", accessor: "yieldStrength" },
+    { header: "استحکام کششی (MPa)", accessor: "tensileStrength" },
+  ];
 
 export const PHYSICAL_COLUMNS: {
   header: string;
   accessor: keyof IPhysicalProperties;
 }[] = [
-  { header: "چگالی (g/cm³)", accessor: "density" },
-  { header: "مقاومت الکتریکی (µΩ.cm)", accessor: "electricalResistivity" },
-  { header: "نقطه ذوب (°C)", accessor: "meltingPoint" },
-  { header: "ظرفیت گرمایی ویژه (J/mol.°C)", accessor: "molarHeatCapacity" },
-];
+    { header: "چگالی (g/cm³)", accessor: "density" },
+    { header: "مقاومت الکتریکی (µΩ.cm)", accessor: "electricalResistivity" },
+    { header: "نقطه ذوب (°C)", accessor: "meltingPoint" },
+    { header: "ظرفیت گرمایی ویژه (J/mol.°C)", accessor: "molarHeatCapacity" },
+  ];
 
 export const EXTRA_CONTENT_SECTIONS = [
   { title: "title2", content: "content2" },
@@ -667,3 +669,18 @@ export const QUESTION_ITEMS: IQuestion[] = [
       "پرداخت بر اساس اعتبار اسنادی (LC)، حواله بانکی (TT) و در برخی موارد چک و سفته با هماهنگی قبلی امکان‌پذیر است.",
   },
 ];
+
+// ============ CALCULATOR DATA ==============
+
+export const PRODUCTS_FROM_MOCK_CALCULATOR = PRODUCT_ITEMS.map((p) => ({
+  value: String(p.id),
+  label: p.title,
+  categoryValue: String(p.category.id),
+  density: parseDensityFromProduct(p),
+}));
+
+export const CATEGORIES_FROM_MOCK = Array.from(
+  new Map(
+    Object.values(PRODUCT_DETAIL_MOCK).map((p) => [p.category.id, { value: String(p.category.id), label: p.category.title }])
+  ).values()
+);

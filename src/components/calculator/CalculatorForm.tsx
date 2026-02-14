@@ -3,57 +3,13 @@
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { IUnit } from "@/types/type";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CalculatorInput } from "./CalculatorInput";
 import { Combobox } from "@/components/ui/combobox";
 import { calculateWeight } from "@/lib/calculateWeight";
-
-// ─── دیتای ماک دسته‌بندی و محصول با چگالی ─────────────────────────────────
-const MOCK_CATEGORIES = [
-  { value: "stainless", label: "فولاد ضد زنگ" },
-  { value: "aluminum", label: "آلومینیوم" },
-  { value: "copper", label: "مس" },
-] as const;
-
-const MOCK_PRODUCTS: {
-  value: string;
-  label: string;
-  categoryValue: string;
-  density: number; // گرم بر سانتی‌متر مکعب (g/cm³)
-}[] = [
-  {
-    value: "ss304",
-    label: "نوار استیل ۳۰۴",
-    categoryValue: "stainless",
-    density: 7.93,
-  },
-  {
-    value: "ss316",
-    label: "نوار استیل ۳۱۶",
-    categoryValue: "stainless",
-    density: 7.98,
-  },
-  {
-    value: "al6061",
-    label: "ورق آلومینیوم ۶۰۶۱",
-    categoryValue: "aluminum",
-    density: 2.7,
-  },
-  {
-    value: "al1050",
-    label: "ورق آلومینیوم ۱۰۵۰",
-    categoryValue: "aluminum",
-    density: 2.71,
-  },
-  {
-    value: "cu101",
-    label: "ورق مس خالص",
-    categoryValue: "copper",
-    density: 8.96,
-  },
-];
+import { CATEGORIES_FROM_MOCK, PRODUCTS_FROM_MOCK_CALCULATOR } from "@/lib/constants";
 
 export function CalculatorForm() {
   const [width, setWidth] = useState("");
@@ -66,20 +22,17 @@ export function CalculatorForm() {
   const [lengthIUnit, setLengthIUnit] = useState<IUnit>("m");
   const [resultKg, setResultKg] = useState<number | null>(null);
 
-  const categoryOptions = useMemo(
-    () => MOCK_CATEGORIES.map((c) => ({ value: c.value, label: c.label })),
-    []
-  );
+  const categoryOptions = useMemo(() => CATEGORIES_FROM_MOCK, []);
 
   const productOptions = useMemo(() => {
     if (!categoryValue) return [];
-    return MOCK_PRODUCTS.filter((p) => p.categoryValue === categoryValue).map(
+    return PRODUCTS_FROM_MOCK_CALCULATOR.filter((p) => p.categoryValue === categoryValue).map(
       (p) => ({ value: p.value, label: p.label })
     );
   }, [categoryValue]);
 
   const selectedProduct = useMemo(
-    () => MOCK_PRODUCTS.find((p) => p.value === productValue),
+    () => PRODUCTS_FROM_MOCK_CALCULATOR.find((p) => p.value === productValue),
     [productValue]
   );
 
