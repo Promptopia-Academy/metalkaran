@@ -1,4 +1,4 @@
-import { PHONE_NUMBER } from "@/lib/constants";
+import { COMPANY_INFORMATION } from "@/lib/constants";
 
 const CallSection = () => {
   return (
@@ -8,10 +8,10 @@ const CallSection = () => {
       </div>
 
       <a
-        href={`tel:${PHONE_NUMBER}`}
+        href={`tel:${COMPANY_INFORMATION.phoneNumber}`}
         className="py-1 flex flex-col items-center justify-center w-3xs bg-[#1E78AA] text-white rounded-2xl border-2 border-[#1E78AA] hover:bg-[#2B517E] transition-all duration-300"
       >
-        <p className="text-2xl font-medium">{PHONE_NUMBER}</p>
+        <p className="text-2xl font-medium">{COMPANY_INFORMATION.phoneNumber}</p>
       </a>
     </div>
   );

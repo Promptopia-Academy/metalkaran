@@ -20,15 +20,15 @@ export default function IndustriesCarousel() {
 
   return (
     <section className="w-full py-12 bg-[#eaf1f4]">
-      <h2 className="text-2xl font-bold text-center mb-10" dir="rtl">
+      <h2 className="text-2xl font-bold text-center mb-10">
         صنایعی که به آنها خدمت می‌کنیم!
       </h2>
 
       <div className="relative flex items-center justify-center overflow-hidden h-[400px]">
         <AnimatePresence>
-          {INDUSTRIES_CAROUSEL.map((item, index) => {
+          {INDUSTRIES_CAROUSEL.map((item) => {
             const diff =
-              (index - current + INDUSTRIES_CAROUSEL.length) %
+              (item.id - current + INDUSTRIES_CAROUSEL.length) %
               INDUSTRIES_CAROUSEL.length;
 
             const scale =
@@ -72,12 +72,12 @@ export default function IndustriesCarousel() {
                   x,
                 }}
                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                onClick={() => setCurrent(index)}
+                onClick={() => setCurrent(item.id)}
                 whileHover={{ scale: diff === 0 ? 1.03 : 0.85 }}
               >
                 <Image
-                  src={item.image}
-                  alt={item.title}
+                  src={item.src}
+                  alt={item.alt}
                   width={350}
                   height={400}
                   className={cn(

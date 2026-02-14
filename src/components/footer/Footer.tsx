@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { EMAIL_ADDRESS, PHONE_NUMBER } from "@/lib/constants";
+import { COMPANY_INFORMATION } from "@/lib/constants";
+import { XsocialIcon } from "@/components/icons/XsocialIcon";
 import {
   InstagramLogoIcon,
   LinkedInLogoIcon,
-  TwitterLogoIcon,
 } from "@radix-ui/react-icons";
 
 const Footer = () => {
@@ -30,20 +30,28 @@ const Footer = () => {
             dir="rtl"
           >
             <p>
-              شماره تماس :<a href={`tel:${PHONE_NUMBER}`}> {PHONE_NUMBER}</a>
+              شماره تماس :<a href={`tel:${COMPANY_INFORMATION.phoneNumber}`}> {COMPANY_INFORMATION.phoneNumber}</a>
             </p>
             <p className="text-xs sm:text-sm md:text-base">
               آدرس ایمیل :
-              <a href={`mailto:${EMAIL_ADDRESS}`}> {EMAIL_ADDRESS}</a>
+              <a href={`mailto:${COMPANY_INFORMATION.emailAddress}`}> {COMPANY_INFORMATION.emailAddress}</a>
             </p>
           </div>
         </div>
 
         <div className="w-full h-[2px] bg-background my-4 md:mb-4"></div>
         <div className="flex gap-8 sm:gap-12 md:gap-16 justify-center sm:justify-start">
-          <InstagramLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-6" />
-          <LinkedInLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:-rotate-6" />
-          <TwitterLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-3" />
+          <Link href={COMPANY_INFORMATION.socialLinks[0].url}>
+            <InstagramLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-6" />
+          </Link>
+
+          <Link href={COMPANY_INFORMATION.socialLinks[1].url}>
+            <LinkedInLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:-rotate-6" />
+          </Link>
+
+          <Link href={COMPANY_INFORMATION.socialLinks[2].url}>
+            <XsocialIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-3" />
+          </Link>
         </div>
       </div>
       <div
