@@ -14,6 +14,12 @@ export interface ICategory {
   image?: string;
 }
 
+export interface IHeroSection {
+  id: number;
+  src: string;
+  alt: string;
+}
+
 export interface IChemicalComposition {
   id: number;
   slug: string;

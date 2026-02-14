@@ -4,6 +4,7 @@ import type {
   IArticle,
   ICategory,
   IContactUsPageData,
+  IHeroSection,
   IMechanicalProperties,
   IPhysicalProperties,
   IProduct,
@@ -171,27 +172,21 @@ export const CATEGORIES_ARRAY: ICategory[] = [
   { id: 7, image: "/images/ingots.png", slug: "ingots", title: "بلورهای فلزی" },
 ];
 
-export const CAROUSEL_IMAGES = [
+export const HERO_SECTION: IHeroSection[] = [
   {
-    slug: 1,
+    id: 1,
     src: "/carousel-img/img-1.jpg",
-    alt: "Carousel Image 1",
-    size: { width: 882, height: 480 },
-    basis: "lg:basis-7/10",
+    alt: "اسلاید اول",
   },
   {
-    slug: 2,
+    id: 2,
     src: "/carousel-img/img-2.jpg",
-    alt: "Carousel Image 2",
-    size: { width: 278, height: 480 },
-    basis: "lg:basis-3/13",
+    alt: "اسلاید دوم",
   },
   {
-    slug: 3,
+    id: 3,
     src: "/carousel-img/img-3.jpg",
-    alt: "Carousel Image 3",
-    size: { width: 278, height: 480 },
-    basis: "lg:basis-3/10",
+    alt: "اسلاید سوم",
   },
 ];
 
