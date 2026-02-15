@@ -5,7 +5,7 @@ import { CATEGORIES_ARRAY, PRODUCT_ITEMS } from "@/lib/constants";
 
 
 export default async function CategoryPage({ params }: ICategoryPageProps) {
-  const { slug } = await params;
+  const { slug } = params;
   const category = CATEGORIES_ARRAY.find((c) => c.slug === slug);
 
   if (!category) {

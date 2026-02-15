@@ -1,3 +1,5 @@
+import type * as React from "react";
+
 export interface IContact {
   id: string;
   name: string;
@@ -141,6 +143,8 @@ export interface IAboutUsPageCard {
   title: string;
 }
 
+export type IAboutUsCardProps = Pick<IAboutUsPageCard, "image" | "title">;
+
 export interface IAboutUsPageWhyUs {
   title: string;
   description: string;
@@ -194,6 +198,94 @@ export interface IWebsiteContent {
 export interface DataTableColumn<T extends object = object> {
   header: string;
   accessor: keyof T & string;
+}
+
+export interface IDataTableProps<T extends object = object> {
+  columns: DataTableColumn<T>[];
+  data: T;
+  title?: string;
+}
+
+// Next.js App Router page props helper (e.g. /[id] routes)
+export type IPageProps<
+  TParams extends Record<string, string> = { id: string },
+> = {
+  params: TParams;
+};
+
+export type ICategoryPageProps = IPageProps<{ slug: string }>;
+
+export interface IProductDetailProps {
+  product: IProduct;
+}
+
+export interface IArticleCardProps {
+  article: IArticle;
+}
+
+export interface IArticleTextsProps {
+  article: IArticle;
+  dir?: string;
+}
+
+export interface IProductUsageProps {
+  usage: IUsage;
+}
+
+export interface IProductTableProps {
+  mechanicalProperties?: IMechanicalProperties;
+  physicalProperties?: IPhysicalProperties;
+}
+
+export interface IProductChemicalCompositionDivProps {
+  productChemicalComposition: IProduct;
+}
+
+export interface IProductChemicalCompositionProps {
+  ChemicalComposition: IChemicalComposition;
+  color?: string;
+}
+
+export interface IBannerProps {
+  imageSrc: string;
+  text?: string;
+  width?: number;
+  height?: number;
+  overlay?: boolean;
+  overlayColor?: string;
+}
+
+export interface IBadgeProps {
+  text: string;
+  icon: React.ReactNode;
+}
+
+export interface ICategoryItemProps {
+  category: ICategory;
+}
+
+export interface ICardElementProps {
+  id: number;
+  image: string;
+  title: string;
+  slug?: string;
+}
+
+export interface ICalculatorInputProps {
+  id: string;
+  label: string;
+  placeholder?: string;
+  value: string;
+  onChange: (value: string) => void;
+  unit: IUnit;
+  onUnitChange: (unit: IUnit) => void;
+  inputClassName?: string;
+  selectContentClassName?: string;
+}
+
+export interface IQuestionSectionProps {
+  questions?: IQuestion[];
+  title?: string;
 }
 
 

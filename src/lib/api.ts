@@ -4,6 +4,13 @@
  * برای Dev: NEXT_PUBLIC_API_URL=http://localhost:3001 وقتی بکند روی پورت 3001 اجراست
  */
 
+import type {
+  IArticle,
+  ICompanyInformation,
+  ICompanySocialLink,
+  IProduct,
+} from "@/types/type";
+
 const getBaseUrl = () => {
   const url = process.env.NEXT_PUBLIC_API_URL;
   if (url) return url.replace(/\/$/, "");
@@ -31,6 +38,13 @@ function toCamelCase<T>(obj: unknown): T {
   }
   return obj as T;
 }
+
+type Pagination = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
 
 // ============ تماس با ما (فرم تماس) ============
 export async function submitContact(data: {
@@ -64,7 +78,11 @@ export async function getArticles(params?: {
   page?: number;
   limit?: number;
   search?: string;
-}) {
+}): Promise<{
+  success: boolean;
+  data: IArticle[];
+  pagination: Pagination | null;
+}> {
   try {
     const res = await fetch(apiUrl("/api/cms/articles"));
     if (!res.ok) throw new Error("خطا در دریافت مقالات");
@@ -85,7 +103,7 @@ export async function getArticles(params?: {
     const paginated = items.slice(start, start + limit);
     return {
       success: true,
-      data: toCamelCase(paginated),
+      data: toCamelCase<IArticle[]>(paginated),
       pagination: {
         page,
         limit,
@@ -151,7 +169,11 @@ export async function getElements(params?: {
   page?: number;
   limit?: number;
   search?: string;
-}) {
+}): Promise<{
+  success: boolean;
+  data: IProduct[];
+  pagination: Pagination | null;
+}> {
   try {
     const res = await fetch(apiUrl("/api/cms/products-full"));
     if (!res.ok) throw new Error("خطا در دریافت المنت‌ها");
@@ -172,7 +194,7 @@ export async function getElements(params?: {
     const paginated = items.slice(start, start + limit);
     return {
       success: true,
-      data: toCamelCase(paginated),
+      data: toCamelCase<IProduct[]>(paginated),
       pagination: {
         page,
         limit,
@@ -278,19 +300,18 @@ export async function getContactUsPageData() {
   }
 }
 
-export async function getCompanyInfo() {
+export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
   try {
     const socialRes = await fetch(apiUrl("/api/cms/company-social-links"));
     const infoRes = await fetch(apiUrl("/api/cms/company-information"));
     const social = socialRes.ok ? await socialRes.json() : [];
     const info = infoRes.ok ? await infoRes.json() : [];
     const first = Array.isArray(info) ? info[0] : null;
-    return first
-      ? {
-          ...toCamelCase(first),
-          socialLinks: toCamelCase(social),
-        }
-      : null;
+    if (!first) return null;
+
+    const base = toCamelCase<Omit<ICompanyInformation, "socialLinks">>(first);
+    const socialLinks = toCamelCase<ICompanySocialLink[]>(social);
+    return { ...base, socialLinks };
   } catch {
     return null;
   }

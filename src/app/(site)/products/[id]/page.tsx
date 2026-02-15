@@ -4,7 +4,7 @@ import { PRODUCT_DETAIL_MOCK } from "@/lib/constants";
 import ProductDetail from "@/components/product/ProductDetail";
 
 const ProductDetailPage = async ({ params }: IPageProps) => {
-  const { id } = await params;
+  const { id } = params;
   const productId = Number(id);
   const product = PRODUCT_DETAIL_MOCK[productId];
 

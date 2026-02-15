@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Box, MessageSquare, CheckCircle } from "lucide-react";
+import { api } from "@/lib/api";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -16,11 +17,12 @@ export default function AdminDashboard() {
     const loadStats = async () => {
       try {
         const articlesRes = await api.getArticles({ limit: 1 });
-        const articlesCount = articlesRes.data?.length || 0;
-        if (articlesRes.pagination) {
+        const articlesPagination = articlesRes.pagination;
+        if (articlesPagination) {
+          const total = articlesPagination.total;
           setStats((prev) => ({
             ...prev,
-            articles: articlesRes.pagination.total,
+            articles: total,
           }));
         } else {
           const allArticles = await api.getArticles();
@@ -31,10 +33,12 @@ export default function AdminDashboard() {
         }
 
         const elementsRes = await api.getElements({ limit: 1 });
-        if (elementsRes.pagination) {
+        const elementsPagination = elementsRes.pagination;
+        if (elementsPagination) {
+          const total = elementsPagination.total;
           setStats((prev) => ({
             ...prev,
-            elements: elementsRes.pagination.total,
+            elements: total,
           }));
         } else {
           const allElements = await api.getElements();
@@ -46,7 +50,15 @@ export default function AdminDashboard() {
 
         try {
           const { status } = await api.healthCheck();
-          setStats((prev) => ({ ...prev, health: status }));
+          setStats((prev) => ({
+            ...prev,
+            health:
+              status === 200
+                ? "healthy"
+                : status === 0
+                  ? "unhealthy"
+                  : "degraded",
+          }));
         } catch {
           setStats((prev) => ({ ...prev, health: "unhealthy" }));
         }

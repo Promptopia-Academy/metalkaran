@@ -4,7 +4,7 @@ import { ARTICLE_ITEMS } from "@/lib/constants";
 import ArticleTexts from "@/components/articles/ArticleTexts";
 
 const ArticleDetailPage = async ({ params }: IPageProps) => {
-  const { id } = await params;
+  const { id } = params;
   const articleId = Number(id);
   const article = ARTICLE_ITEMS.find((a) => a.id === articleId);
 
