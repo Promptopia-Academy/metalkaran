@@ -73,7 +73,7 @@ export const ADMIN_MENU_ITEMS = [
   },
   {
     title: "المنت‌ها",
-    href: "/admin/elements",
+    href: "/admin/products",
     icon: Box,
   },
   {

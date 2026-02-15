@@ -124,17 +124,7 @@ export interface ICalculateWeightParams {
 
 export type IUnit = "cm" | "m";
 
-export interface ICalculatorInputProps {
-  id: string;
-  label: string;
-  placeholder?: string;
-  value: string;
-  onChange: (value: string) => void;
-  unit: IUnit;
-  onUnitChange: (unit: IUnit) => void;
-  inputClassName?: string;
-  selectContentClassName?: string;
-}
+
 
 export interface IContactFormData {
   id?: number;
@@ -144,10 +134,6 @@ export interface IContactFormData {
   company: string;
 }
 
-export interface IAboutUsCardProps {
-  image: string;
-  title: string;
-}
 
 export interface IAboutUsPageCard {
   id: number;
@@ -204,51 +190,13 @@ export interface IWebsiteContent {
   contactUsPageData: IContactUsPageData;
 }
 
-export interface ICategoryItemProps {
-  category: ICategory;
-}
-
-export interface IBannerProps {
-  text?: string;
-  width?: number;
-  height?: number;
-  imageSrc: string;
-  overlay?: boolean;
-  overlayColor?: string;
-}
 
 export interface DataTableColumn<T extends object = object> {
   header: string;
   accessor: keyof T & string;
 }
 
-export interface IDataTableProps<T extends object> {
-  columns: DataTableColumn<T>[];
-  data: T;
-  title?: string;
-}
 
-export interface ICardElementProps {
-  id: number;
-  image: string;
-  title: string;
-  slug?: string;
-}
-
-export interface IBadgeProps {
-  text: string;
-  icon: React.ReactNode;
-}
-
-export interface IArticleTextsProps {
-  article: IArticle;
-  dir?: "rtl" | "ltr";
-}
-
-export interface IQuestionSectionProps {
-  questions?: IQuestion[];
-  title?: string;
-}
 
 export interface IQuestion {
   id: number;
@@ -256,36 +204,5 @@ export interface IQuestion {
   answer: String;
 }
 
-export interface IPageProps {
-  params: Promise<{ id: string }>;
-}
 
-export interface IArticleCardProps {
-  article: IArticle;
-}
 
-export interface IProductTableProps {
-  mechanicalProperties?: IMechanicalProperties | null;
-  physicalProperties?: IPhysicalProperties | null;
-}
-
-export interface IProductChemicalCompositionProps {
-  ChemicalComposition: IChemicalComposition;
-  color?: string;
-}
-
-export interface IProductChemicalCompositionDivProps {
-  productChemicalComposition: IProduct;
-}
-
-export interface IProductDetailProps {
-  product: IProduct;
-}
-
-export interface IProductUsageProps {
-  usage: IUsage;
-}
-
-export interface ICategoryPageProps {
-  params: Promise<{ slug: string }>;
-}

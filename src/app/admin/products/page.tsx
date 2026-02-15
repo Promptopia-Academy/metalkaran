@@ -83,7 +83,7 @@ export default function AdminProductPage() {
           <h1 className="text-3xl font-bold mb-2">مدیریت المنت‌ها</h1>
           <p className="text-muted-foreground">افزودن، ویرایش و حذف المنت‌ها</p>
         </div>
-        <Link href="/admin/elements/new">
+        <Link href="/admin/products/new">
           <Button>
             <Plus className="w-4 h-4 ml-2" />
             المنت جدید
@@ -131,7 +131,7 @@ export default function AdminProductPage() {
                     </p>
                   </div>
                   <div className="flex gap-2 mr-4">
-                    <Link href={`/admin/elements/${element.id}`}>
+                    <Link href={`/admin/products/${element.id}`}>
                       <Button variant="outline" size="sm">
                         <Edit className="w-4 h-4" />
                       </Button>
