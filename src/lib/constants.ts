@@ -1,5 +1,5 @@
 import { parseDensityFromProduct } from "./parseDensityFromProduct";
-import { Box, FileText, Home, MessageSquare, Settings } from "lucide-react";
+import { Box, FileText, FolderTree, Home, MessageSquare, Settings } from "lucide-react";
 import type {
   IArticle,
   ICategory,
@@ -75,6 +75,11 @@ export const ADMIN_MENU_ITEMS = [
     title: "المنت‌ها",
     href: "/admin/products",
     icon: Box,
+  },
+  {
+    title: "دسته‌بندی‌ها",
+    href: "/admin/categories",
+    icon: FolderTree,
   },
   {
     title: "پیام‌های تماس",

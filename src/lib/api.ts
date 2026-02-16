@@ -10,6 +10,7 @@ import type {
   ICompanySocialLink,
   IProduct,
 } from "@/types/type";
+``;
 
 const getBaseUrl = () => {
   const url = process.env.NEXT_PUBLIC_API_URL;
@@ -23,6 +24,28 @@ const apiUrl = (path: string) => {
   const p = path.startsWith("/") ? path : `/${path}`;
   return base ? `${base}${p}` : p;
 };
+
+/** کلید ذخیره توکن JWT ادمین در localStorage (مطابق بک‌اند) */
+export const AUTH_STORAGE_KEY = "admin_api_key";
+
+export function getStoredToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(AUTH_STORAGE_KEY);
+}
+
+/** در صورت 401 توکن را پاک کرده و به صفحه لاگین هدایت می‌کند */
+export function handleUnauthorized(): void {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(AUTH_STORAGE_KEY);
+  window.location.href = "/admin/login";
+}
+
+/** هدرهای احراز هویت برای درخواست‌های CMS/آپلود */
+function authHeaders(): Record<string, string> {
+  const token = getStoredToken();
+  if (!token) return {};
+  return { Authorization: `Bearer ${token}` };
+}
 
 // تبدیل snake_case به camelCase برای سازگاری با تایپ‌های فرانت
 function toCamelCase<T>(obj: unknown): T {
@@ -45,6 +68,27 @@ type Pagination = {
   total: number;
   totalPages: number;
 };
+
+// آپلود تصویر - برگرداندن path برای ذخیره در دیتابیس
+export async function uploadImage(file: File): Promise<string> {
+  const form = new FormData();
+  form.append("image", file);
+  const res = await fetch(apiUrl("/api/upload-image"), {
+    method: "POST",
+    headers: authHeaders(),
+    body: form,
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در آپلود تصویر");
+  }
+  const json = (await res.json()) as { path: string };
+  return json.path;
+}
 
 // ============ تماس با ما (فرم تماس) ============
 export async function submitContact(data: {
@@ -84,7 +128,13 @@ export async function getArticles(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/cms/articles"));
+    const res = await fetch(apiUrl("/api/cms/articles"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      return { success: false, data: [], pagination: null };
+    }
     if (!res.ok) throw new Error("خطا در دریافت مقالات");
     const data = await res.json();
     let items = Array.isArray(data) ? data : [];
@@ -93,7 +143,7 @@ export async function getArticles(params?: {
       items = items.filter(
         (a: { title?: string; introduction?: string }) =>
           a.title?.toLowerCase().includes(q) ||
-          a.introduction?.toLowerCase().includes(q)
+          a.introduction?.toLowerCase().includes(q),
       );
     }
     const total = items.length;
@@ -118,12 +168,14 @@ export async function getArticles(params?: {
 
 export async function createArticle(
   data: Record<string, string>,
-  token?: string
+  token?: string,
 ) {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
+    ...authHeaders(),
   };
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  const t = token ?? getStoredToken();
+  if (t) headers["Authorization"] = `Bearer ${t}`;
 
   const res = await fetch(apiUrl("/api/cms/articles"), {
     method: "POST",
@@ -144,6 +196,10 @@ export async function createArticle(
       content5: data.content5 || undefined,
     }),
   });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.error || "خطا در ایجاد مقاله");
@@ -151,21 +207,38 @@ export async function createArticle(
 }
 
 export async function deleteArticle(id: number, token?: string) {
-  const headers: Record<string, string> = {};
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+  const headers: Record<string, string> = { ...authHeaders() };
+  const t = token ?? getStoredToken();
+  if (t) headers["Authorization"] = `Bearer ${t}`;
 
   const res = await fetch(apiUrl(`/api/cms/articles/${id}`), {
     method: "DELETE",
     headers,
   });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.error || "خطا در حذف");
   }
 }
 
+export async function getArticleById(id: number): Promise<IArticle | null> {
+  try {
+    const res = await fetch(apiUrl(`/api/cms/articles/${id}`));
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error("خطا در دریافت مقاله");
+    const data = await res.json();
+    return toCamelCase(data) as IArticle;
+  } catch {
+    return null;
+  }
+}
+
 // ============ ادمین - المنت‌ها (محصولات) ============
-export async function getElements(params?: {
+export async function getProducts(params?: {
   page?: number;
   limit?: number;
   search?: string;
@@ -175,7 +248,13 @@ export async function getElements(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/cms/products-full"));
+    const res = await fetch(apiUrl("/api/cms/products-full"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      throw new Error("توکن نامعتبر است");
+    }
     if (!res.ok) throw new Error("خطا در دریافت المنت‌ها");
     const data = await res.json();
     let items = Array.isArray(data) ? data : [];
@@ -184,7 +263,7 @@ export async function getElements(params?: {
       items = items.filter(
         (p: { title?: string; introduction?: string }) =>
           p.title?.toLowerCase().includes(q) ||
-          p.introduction?.toLowerCase().includes(q)
+          p.introduction?.toLowerCase().includes(q),
       );
     }
     const total = items.length;
@@ -207,18 +286,165 @@ export async function getElements(params?: {
   }
 }
 
-export async function deleteElement(id: number, token?: string) {
-  const headers: Record<string, string> = {};
-  if (token) headers["Authorization"] = `Bearer ${token}`;
+export async function deleteProduct(id: number, token?: string) {
+  const headers: Record<string, string> = { ...authHeaders() };
+  const t = token ?? getStoredToken();
+  if (t) headers["Authorization"] = `Bearer ${t}`;
 
   const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
     method: "DELETE",
     headers,
   });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.error || "خطا در حذف");
   }
+}
+
+// دسته‌بندی‌ها
+export async function createCategory(
+  data: {
+    slug: string;
+    title: string;
+    image?: string | null;
+  },
+  token?: string,
+) {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...authHeaders(),
+  };
+  const t = token ?? getStoredToken();
+  if (t) headers["Authorization"] = `Bearer ${t}`;
+
+  const res = await fetch(apiUrl("/api/cms/categories"), {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      slug: data.slug,
+      title: data.title,
+      image: data.image ?? undefined,
+    }),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(
+      (err as { error?: string }).error || "خطا در ایجاد دسته‌بندی",
+    );
+  }
+  return res.json();
+}
+
+// دسته‌بندی‌ها و کاربردها برای فرم محصول
+export async function getCmsCategories() {
+  try {
+    const res = await fetch(apiUrl("/api/cms/categories"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      throw new Error("توکن نامعتبر است");
+    }
+    if (!res.ok) throw new Error("خطا در دریافت دسته‌بندی‌ها");
+    const data = await res.json();
+    return toCamelCase(data) as {
+      id: number;
+      slug: string;
+      title: string;
+      image?: string;
+    }[];
+  } catch {
+    return [];
+  }
+}
+
+export async function getCmsUsages() {
+  try {
+    const res = await fetch(apiUrl("/api/cms/usages"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      throw new Error("توکن نامعتبر است");
+    }
+    if (!res.ok) throw new Error("خطا در دریافت کاربردها");
+    const data = await res.json();
+    return toCamelCase(data) as { id: string; title: string; image: string }[];
+  } catch {
+    return [];
+  }
+}
+
+export type CreateProductFullInput = {
+  image?: File | null;
+  title: string;
+  slug: string;
+  categoryId?: number | null;
+  introduction: string;
+  description: string;
+  standards?: string;
+  thermalExpansion?: string;
+  corrosionResistance?: string;
+  heatResistance?: string;
+  manufacturing?: string;
+  hotForming?: string;
+  coldForming?: string;
+  welding?: string;
+  machining?: string;
+  usageIds?: string[];
+};
+
+export async function createProductFull(
+  data: CreateProductFullInput,
+  token?: string,
+) {
+  const form = new FormData();
+  form.append("title", data.title);
+  form.append("slug", data.slug);
+  form.append("introduction", data.introduction);
+  form.append("description", data.description);
+  if (data.categoryId != null)
+    form.append("categoryId", String(data.categoryId));
+  if (data.standards) form.append("standards", data.standards);
+  if (data.thermalExpansion)
+    form.append("thermalExpansion", data.thermalExpansion);
+  if (data.corrosionResistance)
+    form.append("corrosionResistance", data.corrosionResistance);
+  if (data.heatResistance) form.append("heatResistance", data.heatResistance);
+  if (data.manufacturing) form.append("manufacturing", data.manufacturing);
+  if (data.hotForming) form.append("hotForming", data.hotForming);
+  if (data.coldForming) form.append("coldForming", data.coldForming);
+  if (data.welding) form.append("welding", data.welding);
+  if (data.machining) form.append("machining", data.machining);
+  if (data.usageIds?.length) form.append("usageIds", data.usageIds.join(","));
+  if (data.image) form.append("image", data.image);
+
+  const headers: Record<string, string> = { ...authHeaders() };
+  const t = token ?? getStoredToken();
+  if (t) headers["Authorization"] = `Bearer ${t}`;
+
+  const res = await fetch(apiUrl("/api/cms/products-full"), {
+    method: "POST",
+    headers,
+    body: form,
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ایجاد محصول");
+  }
+  return res.json();
 }
 
 // ============ Health Check ============
@@ -254,7 +480,7 @@ export async function getSiteCategories() {
   }
 }
 
-export async function getSiteProducts() {
+export async function getSiteProducts(): Promise<IProduct[] | null> {
   try {
     const res = await fetch(apiUrl("/api/site/products"));
     if (!res.ok) throw new Error("خطا");
@@ -265,9 +491,28 @@ export async function getSiteProducts() {
   }
 }
 
+/** گرفتن یک محصول بر اساس id (برای صفحه جزئیات محصول) */
+export async function getSiteProductById(id: number): Promise<IProduct | null> {
+  try {
+    const res = await fetch(apiUrl(`/api/site/products/${id}`));
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error("خطا در دریافت محصول");
+    const data = await res.json();
+    return toCamelCase(data) as IProduct;
+  } catch {
+    return null;
+  }
+}
+
 export async function getHeroSections() {
   try {
-    const res = await fetch(apiUrl("/api/cms/hero-sections"));
+    const res = await fetch(apiUrl("/api/cms/hero-sections"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      throw new Error("توکن نامعتبر است");
+    }
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
@@ -278,7 +523,13 @@ export async function getHeroSections() {
 
 export async function getHomePageAbout() {
   try {
-    const res = await fetch(apiUrl("/api/cms/home-page-about"));
+    const res = await fetch(apiUrl("/api/cms/home-page-about"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      throw new Error("توکن نامعتبر است");
+    }
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     const arr = Array.isArray(data) ? data : [];
@@ -290,7 +541,13 @@ export async function getHomePageAbout() {
 
 export async function getContactUsPageData() {
   try {
-    const res = await fetch(apiUrl("/api/cms/contact-us-page"));
+    const res = await fetch(apiUrl("/api/cms/contact-us-page"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      throw new Error("توکن نامعتبر است");
+    }
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     const arr = Array.isArray(data) ? data : [];
@@ -302,8 +559,17 @@ export async function getContactUsPageData() {
 
 export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
   try {
-    const socialRes = await fetch(apiUrl("/api/cms/company-social-links"));
-    const infoRes = await fetch(apiUrl("/api/cms/company-information"));
+    const h = authHeaders();
+    const socialRes = await fetch(apiUrl("/api/cms/company-social-links"), {
+      headers: h,
+    });
+    const infoRes = await fetch(apiUrl("/api/cms/company-information"), {
+      headers: h,
+    });
+    if (socialRes.status === 401 || infoRes.status === 401) {
+      handleUnauthorized();
+      return null;
+    }
     const social = socialRes.ok ? await socialRes.json() : [];
     const info = infoRes.ok ? await infoRes.json() : [];
     const first = Array.isArray(info) ? info[0] : null;
@@ -319,7 +585,13 @@ export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
 
 export async function getQuestions() {
   try {
-    const res = await fetch(apiUrl("/api/cms/questions"));
+    const res = await fetch(apiUrl("/api/cms/questions"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      throw new Error("توکن نامعتبر است");
+    }
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
@@ -343,14 +615,25 @@ export async function login(username: string, password: string) {
 export const api = {
   submitContact,
   getArticles,
+  getArticleById,
   createArticle,
   deleteArticle,
-  getElements,
-  deleteElement,
+  getProducts,
+  /** همان getProducts؛ برای سازگاری با صفحات ادمین (المنت‌ها) */
+  getElements: getProducts,
+  deleteProduct,
+  /** همان deleteProduct؛ برای سازگاری با صفحات ادمین */
+  deleteElement: deleteProduct,
+  getCmsCategories,
+  getCmsUsages,
+  uploadImage,
+  createCategory,
+  createProductFull,
   healthCheck,
   getSiteAboutUs,
   getSiteCategories,
   getSiteProducts,
+  getSiteProductById,
   getHeroSections,
   getHomePageAbout,
   getContactUsPageData,

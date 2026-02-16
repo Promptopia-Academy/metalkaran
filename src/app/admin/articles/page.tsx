@@ -22,18 +22,10 @@ export default function AdminArticlesPage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [apiKey, setApiKey] = useState("");
-
-  useEffect(() => {
-    const savedApiKey = localStorage.getItem("admin_api_key");
-    if (savedApiKey) {
-      setApiKey(savedApiKey);
-    }
-  }, []);
 
   useEffect(() => {
     loadArticles();
-  }, [page, search, apiKey]);
+  }, [page, search]);
 
   const loadArticles = async () => {
     try {
@@ -58,21 +50,16 @@ export default function AdminArticlesPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!apiKey) {
-      alert("لطفاً ابتدا API Key را در تنظیمات وارد کنید");
-      return;
-    }
-
     if (!confirm("آیا از حذف این مقاله مطمئن هستید؟")) {
       return;
     }
 
     try {
-      await api.deleteArticle(id, apiKey);
+      await api.deleteArticle(id);
       loadArticles();
       alert("مقاله با موفقیت حذف شد");
-    } catch (error: any) {
-      alert(`خطا در حذف مقاله: ${error.message}`);
+    } catch (error: unknown) {
+      alert(`خطا در حذف مقاله: ${error instanceof Error ? error.message : "خطای نامشخص"}`);
     }
   };
 

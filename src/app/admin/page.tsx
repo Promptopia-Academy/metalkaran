@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Box, MessageSquare, CheckCircle } from "lucide-react";
 import { api } from "@/lib/api";
+import Link from "next/link";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -148,16 +149,16 @@ export default function AdminDashboard() {
                 افزودن، ویرایش و حذف مقالات
               </p>
             </a>
-            <a
-              href="/admin/elements"
+            <Link
+              href="/admin/products"
               className="p-4 border rounded-lg hover:bg-accent transition-colors"
             >
               <Box className="h-6 w-6 mb-2" />
               <h3 className="font-semibold">مدیریت المنت‌ها</h3>
               <p className="text-sm text-muted-foreground">
-                افزودن، ویرایش و حذف المنت‌ها
+                افزودن، ویرایش و حذف محصولات
               </p>
-            </a>
+            </Link>
             <a
               href="/admin/contacts"
               className="p-4 border rounded-lg hover:bg-accent transition-colors"

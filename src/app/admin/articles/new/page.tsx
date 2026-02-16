@@ -32,20 +32,13 @@ export default function NewArticlePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const apiKey = localStorage.getItem("admin_api_key");
-    if (!apiKey) {
-      alert("لطفاً ابتدا API Key را در تنظیمات وارد کنید");
-      router.push("/admin/settings");
-      return;
-    }
-
     setLoading(true);
     try {
-      await api.createArticle(formData, apiKey);
+      await api.createArticle(formData);
       alert("مقاله با موفقیت ایجاد شد");
       router.push("/admin/articles");
-    } catch (error: any) {
-      alert(`خطا در ایجاد مقاله: ${error.message}`);
+    } catch (error: unknown) {
+      alert(`خطا در ایجاد مقاله: ${error instanceof Error ? error.message : "خطای نامشخص"}`);
     } finally {
       setLoading(false);
     }

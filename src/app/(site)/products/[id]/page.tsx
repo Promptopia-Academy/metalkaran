@@ -1,14 +1,19 @@
 import { IPageProps } from "@/types/type";
 import { notFound } from "next/navigation";
-import { PRODUCT_DETAIL_MOCK } from "@/lib/constants";
+import { getSiteProductById } from "@/lib/api";
 import ProductDetail from "@/components/product/ProductDetail";
 
 const ProductDetailPage = async ({ params }: IPageProps) => {
-  const { id } = params;
+  const { id } = await params;
   const productId = Number(id);
-  const product = PRODUCT_DETAIL_MOCK[productId];
 
-  if (!product || Number.isNaN(productId)) {
+  if (Number.isNaN(productId)) {
+    notFound();
+  }
+
+  const product = await getSiteProductById(productId);
+  console.log(product);
+  if (!product) {
     notFound();
   }
 

@@ -10,15 +10,19 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Save, Eye, EyeOff } from "lucide-react";
+import { Save, Eye, EyeOff, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { AUTH_STORAGE_KEY } from "@/lib/api";
 
 export default function AdminSettingsPage() {
+  const { logout, setToken } = useAuth();
   const [apiKey, setApiKey] = useState("");
   const [showApiKey, setShowApiKey] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    const savedApiKey = localStorage.getItem("admin_api_key");
+    const savedApiKey =
+      typeof window !== "undefined" ? localStorage.getItem(AUTH_STORAGE_KEY) : null;
     if (savedApiKey) {
       setApiKey(savedApiKey);
     }
@@ -26,7 +30,7 @@ export default function AdminSettingsPage() {
 
   const handleSave = () => {
     if (apiKey.trim()) {
-      localStorage.setItem("admin_api_key", apiKey.trim());
+      setToken(apiKey.trim());
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     }
@@ -43,19 +47,20 @@ export default function AdminSettingsPage() {
         <CardHeader>
           <CardTitle>احراز هویت</CardTitle>
           <CardDescription>
-            برای استفاده از API، لطفاً API Key خود را وارد کنید. این کلید از
-            فایل .env.local سرور شما دریافت می‌شود.
+            ورود از طریق صفحه لاگین، توکن JWT را در مرورگر ذخیره می‌کند. در صورت
+            نیاز می‌توانید توکن را دستی هم وارد یا جایگزین کنید (مثلاً پس از تمدید
+            از سمت سرور).
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">API Key</label>
+            <label className="block text-sm font-medium mb-2">توکن (JWT)</label>
             <div className="relative">
               <Input
                 type={showApiKey ? "text" : "password"}
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                placeholder="your-api-key-here"
+                placeholder="Bearer token از لاگین یا دستی"
                 className="pr-10"
               />
               <button
@@ -71,15 +76,20 @@ export default function AdminSettingsPage() {
               </button>
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              این کلید در مرورگر شما ذخیره می‌شود و فقط برای احراز هویت API
-              استفاده می‌شود.
+              توکن در مرورگر ذخیره می‌شود و در هر درخواست به API ارسال می‌شود.
             </p>
           </div>
 
-          <Button onClick={handleSave} disabled={!apiKey.trim() || saved}>
-            <Save className="w-4 h-4 ml-2" />
-            {saved ? "ذخیره شد" : "ذخیره"}
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={handleSave} disabled={!apiKey.trim() || saved}>
+              <Save className="w-4 h-4 ml-2" />
+              {saved ? "ذخیره شد" : "ذخیره"}
+            </Button>
+            <Button type="button" variant="outline" onClick={logout}>
+              <LogOut className="w-4 h-4 ml-2" />
+              خروج
+            </Button>
+          </div>
 
           {saved && (
             <p className="text-sm text-green-600">تنظیمات با موفقیت ذخیره شد</p>
@@ -93,27 +103,19 @@ export default function AdminSettingsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <h3 className="font-semibold mb-2">نحوه دریافت API Key:</h3>
-            <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
-              <li>فایل .env.local را در ریشه پروژه باز کنید</li>
-              <li>مقدار API_KEY را پیدا کنید (یا JWT_SECRET)</li>
-              <li>مقدار را در فیلد بالا کپی کنید</li>
-              <li>روی دکمه "ذخیره" کلیک کنید</li>
-            </ol>
-          </div>
-
-          <div className="p-4 bg-muted rounded-lg">
-            <p className="text-sm font-mono">
-              <strong>مثال:</strong> API_KEY=your-secret-key-here
-            </p>
+            <h3 className="font-semibold mb-2">ورود به پنل:</h3>
+            <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+              <li>برای ورود از صفحه <strong>لاگین</strong> (/admin/login) استفاده کنید.</li>
+              <li>در صورت نیاز می‌توانید توکن JWT را دستی در باکس بالا قرار دهید.</li>
+            </ul>
           </div>
 
           <div className="pt-4 border-t">
             <h3 className="font-semibold mb-2">نکات امنیتی:</h3>
             <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-              <li>API Key را با کسی به اشتراک نگذارید</li>
-              <li>از API Key در محیط production استفاده کنید</li>
-              <li>در صورت افشا شدن، سریعاً آن را تغییر دهید</li>
+              <li>توکن را با کسی به اشتراک نگذارید</li>
+              <li>پس از خروج یا انقضای توکن، مجدداً وارد شوید</li>
+              <li>در صورت افشا شدن، از پنل خروج کنید و رمز عبور را در سرور تغییر دهید</li>
             </ul>
           </div>
         </CardContent>

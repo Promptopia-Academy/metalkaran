@@ -22,18 +22,10 @@ export default function AdminProductPage() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [apiKey, setApiKey] = useState("");
-
-  useEffect(() => {
-    const savedApiKey = localStorage.getItem("admin_api_key");
-    if (savedApiKey) {
-      setApiKey(savedApiKey);
-    }
-  }, []);
 
   useEffect(() => {
     loadElements();
-  }, [page, search, apiKey]);
+  }, [page, search]);
 
   const loadElements = async () => {
     try {
@@ -58,21 +50,16 @@ export default function AdminProductPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!apiKey) {
-      alert("لطفاً ابتدا API Key را در تنظیمات وارد کنید");
-      return;
-    }
-
     if (!confirm("آیا از حذف این المنت مطمئن هستید؟")) {
       return;
     }
 
     try {
-      await api.deleteElement(id, apiKey);
+      await api.deleteElement(id);
       loadElements();
       alert("المنت با موفقیت حذف شد");
-    } catch (error: any) {
-      alert(`خطا در حذف المنت: ${error.message}`);
+    } catch (error: unknown) {
+      alert(`خطا در حذف المنت: ${error instanceof Error ? error.message : "خطای نامشخص"}`);
     }
   };
 

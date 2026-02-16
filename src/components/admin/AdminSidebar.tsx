@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { LogOut } from "lucide-react";
+import { LogOut, ExternalLink } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ADMIN_MENU_ITEMS } from "@/lib/constants";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   return (
     <aside className="fixed right-0 top-0 h-screen w-64 bg-primary text-primary-foreground shadow-lg">
@@ -40,14 +42,22 @@ export default function AdminSidebar() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-primary-foreground/20">
+        <div className="p-4 border-t border-primary-foreground/20 space-y-1">
           <Link
             href="/"
             className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary-foreground/10 text-primary-foreground/80 transition-colors"
           >
-            <LogOut className="w-5 h-5" />
+            <ExternalLink className="w-5 h-5" />
             <span>بازگشت به سایت</span>
           </Link>
+          <button
+            type="button"
+            onClick={logout}
+            className="flex w-full items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary-foreground/10 text-primary-foreground/80 transition-colors"
+          >
+            <LogOut className="w-5 h-5" />
+            <span>خروج</span>
+          </button>
         </div>
       </div>
     </aside>
