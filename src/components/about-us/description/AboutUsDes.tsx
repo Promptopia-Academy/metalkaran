@@ -15,6 +15,7 @@ const AboutUsDes = () => {
             alt={item.alt}
             width={item.width}
             height={item.height}
+            unoptimized
           />
           <div className={item.contentClassName}>
             <h3 className="text-4xl font font-semibold">{item.title}</h3>

@@ -17,6 +17,7 @@ const Banner = ({
         alt={text || "Banner image"}
         width={width || 400}
         height={height || 100}
+        unoptimized
       />
       {overlay && (
         <div

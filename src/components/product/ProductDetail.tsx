@@ -30,6 +30,7 @@ export default function ProductDetail({ product }: IProductDetailProps) {
                 fill
                 className="object-cover"
                 priority
+                unoptimized
               />
             </div>
           )}

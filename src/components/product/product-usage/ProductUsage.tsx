@@ -13,6 +13,7 @@ export default function ProductUsage({ usage }: IProductUsageProps) {
                     alt={usage.title}
                     fill
                     className="object-cover rounded-t-[8px]"
+                    unoptimized
                 />
             </div>
             <div

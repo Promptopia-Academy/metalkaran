@@ -27,6 +27,7 @@ export default function ArticleCard({ article }: IArticleCardProps) {
             fill
             className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"
             sizes="(max-width: 640px) 85vw, (max-width: 768px) 60vw, (max-width: 1024px) 45vw, 33vw"
+            unoptimized={!!article.image}
           />
         </div>
         <div className="flex flex-col gap-1.5 md:gap-2 justify-center items-center p-3 md:p-4 flex-1">

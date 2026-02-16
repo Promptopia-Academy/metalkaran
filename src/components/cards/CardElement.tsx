@@ -16,6 +16,7 @@ const cardContent = ({ image, title, slug }: Pick<ICardElementProps, "image" | "
         alt={title}
         fill
         className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"
+        unoptimized={!!image}
       />
       <div className="pointer-events-none absolute inset-0 opacity-0 to-transparent transition-opacity duration-500" />
     </div>
