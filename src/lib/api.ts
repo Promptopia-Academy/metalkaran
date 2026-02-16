@@ -20,13 +20,16 @@ const getBaseUrl = () => {
 
 /**
  * برای نمایش عکس‌های آپلودشده از بک‌اند.
- * مسیرهای نسبی مثل /uploads/xxx را به URL کامل (مثلاً همان origin بک‌اند) تبدیل می‌کند
- * تا تصویر از سرور درست لود شود.
+ * فقط از NEXT_PUBLIC_API_URL استفاده می‌کند تا تصویر همیشه از سرور بک‌اند لود شود
+ * (نه از SITE_URL که روی سرور به localhost:3000 می‌زد).
+ * در حالت Dev حتماً NEXT_PUBLIC_API_URL=http://localhost:3001 بذار.
  */
 export function getImageUrl(path: string | null | undefined): string {
   if (!path) return "";
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  const base = getBaseUrl();
+  const base = process.env.NEXT_PUBLIC_API_URL
+    ? process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "")
+    : "";
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return base ? `${base}${normalized}` : normalized;
 }
