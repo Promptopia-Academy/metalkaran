@@ -1,9 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Note: api.bodyParser is deprecated in Next.js 16
-  // Use route segment config (export const maxDuration, export const runtime, etc.) in route files instead
-  
+  // تصاویر آپلودشده از بک‌اند (مثلاً localhost:3001 یا دامنهٔ API)
+  images: {
+    remotePatterns: [
+      { protocol: "http", hostname: "localhost", port: "3001", pathname: "/uploads/**" },
+      { protocol: "https", hostname: "metalkarantech.com", pathname: "/uploads/**" },
+      { protocol: "https", hostname: "www.metalkarantech.com", pathname: "/uploads/**" },
+      { protocol: "https", hostname: "metalkarantech.ir", pathname: "/uploads/**" },
+      { protocol: "https", hostname: "www.metalkarantech.ir", pathname: "/uploads/**" },
+    ],
+  },
   // Headers for security and CORS
   async headers() {
     return [

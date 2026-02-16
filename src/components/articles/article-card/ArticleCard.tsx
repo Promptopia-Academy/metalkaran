@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { IArticleCardProps } from "@/types/type";
+import { getImageUrl } from "@/lib/api";
 
 const PLACEHOLDER_IMAGE = "/images/articles.png";
 
@@ -11,7 +12,7 @@ export default function ArticleCard({ article }: IArticleCardProps) {
   const title = article.title || article.title1 || "مقاله";
   const intro = article.introduction || article.content1 || "";
   const snippet = intro.length > 120 ? intro.slice(0, 120).trim() + "…" : intro;
-  const imageSrc = article.image || PLACEHOLDER_IMAGE;
+  const imageSrc = getImageUrl(article.image) || PLACEHOLDER_IMAGE;
 
   return (
     <Link href={`/articles/${article.id}`} className="block h-full">

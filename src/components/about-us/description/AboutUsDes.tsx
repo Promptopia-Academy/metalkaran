@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ABOUT_US_PAGE_DATA } from "@/lib/constants";
+import { getImageUrl } from "@/lib/api";
 
 const AboutUsDes = () => {
   return (
@@ -10,7 +11,7 @@ const AboutUsDes = () => {
           className="flex flex-col w-full justify-between items-center gap-6 py-14 md:flex-row md:gap-10"
         >
           <Image
-            src={item.image}
+            src={getImageUrl(item.image)}
             alt={item.alt}
             width={item.width}
             height={item.height}

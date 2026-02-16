@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { ICardElementProps } from "@/types/type";
+import { getImageUrl } from "@/lib/api";
 
 const PLACEHOLDER_IMAGE = "/carousel-img/image-1.png";
 
@@ -11,7 +12,7 @@ const cardContent = ({ image, title, slug }: Pick<ICardElementProps, "image" | "
   <>
     <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-60">
       <Image
-        src={image || PLACEHOLDER_IMAGE}
+        src={getImageUrl(image) || PLACEHOLDER_IMAGE}
         alt={title}
         fill
         className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"

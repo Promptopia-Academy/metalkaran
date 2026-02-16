@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { IProductUsageProps } from "@/types/type";
+import { getImageUrl } from "@/lib/api";
 
 export default function ProductUsage({ usage }: IProductUsageProps) {
     return (
@@ -8,7 +9,7 @@ export default function ProductUsage({ usage }: IProductUsageProps) {
         >
             <div className="relative flex-1 min-h-0 w-full">
                 <Image
-                    src={usage.image}
+                    src={getImageUrl(usage.image)}
                     alt={usage.title}
                     fill
                     className="object-cover rounded-t-[8px]"

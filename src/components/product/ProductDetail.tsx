@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { IProductDetailProps } from "@/types/type";
+import { getImageUrl } from "@/lib/api";
 import ProductTable from "@/components/product/product-table/ProductTable";
 import ProductUsageDiv from "@/components/product/product-usage/ProductUsageDix";
 import ProductChemicalCompositionDiv from "@/components/product/product-chemical/ProductChemicalCompositionDiv";
@@ -24,7 +25,7 @@ export default function ProductDetail({ product }: IProductDetailProps) {
           {product.image && (
             <div className="relative aspect-video rounded-xl bg-amber-800 overflow-hidden">
               <Image
-                src={product.image}
+                src={getImageUrl(product.image)}
                 alt={product.title}
                 fill
                 className="object-cover"

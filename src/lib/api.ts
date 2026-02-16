@@ -10,7 +10,6 @@ import type {
   ICompanySocialLink,
   IProduct,
 } from "@/types/type";
-``;
 
 const getBaseUrl = () => {
   const url = process.env.NEXT_PUBLIC_API_URL;
@@ -18,6 +17,19 @@ const getBaseUrl = () => {
   if (typeof window !== "undefined") return "";
   return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 };
+
+/**
+ * برای نمایش عکس‌های آپلودشده از بک‌اند.
+ * مسیرهای نسبی مثل /uploads/xxx را به URL کامل (مثلاً همان origin بک‌اند) تبدیل می‌کند
+ * تا تصویر از سرور درست لود شود.
+ */
+export function getImageUrl(path: string | null | undefined): string {
+  if (!path) return "";
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  const base = getBaseUrl();
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return base ? `${base}${normalized}` : normalized;
+}
 
 const apiUrl = (path: string) => {
   const base = getBaseUrl();

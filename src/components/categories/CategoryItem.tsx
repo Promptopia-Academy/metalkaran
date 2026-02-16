@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ICategoryItemProps } from "@/types/type";
 import { Tooltip, TooltipContent } from "../ui/tooltip";
 import { TooltipTrigger } from "@radix-ui/react-tooltip";
+import { getImageUrl } from "@/lib/api";
 
 export const CategoryItem: React.FC<ICategoryItemProps> = ({
   category
@@ -13,7 +14,7 @@ export const CategoryItem: React.FC<ICategoryItemProps> = ({
           <div className="w-full h-full transform -rotate-45 scale-[1.22] sm:scale-[1.28] relative flex items-center justify-center">
             {category.image ? (
               <Image
-                src={category.image}
+                src={getImageUrl(category.image)}
                 alt={category.slug}
                 fill
                 className="object-contain transition-transform duration-300 ease-out group-hover:scale-110"

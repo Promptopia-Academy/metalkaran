@@ -2,6 +2,7 @@ import Banner from "@/context/Banner";
 import type { IArticleTextsProps } from "@/types/type";
 import { EXTRA_CONTENT_SECTIONS } from "@/lib/constants";
 import ArticleSource from "@/components/articles/article-source/ArticleSource";
+import { getImageUrl } from "@/lib/api";
 
 const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
   const mainTitle =
@@ -40,7 +41,7 @@ const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
           )}
           {banner && (
             <div className="flex items-center justify-center">
-              <Banner imageSrc={banner} width={1150} height={400} />
+              <Banner imageSrc={getImageUrl(banner)} width={1150} height={400} />
             </div>
           )}
           {content1 && (
