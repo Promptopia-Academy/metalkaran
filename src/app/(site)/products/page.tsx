@@ -1,4 +1,3 @@
-"use client";
 import CardElement from "@/components/cards/CardElement";
 import { getSiteProducts } from "@/lib/api";
 import { IProduct } from "@/types/type";
@@ -16,10 +15,7 @@ const ProductsPage = async () => {
           {products?.map((product: IProduct) => (
             <CardElement
               key={product.id}
-              id={product.id}
-              image={product.image || ""}
-              title={product.title}
-              slug={product.standards || product.category?.title}
+      product={product}
             />
           ))}
         </div>

@@ -265,10 +265,7 @@ export interface ICategoryItemProps {
 }
 
 export interface ICardElementProps {
-  id: number;
-  image: string;
-  title: string;
-  slug?: string;
+  product: IProduct;
 }
 
 export interface ICalculatorInputProps {
