@@ -1,6 +1,11 @@
 import type { ICompanyInformation, ICompanySocialLink } from "@/types/type";
 import { apiUrl, authHeaders, toCamelCase } from "@/utils/apiHelper";
 import { handleUnauthorized } from "@/utils/apiHelper";
+import * as articleApi from "./articleApi";
+import * as categoryApi from "./categoryApi";
+import * as productsApi from "./producstsApi";
+import { login } from "./authApi";
+import { uploadImage } from "./uploadImageApi";
 
 export const AUTH_STORAGE_KEY = "admin_api_key";
 
@@ -185,4 +190,20 @@ export const api = {
   getContactUsPageData,
   getCompanyInfo,
   getQuestions,
+  // ادمین - مقالات
+  getArticles: articleApi.getArticles,
+  createArticle: articleApi.createArticle,
+  deleteArticle: articleApi.deleteArticle,
+  // ادمین - دسته‌بندی
+  getCmsCategories: categoryApi.getCategories,
+  createCategory: categoryApi.createCategory,
+  // ادمین - محصولات
+  getProducts: productsApi.getProducts,
+  getElements: productsApi.getProducts,
+  deleteProduct: productsApi.deleteProduct,
+  deleteElement: productsApi.deleteProduct,
+  createProductFull: productsApi.createProduct,
+  // ادمین - آپلود و احراز هویت
+  uploadImage,
+  login,
 };

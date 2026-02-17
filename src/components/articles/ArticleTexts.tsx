@@ -2,7 +2,7 @@ import Banner from "@/context/Banner";
 import type { IArticleTextsProps } from "@/types/type";
 import { EXTRA_CONTENT_SECTIONS } from "@/lib/constants";
 import ArticleSource from "@/components/articles/article-source/ArticleSource";
-import { getImageUrl } from "@/lib/cms/pageApi";
+import { getImageUrl } from "@/lib/cms/uploadImageApi";
 
 const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
   const mainTitle =

@@ -1,6 +1,6 @@
 "use client";
 
-import { getImageUrl } from "@/lib/cms/pageApi";
+import { getImageUrl } from "@/lib/cms/uploadImageApi";
 
 type UploadedImageProps = {
   src: string | null | undefined;
