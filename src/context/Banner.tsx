@@ -1,6 +1,4 @@
-import Image from "next/image";
 import { IBannerProps } from "@/types/type";
-
 
 const Banner = ({
   imageSrc,
@@ -10,14 +8,16 @@ const Banner = ({
   overlay,
   overlayColor,
 }: IBannerProps) => {
+  if (!imageSrc) return null;
   return (
     <div>
-      <Image
+      <img
         src={imageSrc}
         alt={text || "Banner image"}
         width={width || 400}
         height={height || 100}
-        unoptimized
+        loading="lazy"
+        decoding="async"
       />
       {overlay && (
         <div

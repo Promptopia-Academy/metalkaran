@@ -1,6 +1,5 @@
-import Image from "next/image";
 import type { IProductUsageProps } from "@/types/type";
-import { getImageUrl } from "@/lib/api";
+import UploadedImage from "@/components/ui/UploadedImage";
 
 export default function ProductUsage({ usage }: IProductUsageProps) {
     return (
@@ -8,12 +7,11 @@ export default function ProductUsage({ usage }: IProductUsageProps) {
             className="shrink-0 w-72 h-80 overflow-hidden flex flex-col rounded-[8px]"
         >
             <div className="relative flex-1 min-h-0 w-full">
-                <Image
-                    src={getImageUrl(usage.image)}
+                <UploadedImage
+                    src={usage.image}
                     alt={usage.title}
                     fill
                     className="object-cover rounded-t-[8px]"
-                    unoptimized
                 />
             </div>
             <div

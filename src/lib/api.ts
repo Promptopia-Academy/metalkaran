@@ -19,17 +19,25 @@ const getBaseUrl = () => {
 };
 
 /**
+ * آدرس پایهٔ سروری که فایل‌های آپلود (/uploads) را سرو می‌کند.
+ * اول NEXT_PUBLIC_UPLOADS_URL، بعد NEXT_PUBLIC_API_URL، وگرنه خالی (همان origin).
+ */
+function getUploadsBaseUrl(): string {
+  const uploadsUrl = process.env.NEXT_PUBLIC_UPLOADS_URL;
+  if (uploadsUrl) return uploadsUrl.replace(/\/$/, "");
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (apiUrl) return apiUrl.replace(/\/$/, "");
+  return "";
+}
+
+/**
  * برای نمایش عکس‌های آپلودشده از بک‌اند.
- * فقط از NEXT_PUBLIC_API_URL استفاده می‌کند تا تصویر همیشه از سرور بک‌اند لود شود
- * (نه از SITE_URL که روی سرور به localhost:3000 می‌زد).
- * در حالت Dev حتماً NEXT_PUBLIC_API_URL=http://localhost:3001 بذار.
+ * در Production حتماً NEXT_PUBLIC_API_URL یا NEXT_PUBLIC_UPLOADS_URL را به آدرس بک‌اند (همان سروری که /uploads را سرو می‌کند) بذار، وگرنه عکس‌ها ۴۰۰ می‌خورن.
  */
 export function getImageUrl(path: string | null | undefined): string {
   if (!path) return "";
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  const base = process.env.NEXT_PUBLIC_API_URL
-    ? process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "")
-    : "";
+  const base = getUploadsBaseUrl();
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return base ? `${base}${normalized}` : normalized;
 }

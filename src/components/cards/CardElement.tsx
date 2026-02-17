@@ -4,20 +4,28 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { ICardElementProps } from "@/types/type";
-import { getImageUrl } from "@/lib/api";
+import UploadedImage from "@/components/ui/UploadedImage";
 
 const PLACEHOLDER_IMAGE = "/carousel-img/image-1.png";
 
 const cardContent = ({ image, title, slug }: Pick<ICardElementProps, "image" | "title" | "slug">) => (
   <>
     <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-60">
-      <Image
-        src={getImageUrl(image) || PLACEHOLDER_IMAGE}
-        alt={title}
-        fill
-        className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"
-        unoptimized={!!image}
-      />
+      {image ? (
+        <UploadedImage
+          src={image}
+          alt={title}
+          fill
+          className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"
+        />
+      ) : (
+        <Image
+          src={PLACEHOLDER_IMAGE}
+          alt={title}
+          fill
+          className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"
+        />
+      )}
       <div className="pointer-events-none absolute inset-0 opacity-0 to-transparent transition-opacity duration-500" />
     </div>
     <div className="flex flex-col gap-1.5 md:gap-2 justify-center items-center p-3 md:p-4">

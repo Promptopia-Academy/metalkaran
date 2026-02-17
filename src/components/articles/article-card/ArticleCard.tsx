@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { IArticleCardProps } from "@/types/type";
-import { getImageUrl } from "@/lib/api";
+import UploadedImage from "@/components/ui/UploadedImage";
 
 const PLACEHOLDER_IMAGE = "/images/articles.png";
 
@@ -12,7 +12,6 @@ export default function ArticleCard({ article }: IArticleCardProps) {
   const title = article.title || article.title1 || "مقاله";
   const intro = article.introduction || article.content1 || "";
   const snippet = intro.length > 120 ? intro.slice(0, 120).trim() + "…" : intro;
-  const imageSrc = getImageUrl(article.image) || PLACEHOLDER_IMAGE;
 
   return (
     <Link href={`/articles/${article.id}`} className="block h-full">
@@ -21,14 +20,23 @@ export default function ArticleCard({ article }: IArticleCardProps) {
         className="group cursor-pointer bg-card w-full h-full pb-3 md:pb-4 rounded-xl md:rounded-2xl shrink-0 overflow-hidden min-w-0 relative transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 flex flex-col"
       >
         <div className="relative w-full h-40 sm:h-44 md:h-52 lg:h-56 flex-shrink-0">
-          <Image
-            src={imageSrc}
-            alt={title}
-            fill
-            className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"
-            sizes="(max-width: 640px) 85vw, (max-width: 768px) 60vw, (max-width: 1024px) 45vw, 33vw"
-            unoptimized={!!article.image}
-          />
+          {article.image ? (
+            <UploadedImage
+              src={article.image}
+              alt={title}
+              fill
+              className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"
+              sizes="(max-width: 640px) 85vw, (max-width: 768px) 60vw, (max-width: 1024px) 45vw, 33vw"
+            />
+          ) : (
+            <Image
+              src={PLACEHOLDER_IMAGE}
+              alt={title}
+              fill
+              className="rounded-t-xl md:rounded-t-2xl object-cover transform transition-transform duration-700"
+              sizes="(max-width: 640px) 85vw, (max-width: 768px) 60vw, (max-width: 1024px) 45vw, 33vw"
+            />
+          )}
         </div>
         <div className="flex flex-col gap-1.5 md:gap-2 justify-center items-center p-3 md:p-4 flex-1">
           <h2 className="text-center text-sm sm:text-base md:text-lg font-medium text-button line-clamp-2">
