@@ -1,14 +1,13 @@
 import { IPageProps } from "@/types/type";
 import { notFound } from "next/navigation";
 import ArticleTexts from "@/components/articles/ArticleTexts";
-import { getArticleById } from "@/lib/cms/articleApi";
+import { getArticleByIdForSite } from "@/lib/cms/articleApi";
 import { IArticle } from "@/types/type";
 
 const ArticleDetailPage = async ({ params }: IPageProps) => {
   const { id } = await params;
   const articleId = Number(id);
-  const article = (await getArticleById(articleId)) as IArticle;
-  console.log(article);
+  const article = (await getArticleByIdForSite(articleId)) as IArticle | null;
   if (!article) {
     notFound();
   }

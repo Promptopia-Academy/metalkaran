@@ -8,8 +8,10 @@ import Calculator from "@/components/calculator/Calculator";
 import CategoryGrid from "@/components/categories/Categories";
 import IndustriesCarousel from "@/components/feature/Feature";
 import AnimatedSection from "@/components/ui/animated-section";
+import { getCategoriesForSite } from "@/lib/cms/categoryApi";
 
-export default function Home() {
+export default async function Home() {
+  const categories = await getCategoriesForSite();
   return (
     <section>
       <AnimatedSection
@@ -29,7 +31,7 @@ export default function Home() {
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <CategoryGrid />
+        <CategoryGrid categories={categories} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>

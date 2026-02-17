@@ -1,5 +1,10 @@
 import { IArticle, Pagination } from "@/types/type";
-import { apiUrl, authHeaders, getStoredToken, toCamelCase } from "@/utils/apiHelper";
+import {
+  apiUrl,
+  authHeaders,
+  getStoredToken,
+  toCamelCase,
+} from "@/utils/apiHelper";
 import { handleUnauthorized } from "@/utils/apiHelper";
 
 export async function getArticles(params?: {
@@ -109,6 +114,7 @@ export async function deleteArticle(id: number, token?: string) {
   }
 }
 
+/** برای ادمین: یک مقاله با id (با auth) */
 export async function getArticleById(id: number): Promise<IArticle | null> {
   try {
     const res = await fetch(apiUrl(`/api/cms/articles/${id}`), {
@@ -118,6 +124,53 @@ export async function getArticleById(id: number): Promise<IArticle | null> {
       handleUnauthorized();
       return null;
     }
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error("خطا در دریافت مقاله");
+    const data = await res.json();
+    return toCamelCase(data) as IArticle;
+  } catch {
+    return null;
+  }
+}
+
+/** برای سایت: لیست مقالات (بدون auth) */
+export async function getArticlesForSite(params?: {
+  page?: number;
+  limit?: number;
+}): Promise<{
+  success: boolean;
+  data: IArticle[];
+  pagination: Pagination | null;
+}> {
+  try {
+    const res = await fetch(apiUrl("/api/site/articles"));
+    if (!res.ok) throw new Error("خطا در دریافت مقالات");
+    const data = await res.json();
+    const items = Array.isArray(data) ? data : data?.data ?? [];
+    const total = items.length;
+    const page = params?.page || 1;
+    const limit = params?.limit ?? 100;
+    const start = (page - 1) * limit;
+    const paginated = items.slice(start, start + limit);
+    return {
+      success: true,
+      data: toCamelCase<IArticle[]>(paginated),
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit) || 1,
+      },
+    };
+  } catch {
+    return { success: false, data: [], pagination: null };
+  }
+}
+
+/** برای سایت: یک مقاله با id (بدون auth) */
+export async function getArticleByIdForSite(id: number): Promise<IArticle | null> {
+  try {
+    const res = await fetch(apiUrl(`/api/site/articles/${id}`));
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت مقاله");
     const data = await res.json();

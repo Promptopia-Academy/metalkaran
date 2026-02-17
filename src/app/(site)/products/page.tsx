@@ -1,9 +1,9 @@
 import CardElement from "@/components/cards/CardElement";
-import { getProducts } from "@/lib/cms/producstsApi";
+import { getProductsForSite } from "@/lib/cms/producstsApi";
 import { IProduct } from "@/types/type";
 
 const ProductsPage = async () => {
-  const products = (await getProducts()).data;
+  const { data: products } = await getProductsForSite({ limit: 100 });
   return (
     <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 md:py-12">
       <section className="w-full max-w-[1600px] mx-auto">

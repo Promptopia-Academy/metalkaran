@@ -7,6 +7,7 @@ import {
   toCamelCase,
 } from "@/utils/apiHelper";
 
+/** برای سایت: یک محصول با id (بدون auth) */
 export async function getProductById(id: number): Promise<IProduct | null> {
   try {
     const res = await fetch(apiUrl(`/api/site/products/${id}`));
@@ -16,6 +17,44 @@ export async function getProductById(id: number): Promise<IProduct | null> {
     return toCamelCase(data) as IProduct;
   } catch {
     return null;
+  }
+}
+
+/** برای سایت: لیست محصولات (بدون auth) */
+export async function getProductsForSite(params?: {
+  page?: number;
+  limit?: number;
+}): Promise<{
+  success: boolean;
+  data: IProduct[];
+  pagination: Pagination | null;
+}> {
+  try {
+    const res = await fetch(apiUrl("/api/site/products"));
+    if (!res.ok) throw new Error("خطا در دریافت محصولات");
+    const data = await res.json();
+    const items = Array.isArray(data) ? data : data?.data ?? [];
+    const total = items.length;
+    const page = params?.page || 1;
+    const limit = params?.limit ?? 100;
+    const start = (page - 1) * limit;
+    const paginated = items.slice(start, start + limit);
+    return {
+      success: true,
+      data: toCamelCase<IProduct[]>(paginated),
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit) || 1,
+      },
+    };
+  } catch {
+    return {
+      success: false,
+      data: [],
+      pagination: null,
+    };
   }
 }
 

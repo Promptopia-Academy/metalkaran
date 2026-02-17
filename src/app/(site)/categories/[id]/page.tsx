@@ -1,23 +1,23 @@
 import { notFound } from "next/navigation";
 import { ICategoryPageProps } from "@/types/type";
 import CardElement from "@/components/cards/CardElement";
-import { getCategories } from "@/lib/cms/categoryApi";
+import { getCategoriesForSite } from "@/lib/cms/categoryApi";
 import { ICategory, IProduct } from "@/types/type";
-import { getProducts } from "@/lib/cms/producstsApi";
+import { getProductsForSite } from "@/lib/cms/producstsApi";
 
 export default async function CategoryPage({ params }: ICategoryPageProps) {
-  const { slug } = params;
-  const categories = await getCategories();
+  const resolved = await params;
+  const slug = String("id" in resolved ? resolved.id : (resolved as { slug: string }).slug);
+  const categories = await getCategoriesForSite();
   const category = categories.find((c: ICategory) => c.slug === slug);
   if (!category) {
     notFound();
   }
 
-  const products = (await getProducts()).data.filter(
+  const { data: allProducts } = await getProductsForSite({ limit: 200 });
+  const products = (allProducts ?? []).filter(
     (product: IProduct) => product.category?.slug === slug,
   );
-
-  console.log(products);
 
   return (
     <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 md:py-12">
