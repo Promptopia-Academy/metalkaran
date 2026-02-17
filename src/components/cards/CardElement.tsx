@@ -42,9 +42,8 @@ export default function CardElement({ product }: ICardElementProps) {
   const style = { boxShadow: "3px 5px 10px 4px rgba(0, 0, 0, 0.25)" };
 
   // لینک به صفحه جزئیات: از id استفاده می‌کنیم. اگه بک‌اند فیلد رو product_id فرستاد، toCamelCase می‌شه productId
-  const rawId = product.id ?? (product as { productId?: number }).productId;
-  const productId = typeof rawId === "number" && !Number.isNaN(rawId) ? rawId : 0;
-  const href = `/products/${productId}`;
+
+  const href = `/products/${product.id}`;
 
   const content = cardContent({ product });
 
