@@ -32,13 +32,7 @@ export default async function CategoryPage({ params }: ICategoryPageProps) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {products.map((product) => (
-              <CardElement
-                key={product.id}
-                id={product.id}
-                image={product.image || "/carousel-img/image-1.png"}
-                title={product.title}
-                slug={product.standards || product.category?.title}
-              />
+              <CardElement key={product.id} product={product} />
             ))}
           </div>
         )}

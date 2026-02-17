@@ -41,10 +41,15 @@ export default function CardElement({ product }: ICardElementProps) {
     "group cursor-pointer bg-card w-full h-full pb-3 md:pb-4 rounded-xl md:rounded-2xl shrink-0 overflow-hidden min-w-0 relative transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 flex flex-col";
   const style = { boxShadow: "3px 5px 10px 4px rgba(0, 0, 0, 0.25)" };
 
+  // لینک به صفحه جزئیات: از id استفاده می‌کنیم. اگه بک‌اند فیلد رو product_id فرستاد، toCamelCase می‌شه productId
+  const rawId = product.id ?? (product as { productId?: number }).productId;
+  const productId = typeof rawId === "number" && !Number.isNaN(rawId) ? rawId : 0;
+  const href = `/products/${productId}`;
+
   const content = cardContent({ product });
 
   return (
-    <Link href={`/products/${product.id}`} className={`block ${wrapperClass}`} style={style}>
+    <Link href={href} className={`block ${wrapperClass}`} style={style}>
       {content}
       <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-24 h-24 md:w-32 md:h-32 bg-primary-secondary/30 rounded-full blur-3xl opacity-0 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none" />
     </Link>

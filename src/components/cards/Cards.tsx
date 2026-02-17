@@ -24,12 +24,7 @@ const Cards = () => {
               key={product.id}
               className="pl-2 md:pl-4 basis-[85%] sm:basis-[60%] md:basis-[45%] lg:basis-[33.33%] xl:basis-[25%] hover:z-10"
             >
-              <CardElement
-                id={product.id}
-                image={product.image || "/carousel-img/image-1.png"}
-                title={product.title}
-                slug={product.standards || product.category?.title}
-              />
+              <CardElement product={product} />
             </CarouselItem>
           ))}
         </CarouselContent>
