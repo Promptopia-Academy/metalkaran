@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus } from "lucide-react";
+import { Plus, Edit, Trash2 } from "lucide-react";
 import { api } from "@/lib/cms/pageApi";
 import Link from "next/link";
 
@@ -13,21 +13,32 @@ export default function AdminCategoriesPage() {
   >([]);
   const [loading, setLoading] = useState(true);
 
+  const load = async () => {
+    const data = await api.getCmsCategories();
+    setCategories(data);
+  };
+
   useEffect(() => {
-    const load = async () => {
-      const data = await api.getCmsCategories();
-      setCategories(data);
-      setLoading(false);
-    };
-    load();
+    load().finally(() => setLoading(false));
   }, []);
+
+  const handleDelete = async (id: number, title: string) => {
+    if (!confirm(`آیا از حذف دسته‌بندی «${title}» مطمئن هستید؟`)) return;
+    try {
+      await api.deleteCategory(id);
+      await load();
+      alert("دسته‌بندی حذف شد");
+    } catch (error: unknown) {
+      alert(`خطا در حذف: ${error instanceof Error ? error.message : "خطای نامشخص"}`);
+    }
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold mb-2">مدیریت دسته‌بندی‌ها</h1>
-          <p className="text-muted-foreground">افزودن و مشاهده دسته‌بندی‌ها</p>
+          <p className="text-muted-foreground">افزودن، ویرایش و حذف دسته‌بندی‌ها</p>
         </div>
         <Link href="/admin/categories/new">
           <Button>
@@ -50,8 +61,26 @@ export default function AdminCategoriesPage() {
           {categories.map((c) => (
             <Card key={c.id}>
               <CardHeader>
-                <CardTitle className="text-lg">{c.title}</CardTitle>
-                <p className="text-sm text-muted-foreground">{c.slug}</p>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <CardTitle className="text-lg">{c.title}</CardTitle>
+                    <p className="text-sm text-muted-foreground">{c.slug}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Link href={`/admin/categories/${c.id}`}>
+                      <Button variant="outline" size="sm">
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(c.id, c.title)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
               </CardHeader>
             </Card>
           ))}

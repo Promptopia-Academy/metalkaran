@@ -179,6 +179,33 @@ export async function getQuestions() {
   }
 }
 
+export type ContactFormItem = {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  company: string;
+  createdAt?: string;
+};
+
+export async function getContactFormData(): Promise<ContactFormItem[]> {
+  try {
+    const res = await fetch(apiUrl("/api/cms/contact-form-data"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      return [];
+    }
+    if (!res.ok) throw new Error("خطا در دریافت پیام‌ها");
+    const data = await res.json();
+    const arr = Array.isArray(data) ? data : [];
+    return toCamelCase(arr) as ContactFormItem[];
+  } catch {
+    return [];
+  }
+}
+
 export const api = {
   submitContact,
   getCmsUsages,
@@ -190,19 +217,27 @@ export const api = {
   getContactUsPageData,
   getCompanyInfo,
   getQuestions,
+  getContactFormData,
   // ادمین - مقالات
   getArticles: articleApi.getArticles,
+  getArticleById: articleApi.getArticleById,
   createArticle: articleApi.createArticle,
+  updateArticle: articleApi.updateArticle,
   deleteArticle: articleApi.deleteArticle,
   // ادمین - دسته‌بندی
   getCmsCategories: categoryApi.getCategories,
   createCategory: categoryApi.createCategory,
+  updateCategory: categoryApi.updateCategory,
+  deleteCategory: categoryApi.deleteCategory,
   // ادمین - محصولات
   getProducts: productsApi.getProducts,
   getElements: productsApi.getProducts,
+  getProductById: productsApi.getProductById,
+  getProductFullForAdmin: productsApi.getProductFullForAdmin,
   deleteProduct: productsApi.deleteProduct,
   deleteElement: productsApi.deleteProduct,
   createProductFull: productsApi.createProduct,
+  updateProduct: productsApi.updateProduct,
   // ادمین - آپلود و احراز هویت
   uploadImage,
   login,

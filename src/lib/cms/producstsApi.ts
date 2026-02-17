@@ -9,11 +9,34 @@ import {
 
 export async function getProductById(id: number): Promise<IProduct | null> {
   try {
-    const res = await fetch(apiUrl(`/api/site/products_full/${id}`));
+    const res = await fetch(apiUrl(`/api/site/products/${id}`));
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت محصول");
     const data = await res.json();
     return toCamelCase(data) as IProduct;
+  } catch {
+    return null;
+  }
+}
+
+/** برای ادمین: گرفتن یک محصول از CMS با usageIds */
+export async function getProductFullForAdmin(id: number): Promise<(IProduct & { usageIds?: string[] }) | null> {
+  try {
+    const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      return null;
+    }
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error("خطا در دریافت محصول");
+    const data = await res.json();
+    const parsed = toCamelCase(data) as IProduct & { usageIds?: string };
+    const usageIds = typeof parsed.usageIds === "string"
+      ? parsed.usageIds.split(",").map((s: string) => s.trim()).filter(Boolean)
+      : Array.isArray(parsed.usageIds) ? parsed.usageIds : [];
+    return { ...parsed, usageIds };
   } catch {
     return null;
   }
@@ -80,6 +103,55 @@ export async function deleteProduct(id: number, token?: string) {
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.error || "خطا در حذف");
+  }
+}
+
+export async function updateProduct(
+  id: number,
+  data: Partial<Omit<CreateProductFullInput, "image">> & {
+    image?: string | null;
+    usageIds?: string[];
+  },
+  token?: string,
+) {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...authHeaders(),
+  };
+  const t = token ?? getStoredToken();
+  if (t) headers["Authorization"] = `Bearer ${t}`;
+
+  const body: Record<string, unknown> = {
+    title: data.title,
+    slug: data.slug,
+    introduction: data.introduction,
+    description: data.description,
+    categoryId: data.categoryId ?? null,
+    standards: data.standards ?? undefined,
+    thermalExpansion: data.thermalExpansion ?? undefined,
+    corrosionResistance: data.corrosionResistance ?? undefined,
+    heatResistance: data.heatResistance ?? undefined,
+    manufacturing: data.manufacturing ?? undefined,
+    hotForming: data.hotForming ?? undefined,
+    coldForming: data.coldForming ?? undefined,
+    welding: data.welding ?? undefined,
+    machining: data.machining ?? undefined,
+    image: data.image ?? undefined,
+  };
+  if (data.usageIds?.length) body.usageIds = data.usageIds.join(",");
+
+  const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ویرایش محصول");
   }
 }
 

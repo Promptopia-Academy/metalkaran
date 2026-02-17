@@ -111,12 +111,60 @@ export async function deleteArticle(id: number, token?: string) {
 
 export async function getArticleById(id: number): Promise<IArticle | null> {
   try {
-    const res = await fetch(apiUrl(`/api/cms/articles/${id}`));
+    const res = await fetch(apiUrl(`/api/cms/articles/${id}`), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      return null;
+    }
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت مقاله");
     const data = await res.json();
     return toCamelCase(data) as IArticle;
   } catch {
     return null;
+  }
+}
+
+export async function updateArticle(
+  id: number,
+  data: Record<string, string>,
+  token?: string,
+) {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...authHeaders(),
+  };
+  const t = token ?? getStoredToken();
+  if (t) headers["Authorization"] = `Bearer ${t}`;
+
+  const res = await fetch(apiUrl(`/api/cms/articles/${id}`), {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({
+      title: data.title,
+      image: data.image || undefined,
+      introduction: data.introduction,
+      title1: data.title1,
+      content1: data.content1,
+      title2: data.title2 || undefined,
+      content2: data.content2 || undefined,
+      title3: data.title3 || undefined,
+      content3: data.content3 || undefined,
+      title4: data.title4 || undefined,
+      content4: data.content4 || undefined,
+      title5: data.title5 || undefined,
+      content5: data.content5 || undefined,
+      applicationTitle: data.applicationTitle || undefined,
+    }),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || "خطا در ویرایش مقاله");
   }
 }
