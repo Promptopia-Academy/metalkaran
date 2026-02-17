@@ -505,7 +505,7 @@ export async function getSiteCategories() {
 
 export async function getSiteProducts(): Promise<IProduct[] | null> {
   try {
-    const res = await fetch(apiUrl("/api/site/products"));
+    const res = await fetch(apiUrl("/api/site/products_full"));
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
@@ -517,7 +517,7 @@ export async function getSiteProducts(): Promise<IProduct[] | null> {
 /** گرفتن یک محصول بر اساس id (برای صفحه جزئیات محصول) */
 export async function getSiteProductById(id: number): Promise<IProduct | null> {
   try {
-    const res = await fetch(apiUrl(`/api/site/products/${id}`));
+    const res = await fetch(apiUrl(`/api/site/products_full/${id}`));
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت محصول");
     const data = await res.json();
