@@ -126,8 +126,6 @@ export interface ICalculateWeightParams {
 
 export type IUnit = "cm" | "m";
 
-
-
 export interface IContactFormData {
   id?: number;
   name: string;
@@ -135,7 +133,6 @@ export interface IContactFormData {
   email: string;
   company: string;
 }
-
 
 export interface IAboutUsPageCard {
   id: number;
@@ -145,10 +142,37 @@ export interface IAboutUsPageCard {
 
 export type IAboutUsCardProps = Pick<IAboutUsPageCard, "image" | "title">;
 
+
+export type CreateProductFullInput = {
+  image?: File | null;
+  title: string;
+  slug: string;
+  categoryId?: number | null;
+  introduction: string;
+  description: string;
+  standards?: string;
+  thermalExpansion?: string;
+  corrosionResistance?: string;
+  heatResistance?: string;
+  manufacturing?: string;
+  hotForming?: string;
+  coldForming?: string;
+  welding?: string;
+  machining?: string;
+  usageIds?: string[];
+};
+
+
 export interface IAboutUsPageWhyUs {
   title: string;
   description: string;
 }
+export type Pagination = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
 
 export interface IAboutUsPageDescription {
   id: number;
@@ -193,7 +217,6 @@ export interface IWebsiteContent {
   companyInformation: ICompanyInformation;
   contactUsPageData: IContactUsPageData;
 }
-
 
 export interface DataTableColumn<T extends object = object> {
   header: string;
@@ -285,13 +308,8 @@ export interface IQuestionSectionProps {
   title?: string;
 }
 
-
-
 export interface IQuestion {
   id: number;
   question: string;
   answer: String;
 }
-
-
-

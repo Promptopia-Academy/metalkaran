@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { api } from "@/lib/api";
+import { api } from "@/lib/cms/pageApi";
 import { ArrowRight } from "lucide-react";
 
 const textareaClass =
@@ -22,7 +22,9 @@ const textareaClass =
 export default function NewProductPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState<{ id: number; slug: string; title: string }[]>([]);
+  const [categories, setCategories] = useState<
+    { id: number; slug: string; title: string }[]
+  >([]);
   const [usages, setUsages] = useState<{ id: string; title: string }[]>([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
@@ -81,7 +83,9 @@ export default function NewProductPage() {
       alert("محصول با موفقیت ایجاد شد");
       router.push("/admin/products");
     } catch (error: unknown) {
-      alert(`خطا در ایجاد محصول: ${error instanceof Error ? error.message : "خطای نامشخص"}`);
+      alert(
+        `خطا در ایجاد محصول: ${error instanceof Error ? error.message : "خطای نامشخص"}`,
+      );
     } finally {
       setLoading(false);
     }
@@ -139,9 +143,7 @@ export default function NewProductPage() {
                 id="image"
                 type="file"
                 accept="image/*"
-                onChange={(e) =>
-                  setImageFile(e.target.files?.[0] ?? null)
-                }
+                onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
               />
             </div>
             <div>
@@ -241,7 +243,9 @@ export default function NewProductPage() {
               />
             </div>
             <div>
-              <Label htmlFor="corrosionResistance">مقاومت در برابر خوردگی</Label>
+              <Label htmlFor="corrosionResistance">
+                مقاومت در برابر خوردگی
+              </Label>
               <textarea
                 id="corrosionResistance"
                 className={textareaClass}

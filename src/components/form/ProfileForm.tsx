@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { api } from "@/lib/api";
+import { api } from "@/lib/cms/pageApi";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
@@ -149,10 +149,11 @@ export function ProfileForm() {
 
         {submitMessage && (
           <div
-            className={`w-[250px] sm:w-[400px] p-3 rounded-2xl text-sm ${submitMessage.type === "success"
-              ? "bg-green-100 text-green-800 border-2 border-green-300"
-              : "bg-red-100 text-red-800 border-2 border-red-300"
-              }`}
+            className={`w-[250px] sm:w-[400px] p-3 rounded-2xl text-sm ${
+              submitMessage.type === "success"
+                ? "bg-green-100 text-green-800 border-2 border-green-300"
+                : "bg-red-100 text-red-800 border-2 border-red-300"
+            }`}
             dir="rtl"
           >
             {submitMessage.text}

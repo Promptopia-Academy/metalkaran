@@ -1,5 +1,5 @@
 import CardElement from "@/components/cards/CardElement";
-import { getSiteProducts } from "@/lib/api";
+import { getSiteProducts } from "@/lib/cms/pageApi";
 import { IProduct } from "@/types/type";
 
 const ProductsPage = async () => {
@@ -13,10 +13,7 @@ const ProductsPage = async () => {
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {products?.map((product: IProduct) => (
-            <CardElement
-       key={product.id}
-      product={product}
-            />
+            <CardElement key={product.id} product={product} />
           ))}
         </div>
       </section>

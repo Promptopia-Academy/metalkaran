@@ -2,12 +2,16 @@ import Banner from "@/context/Banner";
 import type { IArticleTextsProps } from "@/types/type";
 import { EXTRA_CONTENT_SECTIONS } from "@/lib/constants";
 import ArticleSource from "@/components/articles/article-source/ArticleSource";
-import { getImageUrl } from "@/lib/api";
+import { getImageUrl } from "@/lib/cms/pageApi";
 
 const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
   const mainTitle =
-    (article.title || article.title1 || article.applicationTitle || "").trim() ||
-    undefined;
+    (
+      article.title ||
+      article.title1 ||
+      article.applicationTitle ||
+      ""
+    ).trim() || undefined;
   const introduction = (article.introduction || "").trim() || undefined;
   const content1 = (article.content1 || "").trim() || undefined;
   const applications = article.application ?? [];
@@ -22,10 +26,16 @@ const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
     sources.length > 0;
   const hasExtraSections = EXTRA_CONTENT_SECTIONS.some(
     (s) =>
-      !!((article as unknown as Record<string, string | undefined>)[s.title]?.trim() || (article as unknown as Record<string, string | undefined>)[s.content]?.trim())
+      !!(
+        (article as unknown as Record<string, string | undefined>)[
+          s.title
+        ]?.trim() ||
+        (article as unknown as Record<string, string | undefined>)[
+          s.content
+        ]?.trim()
+      ),
   );
-  const hasAnyContent =
-    hasMainContent || hasExtraSections || !!banner;
+  const hasAnyContent = hasMainContent || hasExtraSections || !!banner;
 
   if (!hasAnyContent) return null;
 
@@ -36,26 +46,31 @@ const ArticleTexts = ({ article, dir }: IArticleTextsProps) => {
           {mainTitle && (
             <h2 className="text-4xl font-bold mb-4">{mainTitle}</h2>
           )}
-          {introduction && (
-            <p className="mb-4 text-2xl">{introduction}</p>
-          )}
+          {introduction && <p className="mb-4 text-2xl">{introduction}</p>}
           {banner && (
             <div className="flex items-center justify-center">
-              <Banner imageSrc={getImageUrl(banner)} width={1150} height={400} />
+              <Banner
+                imageSrc={getImageUrl(banner)}
+                width={1150}
+                height={400}
+              />
             </div>
           )}
-          {content1 && (
-            <p className="mb-4 text-2xl">{content1}</p>
-          )}
+          {content1 && <p className="mb-4 text-2xl">{content1}</p>}
 
           {EXTRA_CONTENT_SECTIONS.map((section) => {
-            const articleRecord = article as unknown as Record<string, string | undefined>;
+            const articleRecord = article as unknown as Record<
+              string,
+              string | undefined
+            >;
             const title = articleRecord[section.title]?.trim();
             const content = articleRecord[section.content]?.trim();
             if (!title && !content) return null;
             return (
               <div key={section.title}>
-                {title && <h3 className="text-2xl font-semibold mb-2">{title}</h3>}
+                {title && (
+                  <h3 className="text-2xl font-semibold mb-2">{title}</h3>
+                )}
                 {content && <p className="text-xl">{content}</p>}
               </div>
             );

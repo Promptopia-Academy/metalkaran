@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { api } from "@/lib/api";
+import { api } from "@/lib/cms/pageApi";
 import { ArrowRight } from "lucide-react";
 
 export default function NewArticlePage() {
@@ -38,7 +38,9 @@ export default function NewArticlePage() {
       alert("مقاله با موفقیت ایجاد شد");
       router.push("/admin/articles");
     } catch (error: unknown) {
-      alert(`خطا در ایجاد مقاله: ${error instanceof Error ? error.message : "خطای نامشخص"}`);
+      alert(
+        `خطا در ایجاد مقاله: ${error instanceof Error ? error.message : "خطای نامشخص"}`,
+      );
     } finally {
       setLoading(false);
     }

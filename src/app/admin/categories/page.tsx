@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Plus } from "lucide-react";
-import { api } from "@/lib/api";
+import { api } from "@/lib/cms/pageApi";
 import Link from "next/link";
 
 export default function AdminCategoriesPage() {

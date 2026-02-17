@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { api } from "@/lib/api";
+import { api } from "@/lib/cms/pageApi";
 import { ArrowRight } from "lucide-react";
 
 export default function NewCategoryPage() {
@@ -36,7 +36,7 @@ export default function NewCategoryPage() {
       router.push("/admin/categories");
     } catch (error: unknown) {
       alert(
-        `خطا در ایجاد دسته‌بندی: ${error instanceof Error ? error.message : "خطای نامشخص"}`
+        `خطا در ایجاد دسته‌بندی: ${error instanceof Error ? error.message : "خطای نامشخص"}`,
       );
     } finally {
       setLoading(false);
@@ -87,9 +87,7 @@ export default function NewCategoryPage() {
                 id="image"
                 type="file"
                 accept="image/*"
-                onChange={(e) =>
-                  setImageFile(e.target.files?.[0] ?? null)
-                }
+                onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
               />
             </div>
           </CardContent>

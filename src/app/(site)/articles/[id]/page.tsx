@@ -1,15 +1,15 @@
 import { IPageProps } from "@/types/type";
 import { notFound } from "next/navigation";
-import { ARTICLE_ITEMS } from "@/lib/constants";
 import ArticleTexts from "@/components/articles/ArticleTexts";
-import { getArticleById } from "@/lib/api";
+import { getArticleById } from "@/lib/cms/articleApi";
+import { IArticle } from "@/types/type";
 
 const ArticleDetailPage = async ({ params }: IPageProps) => {
   const { id } = await params;
   const articleId = Number(id);
-  const article = await getArticleById(articleId);
+  const article = (await getArticleById(articleId)) as IArticle;
   console.log(article);
-  if (!article || Number.isNaN(articleId)) {
+  if (!article) {
     notFound();
   }
   return (

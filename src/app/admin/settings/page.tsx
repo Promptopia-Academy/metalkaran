@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Save, Eye, EyeOff, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { AUTH_STORAGE_KEY } from "@/lib/api";
+import { AUTH_STORAGE_KEY } from "@/lib/cms/pageApi";
 
 export default function AdminSettingsPage() {
   const { logout, setToken } = useAuth();
@@ -22,7 +22,9 @@ export default function AdminSettingsPage() {
 
   useEffect(() => {
     const savedApiKey =
-      typeof window !== "undefined" ? localStorage.getItem(AUTH_STORAGE_KEY) : null;
+      typeof window !== "undefined"
+        ? localStorage.getItem(AUTH_STORAGE_KEY)
+        : null;
     if (savedApiKey) {
       setApiKey(savedApiKey);
     }
@@ -48,8 +50,8 @@ export default function AdminSettingsPage() {
           <CardTitle>احراز هویت</CardTitle>
           <CardDescription>
             ورود از طریق صفحه لاگین، توکن JWT را در مرورگر ذخیره می‌کند. در صورت
-            نیاز می‌توانید توکن را دستی هم وارد یا جایگزین کنید (مثلاً پس از تمدید
-            از سمت سرور).
+            نیاز می‌توانید توکن را دستی هم وارد یا جایگزین کنید (مثلاً پس از
+            تمدید از سمت سرور).
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -105,8 +107,13 @@ export default function AdminSettingsPage() {
           <div>
             <h3 className="font-semibold mb-2">ورود به پنل:</h3>
             <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-              <li>برای ورود از صفحه <strong>لاگین</strong> (/admin/login) استفاده کنید.</li>
-              <li>در صورت نیاز می‌توانید توکن JWT را دستی در باکس بالا قرار دهید.</li>
+              <li>
+                برای ورود از صفحه <strong>لاگین</strong> (/admin/login) استفاده
+                کنید.
+              </li>
+              <li>
+                در صورت نیاز می‌توانید توکن JWT را دستی در باکس بالا قرار دهید.
+              </li>
             </ul>
           </div>
 
@@ -115,7 +122,10 @@ export default function AdminSettingsPage() {
             <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
               <li>توکن را با کسی به اشتراک نگذارید</li>
               <li>پس از خروج یا انقضای توکن، مجدداً وارد شوید</li>
-              <li>در صورت افشا شدن، از پنل خروج کنید و رمز عبور را در سرور تغییر دهید</li>
+              <li>
+                در صورت افشا شدن، از پنل خروج کنید و رمز عبور را در سرور تغییر
+                دهید
+              </li>
             </ul>
           </div>
         </CardContent>

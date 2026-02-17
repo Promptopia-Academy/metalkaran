@@ -12,7 +12,7 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
-import { api } from "@/lib/api";
+import { api } from "@/lib/cms/pageApi";
 import { IProduct } from "@/types/type";
 import Link from "next/link";
 
@@ -59,7 +59,9 @@ export default function AdminProductPage() {
       loadElements();
       alert("المنت با موفقیت حذف شد");
     } catch (error: unknown) {
-      alert(`خطا در حذف المنت: ${error instanceof Error ? error.message : "خطای نامشخص"}`);
+      alert(
+        `خطا در حذف المنت: ${error instanceof Error ? error.message : "خطای نامشخص"}`,
+      );
     }
   };
 

@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
-import { api, AUTH_STORAGE_KEY } from "@/lib/api";
+import { api, AUTH_STORAGE_KEY } from "@/lib/cms/pageApi";
 
 /** همون نامی که در middleware چک می‌شود - باید با لاگین/لاگ‌اوت همگام باشد */
 const ADMIN_AUTH_COOKIE = "admin_authenticated";
@@ -64,7 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       router.push("/admin");
       router.refresh();
     },
-    [router, setToken]
+    [router, setToken],
   );
 
   const logout = useCallback(() => {
@@ -75,7 +75,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const t =
-      typeof window !== "undefined" ? localStorage.getItem(AUTH_STORAGE_KEY) : null;
+      typeof window !== "undefined"
+        ? localStorage.getItem(AUTH_STORAGE_KEY)
+        : null;
     setTokenState(t);
     if (t) setAuthCookie(true);
     setIsLoading(false);
@@ -90,9 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setToken,
   };
 
-  return (
-    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

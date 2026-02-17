@@ -1,6 +1,6 @@
 "use client";
 
-import { getImageUrl } from "@/lib/api";
+import { getImageUrl } from "@/lib/cms/pageApi";
 
 type UploadedImageProps = {
   src: string | null | undefined;
@@ -40,7 +40,13 @@ export default function UploadedImage({
         loading={priority ? "eager" : "lazy"}
         decoding="async"
         sizes={sizes}
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit,
+        }}
       />
     );
   }
