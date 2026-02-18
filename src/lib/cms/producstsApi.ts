@@ -104,6 +104,8 @@ export async function createProduct(
   if (data.welding) form.append("welding", data.welding);
   if (data.machining) form.append("machining", data.machining);
   if (data.usageIds?.length) form.append("usageIds", data.usageIds.join(","));
+  if (data.usages?.length)
+    form.append("usages", JSON.stringify(data.usages));
   if (data.chemicalComposition?.length)
     form.append(
       "chemicalComposition",
@@ -155,6 +157,7 @@ export async function updateProduct(
   data: Partial<Omit<CreateProductFullInput, "image">> & {
     image?: string | null;
     usageIds?: string[];
+    usages?: { title: string; image: string }[];
     chemicalComposition?: { slug: string; title: string; value: string }[];
   },
   token?: string,
@@ -184,6 +187,7 @@ export async function updateProduct(
     image: data.image ?? undefined,
   };
   if (data.usageIds?.length) body.usageIds = data.usageIds.join(",");
+  if (data.usages?.length) body.usages = data.usages;
   if (data.chemicalComposition?.length)
     body.chemicalComposition = data.chemicalComposition;
 

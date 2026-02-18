@@ -1,5 +1,12 @@
-import type * as React from "react";
+// ========== Backend: users (authentication) ==========
+export interface IUser {
+  id: number;
+  username: string;
+  password: string;
+  createdAt: string;
+}
 
+// ========== Backend: contacts ==========
 export interface IContact {
   id: string;
   name: string;
@@ -9,6 +16,7 @@ export interface IContact {
   createdAt: string;
 }
 
+// ========== Backend: categories ==========
 export interface ICategory {
   id: number;
   slug: string;
@@ -16,47 +24,61 @@ export interface ICategory {
   image?: string;
 }
 
+// ========== Backend: hero_sections ==========
 export interface IHeroSection {
   id: number;
   src: string;
   alt: string;
 }
 
+// ========== Backend: home_page_about ==========
 export interface IHomePageAbout {
+  id?: number;
   title: string;
   detail: string;
   extraTitle: string;
   extraDetail: string;
 }
 
+// ========== Backend: usages ==========
+export interface IUsage {
+  id: string;
+  title: string;
+  image: string;
+  productId?: number;
+}
+
+// ========== Backend: chemical_compositions ==========
 export interface IChemicalComposition {
   id: number;
   slug: string;
   value: string;
   title: string;
+  productId?: number;
 }
 
+// ========== Backend: mechanical_properties ==========
 export interface IMechanicalProperties {
-  hardness: string; //سختی
-  elasticModulus: string; //مدول الاستیک
-  elongation: string; //درصد تغییر طول در 50 میلی متر
-  yieldStrength: string; //استحکام تسلیم
-  tensileStrength: string; //استحکام کششی
+  id?: number;
+  productId?: number;
+  hardness: string;
+  elasticModulus: string;
+  elongation: string;
+  yieldStrength: string;
+  tensileStrength: string;
 }
 
+// ========== Backend: physical_properties ==========
 export interface IPhysicalProperties {
-  density: string; //چگالی
-  electricalResistivity: string; //مقاومت الکتریکی
-  meltingPoint: string; //نقطه ذوب
-  molarHeatCapacity: string; //ظرفیت گرمایی ویژه
+  id?: number;
+  productId?: number;
+  density: string;
+  electricalResistivity: string;
+  meltingPoint: string;
+  molarHeatCapacity: string;
 }
 
-export interface IUsage {
-  id: string;
-  title: string;
-  image: string;
-}
-
+// ========== Backend: products_full + product_usages ==========
 export type IProduct = {
   id: number;
   image?: string;
@@ -81,6 +103,7 @@ export type IProduct = {
   createdAt: string;
 };
 
+// ========== Backend: applications ==========
 export interface IApplication {
   id: number;
   slug: string;
@@ -88,12 +111,15 @@ export interface IApplication {
   description: string;
 }
 
+// ========== Backend: article_sources ==========
 export interface IArticleSource {
   id: number;
+  articleId?: number;
   title: string;
   url: string;
 }
 
+// ========== Backend: articles ==========
 export type IArticle = {
   id: number;
   image?: string;
@@ -110,6 +136,7 @@ export type IArticle = {
   title5?: string;
   content5?: string;
   applicationTitle?: string;
+  createdAt?: string;
   sources?: IArticleSource[];
   application?: IApplication[];
 };
@@ -126,14 +153,17 @@ export interface ICalculateWeightParams {
 
 export type IUnit = "cm" | "m";
 
+// ========== Backend: contact_form_data ==========
 export interface IContactFormData {
   id?: number;
   name: string;
   phone: string;
   email: string;
   company: string;
+  createdAt?: string;
 }
 
+// ========== Backend: about_us_page_cards ==========
 export interface IAboutUsPageCard {
   id: number;
   image: string;
@@ -142,6 +172,8 @@ export interface IAboutUsPageCard {
 
 export type IAboutUsCardProps = Pick<IAboutUsPageCard, "image" | "title">;
 
+/** یک ردیف کاربرد در فرم ریپیتینگ (عنوان + تصویر) */
+export type ProductUsageRow = { title: string; image: string };
 
 export type CreateProductFullInput = {
   image?: File | null;
@@ -159,13 +191,16 @@ export type CreateProductFullInput = {
   coldForming?: string;
   welding?: string;
   machining?: string;
+  /** انتخاب از کاربردهای موجود CMS */
   usageIds?: string[];
-  /** ترکیب شیمیایی (ریپیتینگ) */
+  /** کاربردهای ریپیتینگ (عنوان + تصویر) برای همین محصول */
+  usages?: ProductUsageRow[];
   chemicalComposition?: { slug: string; title: string; value: string }[];
 };
 
-
+// ========== Backend: about_us_page_why_us ==========
 export interface IAboutUsPageWhyUs {
+  id?: number;
   title: string;
   description: string;
 }
@@ -177,6 +212,7 @@ export type Pagination = {
   totalPages: number;
 };
 
+// ========== Backend: about_us_page_descriptions ==========
 export interface IAboutUsPageDescription {
   id: number;
   image: string;
@@ -194,24 +230,31 @@ export interface IAboutUsPageData {
   aboutUsDescription: IAboutUsPageDescription[];
 }
 
+// ========== Backend: contact_us_page_data ==========
 export interface IContactUsPageData {
+  id?: number;
   mainParagraph: string;
   subParagraph: string;
 }
 
+// ========== Backend: company_social_links ==========
 export interface ICompanySocialLink {
   id: number;
   title: string;
   url: string;
 }
 
+// ========== Backend: company_information ==========
 export interface ICompanyInformation {
+  id?: number;
   phoneNumber: string;
   emailAddress: string;
-  companyAddress: string;
+  /** ممکن است در بک‌اند به جدول جدا یا فیلد اضافه شود */
+  companyAddress?: string;
   socialLinks: ICompanySocialLink[];
 }
 
+// ترکیب داده‌های چند جدول برای صفحهٔ لندینگ
 export interface IWebsiteContent {
   logoImage: IHeroSection;
   industriesCarousel: IHeroSection[];
@@ -316,8 +359,9 @@ export interface IQuestionSectionProps {
   title?: string;
 }
 
+// ========== Backend: questions ==========
 export interface IQuestion {
   id: number;
   question: string;
-  answer: String;
+  answer: string;
 }

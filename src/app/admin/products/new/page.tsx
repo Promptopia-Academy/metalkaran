@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { api } from "@/lib/cms/pageApi";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Plus } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -13,8 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { api } from "@/lib/cms/pageApi";
-import { ArrowRight, Plus } from "lucide-react";
 
 const textareaClass =
   "w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm";
@@ -34,6 +34,7 @@ export default function NewProductPage() {
     description: "",
     categoryId: "" as string,
     usageIds: [] as string[],
+    usages: [] as { title: string; image: string }[],
     chemicalComposition: [] as { slug: string; title: string; value: string }[],
     standards: "",
     thermalExpansion: "",
@@ -70,6 +71,8 @@ export default function NewProductPage() {
         description: formData.description,
         categoryId: formData.categoryId ? Number(formData.categoryId) : null,
         usageIds: formData.usageIds.length ? formData.usageIds : undefined,
+        usages:
+          formData.usages.length ? formData.usages : undefined,
         chemicalComposition:
           formData.chemicalComposition.length
             ? formData.chemicalComposition
@@ -199,7 +202,7 @@ export default function NewProductPage() {
             </div>
             {usages.length > 0 && (
               <div>
-                <Label>کاربردها (هر تعداد می‌توانید انتخاب کنید)</Label>
+                <Label>کاربردها از لیست (انتخاب از موارد موجود)</Label>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {usages.map((u) => (
                     <button
@@ -223,6 +226,65 @@ export default function NewProductPage() {
                 )}
               </div>
             )}
+            <div>
+              <Label>کاربردها (ریپیتینگ — هر تعداد ردیف اضافه کنید)</Label>
+              <div className="space-y-2 mt-2">
+                {formData.usages.map((row, idx) => (
+                  <div
+                    key={idx}
+                    className="flex flex-wrap items-center gap-2 p-2 border rounded-md"
+                  >
+                    <Input
+                      placeholder="عنوان کاربرد"
+                      value={row.title}
+                      onChange={(e) => {
+                        const next = [...formData.usages];
+                        next[idx] = { ...next[idx], title: e.target.value };
+                        setFormData((p) => ({ ...p, usages: next }));
+                      }}
+                      className="w-40"
+                    />
+                    <Input
+                      placeholder="آدرس تصویر"
+                      value={row.image}
+                      onChange={(e) => {
+                        const next = [...formData.usages];
+                        next[idx] = { ...next[idx], image: e.target.value };
+                        setFormData((p) => ({ ...p, usages: next }));
+                      }}
+                      className="flex-1 min-w-[180px]"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        setFormData((p) => ({
+                          ...p,
+                          usages: p.usages.filter((_, i) => i !== idx),
+                        }))
+                      }
+                    >
+                      حذف
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    setFormData((p) => ({
+                      ...p,
+                      usages: [...p.usages, { title: "", image: "" }],
+                    }))
+                  }
+                >
+                  <Plus className="w-4 h-4 ml-2" />
+                  افزودن ردیف کاربرد
+                </Button>
+              </div>
+            </div>
             <div>
               <Label>ترکیب شیمیایی (ریپیتینگ)</Label>
               <div className="space-y-2 mt-2">
