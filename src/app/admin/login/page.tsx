@@ -2,19 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { Lock, User, Loader2, Eye, EyeOff } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lock, User, Loader2 } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const [error, setError] = useState("");
   const { login, isAuthenticated } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) router.replace("/admin");
@@ -53,7 +54,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4" dir="rtl">
+    <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1 text-center">
           <CardTitle className="text-2xl font-bold">ورود به پنل مدیریت</CardTitle>
@@ -69,44 +70,56 @@ export default function AdminLoginPage() {
               </div>
             )}
             <div>
-              <label className="block text-sm font-medium mb-2">نام کاربری</label>
+              <label className="block text-sm font-medium mb-2 text-right">نام کاربری</label>
               <div className="relative">
-                <User className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="username"
-                  className="pr-10"
+                  className="pr-10 pl-10"
                   autoComplete="username"
                   disabled={loading}
                 />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">رمز عبور</label>
+              <label className="block text-sm font-medium mb-2 text-right">رمز عبور</label>
               <div className="relative">
-                <Lock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((p) => !p)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring rounded"
+                  tabIndex={-1}
+                  aria-label={showPassword ? "مخفی کردن رمز عبور" : "نمایش رمز عبور"}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" />
+                  ) : (
+                    <Eye className="h-4 w-4" />
+                  )}
+                </button>
                 <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="pr-10"
+                  className="pr-10 pl-10"
                   autoComplete="current-password"
                   disabled={loading}
                 />
               </div>
             </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader2 className="h-4 w-4 ml-2 animate-spin" />
-                  در حال ورود...
-                </>
-              ) : (
-                "ورود"
-              )}
+            <Button type="submit" className="w-full cursor-pointer" disabled={loading}>              {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 ml-2 animate-spin" />
+                در حال ورود...
+              </>
+            ) : (
+              "ورود"
+            )}
             </Button>
           </form>
           <p className="text-xs text-muted-foreground text-center mt-4">
