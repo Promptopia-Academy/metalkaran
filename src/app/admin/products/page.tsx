@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { api } from "@/lib/cms/pageApi";
+import { IProduct } from "@/types/type";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Plus,
@@ -12,16 +15,13 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
-import { api } from "@/lib/cms/pageApi";
-import { IProduct } from "@/types/type";
-import Link from "next/link";
 
 export default function AdminProductPage() {
-  const [elements, setElements] = useState<IProduct[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
+  const [elements, setElements] = useState<IProduct[]>([]);
 
   useEffect(() => {
     loadElements();
@@ -50,14 +50,14 @@ export default function AdminProductPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm("آیا از حذف این المنت مطمئن هستید؟")) {
+    if (!confirm("آیا از حذف این محصول مطمئن هستید؟")) {
       return;
     }
 
     try {
       await api.deleteElement(id);
       loadElements();
-      alert("المنت با موفقیت حذف شد");
+      alert("محصول با موفقیت حذف شد");
     } catch (error: unknown) {
       alert(
         `خطا در حذف المنت: ${error instanceof Error ? error.message : "خطای نامشخص"}`,
@@ -69,13 +69,13 @@ export default function AdminProductPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-2">مدیریت المنت‌ها</h1>
-          <p className="text-muted-foreground">افزودن، ویرایش و حذف المنت‌ها</p>
+          <h1 className="text-3xl font-bold mb-2">مدیریت محصولات</h1>
+          <p className="text-muted-foreground">افزودن، ویرایش و حذف محصولات</p>
         </div>
         <Link href="/admin/products/new">
           <Button>
             <Plus className="w-4 h-4 ml-2" />
-            المنت جدید
+            محصول جدید
           </Button>
         </Link>
       </div>
@@ -86,7 +86,7 @@ export default function AdminProductPage() {
             <div className="flex-1 relative">
               <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
-                placeholder="جستجو در المنت‌ها..."
+                placeholder="جستجو در محصولات..."
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
@@ -104,7 +104,7 @@ export default function AdminProductPage() {
       ) : elements.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center text-muted-foreground">
-            المنت‌ای یافت نشد
+            محصولی یافت نشد
           </CardContent>
         </Card>
       ) : (

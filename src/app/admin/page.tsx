@@ -94,12 +94,12 @@ export default function AdminDashboard() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">المنت‌ها</CardTitle>
+            <CardTitle className="text-sm font-medium">محصولات</CardTitle>
             <Box className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.elements}</div>
-            <p className="text-xs text-muted-foreground">تعداد کل المنت‌ها</p>
+            <p className="text-xs text-muted-foreground">تعداد کل محصولات</p>
           </CardContent>
         </Card>
 
@@ -154,7 +154,7 @@ export default function AdminDashboard() {
               className="p-4 border rounded-lg hover:bg-accent transition-colors"
             >
               <Box className="h-6 w-6 mb-2" />
-              <h3 className="font-semibold">مدیریت المنت‌ها</h3>
+              <h3 className="font-semibold">مدیریت محصولات</h3>
               <p className="text-sm text-muted-foreground">
                 افزودن، ویرایش و حذف محصولات
               </p>

@@ -211,7 +211,7 @@ export async function getProducts(params?: {
       handleUnauthorized();
       throw new Error("توکن نامعتبر است");
     }
-    if (!res.ok) throw new Error("خطا در دریافت المنت‌ها");
+    if (!res.ok) throw new Error("خطا در دریافت محصولات");
     const data = await res.json();
     let items = Array.isArray(data) ? data : [];
     if (params?.search) {

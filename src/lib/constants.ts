@@ -1,5 +1,15 @@
 import { parseDensityFromProduct } from "./parseDensityFromProduct";
-import { Box, FileText, FolderTree, Home, MessageSquare, Settings } from "lucide-react";
+import {
+  Box,
+  FileText,
+  FolderTree,
+  Home,
+  Info,
+  LayoutDashboard,
+  Mail,
+  MessageSquare,
+  Settings,
+} from "lucide-react";
 import type {
   IArticle,
   ICategory,
@@ -67,14 +77,29 @@ export const ADMIN_MENU_ITEMS = [
     icon: Home,
   },
   {
+    title: "صفحه لندیگ پیج",
+    href: "/admin/landing-page",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "صفحه درباره ما",
+    href: "/admin/about-us",
+    icon: Info,
+  },
+  {
+    title: "صفحه تماس با ما",
+    href: "/admin/contact-us",
+    icon: Mail,
+  },
+  {
+    title: "محصولات",
+    href: "/admin/products",
+    icon: Box,
+  },
+  {
     title: "مقالات",
     href: "/admin/articles",
     icon: FileText,
-  },
-  {
-    title: "المنت‌ها",
-    href: "/admin/products",
-    icon: Box,
   },
   {
     title: "دسته‌بندی‌ها",
