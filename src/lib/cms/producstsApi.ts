@@ -104,6 +104,11 @@ export async function createProduct(
   if (data.welding) form.append("welding", data.welding);
   if (data.machining) form.append("machining", data.machining);
   if (data.usageIds?.length) form.append("usageIds", data.usageIds.join(","));
+  if (data.chemicalComposition?.length)
+    form.append(
+      "chemicalComposition",
+      JSON.stringify(data.chemicalComposition),
+    );
   if (data.image) form.append("image", data.image);
 
   const headers: Record<string, string> = { ...authHeaders() };
@@ -150,6 +155,7 @@ export async function updateProduct(
   data: Partial<Omit<CreateProductFullInput, "image">> & {
     image?: string | null;
     usageIds?: string[];
+    chemicalComposition?: { slug: string; title: string; value: string }[];
   },
   token?: string,
 ) {
@@ -178,6 +184,8 @@ export async function updateProduct(
     image: data.image ?? undefined,
   };
   if (data.usageIds?.length) body.usageIds = data.usageIds.join(",");
+  if (data.chemicalComposition?.length)
+    body.chemicalComposition = data.chemicalComposition;
 
   const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
     method: "PUT",

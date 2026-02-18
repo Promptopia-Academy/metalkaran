@@ -92,6 +92,11 @@ export const ADMIN_MENU_ITEMS = [
     icon: Mail,
   },
   {
+    title: "اطلاعات شرکت",
+    href: "/admin/information",
+    icon: Mail,
+  },
+  {
     title: "محصولات",
     href: "/admin/products",
     icon: Box,
@@ -107,7 +112,7 @@ export const ADMIN_MENU_ITEMS = [
     icon: FolderTree,
   },
   {
-    title: "پیام‌های تماس",
+    title: "پیام‌های کاربران",
     href: "/admin/contacts",
     icon: MessageSquare,
   },
@@ -190,6 +195,7 @@ export const WEBSITE_CONTENT: IWebsiteContent = {
       { id: 2, title: "LinkedIn", url: "https://www.linkedin.com/" },
       { id: 3, title: "X", url: "https://x.com/" },
     ],
+    companyAddress: "تهران - تهران - پلاک 1"
   },
   contactUsPageData: {
     mainParagraph:

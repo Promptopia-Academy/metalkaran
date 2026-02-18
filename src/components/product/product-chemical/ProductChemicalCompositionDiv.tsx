@@ -1,6 +1,6 @@
+import { CHEMICAL_COLORS } from "@/lib/constants";
 import { IProductChemicalCompositionDivProps } from "@/types/type";
 import ProductChemicalComposition from "./ProductChemicalComposition";
-import { CHEMICAL_COLORS } from "@/lib/constants";
 
 
 const ProductChemicalCompositionDiv = ({ productChemicalComposition }: IProductChemicalCompositionDivProps) => {

@@ -35,6 +35,7 @@ export default function EditProductPage() {
     description: "",
     categoryId: "" as string,
     usageIds: [] as string[],
+    chemicalComposition: [] as { slug: string; title: string; value: string }[],
     image: "",
     standards: "",
     thermalExpansion: "",
@@ -69,6 +70,13 @@ export default function EditProductPage() {
             description: product.description || "",
             categoryId: product.category ? String(product.category.id) : "",
             usageIds: product.usageIds || [],
+            chemicalComposition: (product.chemicalComposition ?? []).map(
+              (c) => ({
+                slug: c.slug ?? "",
+                title: c.title ?? "",
+                value: c.value ?? "",
+              }),
+            ),
             image: product.image || "",
             standards: product.standards || "",
             thermalExpansion: product.thermalExpansion || "",
@@ -109,6 +117,10 @@ export default function EditProductPage() {
         description: formData.description,
         categoryId: formData.categoryId ? Number(formData.categoryId) : null,
         usageIds: formData.usageIds.length ? formData.usageIds : undefined,
+        chemicalComposition:
+          formData.chemicalComposition.length
+            ? formData.chemicalComposition
+            : undefined,
         image: imagePath,
         standards: formData.standards || undefined,
         thermalExpansion: formData.thermalExpansion || undefined,
@@ -229,7 +241,7 @@ export default function EditProductPage() {
             </div>
             {usages.length > 0 && (
               <div>
-                <Label>کاربردها</Label>
+                <Label>کاربردها (هر تعداد می‌توانید انتخاب کنید)</Label>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {usages.map((u) => (
                     <button
@@ -246,8 +258,95 @@ export default function EditProductPage() {
                     </button>
                   ))}
                 </div>
+                {formData.usageIds.length > 0 && (
+                  <p className="text-xs text-muted-foreground mt-2">
+                    انتخاب‌شده: {formData.usageIds.length} مورد
+                  </p>
+                )}
               </div>
             )}
+            <div>
+              <Label>ترکیب شیمیایی (ریپیتینگ)</Label>
+              <div className="space-y-2 mt-2">
+                {formData.chemicalComposition.map((row, idx) => (
+                  <div
+                    key={idx}
+                    className="flex flex-wrap items-center gap-2 p-2 border rounded-md"
+                  >
+                    <Input
+                      placeholder="اسلاگ"
+                      value={row.slug}
+                      onChange={(e) => {
+                        const next = [...formData.chemicalComposition];
+                        next[idx] = { ...next[idx], slug: e.target.value };
+                        setFormData((p) => ({
+                          ...p,
+                          chemicalComposition: next,
+                        }));
+                      }}
+                      className="w-28"
+                    />
+                    <Input
+                      placeholder="عنوان"
+                      value={row.title}
+                      onChange={(e) => {
+                        const next = [...formData.chemicalComposition];
+                        next[idx] = { ...next[idx], title: e.target.value };
+                        setFormData((p) => ({
+                          ...p,
+                          chemicalComposition: next,
+                        }));
+                      }}
+                      className="w-32"
+                    />
+                    <Input
+                      placeholder="مقدار"
+                      value={row.value}
+                      onChange={(e) => {
+                        const next = [...formData.chemicalComposition];
+                        next[idx] = { ...next[idx], value: e.target.value };
+                        setFormData((p) => ({
+                          ...p,
+                          chemicalComposition: next,
+                        }));
+                      }}
+                      className="w-24"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        setFormData((p) => ({
+                          ...p,
+                          chemicalComposition: p.chemicalComposition.filter(
+                            (_, i) => i !== idx,
+                          ),
+                        }))
+                      }
+                    >
+                      حذف
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    setFormData((p) => ({
+                      ...p,
+                      chemicalComposition: [
+                        ...p.chemicalComposition,
+                        { slug: "", title: "", value: "" },
+                      ],
+                    }))
+                  }
+                >
+                  افزودن ردیف ترکیب شیمیایی
+                </Button>
+              </div>
+            </div>
           </CardContent>
         </Card>
 

@@ -1,11 +1,7 @@
 import ProductUsage from "./ProductUsage";
-import type { IUsage } from "@/types/type";
+import type { IProductUsageDivProps } from "@/types/type";
 
-interface ProductUsageDivProps {
-  usages: IUsage[];
-}
-
-export default function ProductUsageDiv({ usages }: ProductUsageDivProps) {
+export default function ProductUsageDiv({ usages }: IProductUsageDivProps) {
   if (!usages?.length) return null;
 
   return (

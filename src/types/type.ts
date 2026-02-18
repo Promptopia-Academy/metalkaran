@@ -160,6 +160,8 @@ export type CreateProductFullInput = {
   welding?: string;
   machining?: string;
   usageIds?: string[];
+  /** ترکیب شیمیایی (ریپیتینگ) */
+  chemicalComposition?: { slug: string; title: string; value: string }[];
 };
 
 
@@ -167,6 +169,7 @@ export interface IAboutUsPageWhyUs {
   title: string;
   description: string;
 }
+
 export type Pagination = {
   page: number;
   limit: number;
@@ -205,6 +208,7 @@ export interface ICompanySocialLink {
 export interface ICompanyInformation {
   phoneNumber: string;
   emailAddress: string;
+  companyAddress: string;
   socialLinks: ICompanySocialLink[];
 }
 
@@ -237,6 +241,10 @@ export type IPageProps<
 };
 
 export type ICategoryPageProps = IPageProps<{ slug: string }>;
+
+export interface IProductUsageDivProps {
+  usages: IUsage[];
+}
 
 export interface IProductDetailProps {
   product: IProduct;

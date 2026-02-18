@@ -1,4 +1,10 @@
-import type { ICompanyInformation, ICompanySocialLink } from "@/types/type";
+import type {
+  IAboutUsPageData,
+  ICompanyInformation,
+  ICompanySocialLink,
+  IContactUsPageData,
+  IWebsiteContent,
+} from "@/types/type";
 import { apiUrl, authHeaders, toCamelCase } from "@/utils/apiHelper";
 import { handleUnauthorized } from "@/utils/apiHelper";
 import * as articleApi from "./articleApi";
@@ -118,7 +124,7 @@ export async function getHomePageAbout() {
   }
 }
 
-export async function getContactUsPageData() {
+export async function getContactUsPageData(): Promise<IContactUsPageData | null> {
   try {
     const res = await fetch(apiUrl("/api/cms/contact-us-page"), {
       headers: authHeaders(),
@@ -130,9 +136,92 @@ export async function getContactUsPageData() {
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     const arr = Array.isArray(data) ? data : [];
-    return arr[0] ? toCamelCase(arr[0]) : null;
+    return arr[0] ? (toCamelCase(arr[0]) as IContactUsPageData) : null;
   } catch {
     return null;
+  }
+}
+
+export async function updateContactUsPageData(data: IContactUsPageData) {
+  const res = await fetch(apiUrl("/api/cms/contact-us-page"), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ذخیره");
+  }
+}
+
+export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
+  try {
+    const res = await fetch(apiUrl("/api/cms/about-us-page"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      return null;
+    }
+    if (!res.ok) return null;
+    const data = await res.json();
+    const raw = Array.isArray(data) ? data[0] : data;
+    return raw ? (toCamelCase(raw) as IAboutUsPageData) : null;
+  } catch {
+    return null;
+  }
+}
+
+export async function updateAboutUsPageData(data: IAboutUsPageData) {
+  const res = await fetch(apiUrl("/api/cms/about-us-page"), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ذخیره");
+  }
+}
+
+export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
+  try {
+    const res = await fetch(apiUrl("/api/cms/website-content"), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      return null;
+    }
+    if (!res.ok) return null;
+    const data = await res.json();
+    return toCamelCase(data) as IWebsiteContent;
+  } catch {
+    return null;
+  }
+}
+
+export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
+  const res = await fetch(apiUrl("/api/cms/website-content"), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ذخیره");
   }
 }
 
@@ -159,6 +248,81 @@ export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
     return { ...base, socialLinks };
   } catch {
     return null;
+  }
+}
+
+export async function updateCompanyInfo(data: {
+  phoneNumber: string;
+  emailAddress: string;
+  companyAddress: string;
+}) {
+  const res = await fetch(apiUrl("/api/cms/company-information"), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ذخیره");
+  }
+}
+
+export async function createCompanySocialLink(data: {
+  title: string;
+  url: string;
+}): Promise<ICompanySocialLink> {
+  const res = await fetch(apiUrl("/api/cms/company-social-links"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ایجاد");
+  }
+  const json = await res.json();
+  return toCamelCase(json) as ICompanySocialLink;
+}
+
+export async function updateCompanySocialLink(
+  id: number,
+  data: { title: string; url: string },
+) {
+  const res = await fetch(apiUrl(`/api/cms/company-social-links/${id}`), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ویرایش");
+  }
+}
+
+export async function deleteCompanySocialLink(id: number) {
+  const res = await fetch(apiUrl(`/api/cms/company-social-links/${id}`), {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در حذف");
   }
 }
 
@@ -215,7 +379,16 @@ export const api = {
   getHeroSections,
   getHomePageAbout,
   getContactUsPageData,
+  updateContactUsPageData,
   getCompanyInfo,
+  updateCompanyInfo,
+  createCompanySocialLink,
+  updateCompanySocialLink,
+  deleteCompanySocialLink,
+  getAboutUsPageData,
+  updateAboutUsPageData,
+  getWebsiteContent,
+  updateWebsiteContent,
   getQuestions,
   getContactFormData,
   // ادمین - مقالات

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { COMPANY_INFORMATION, LOGO_IMAGE } from "@/lib/constants";
 import { XsocialIcon } from "@/components/icons/XsocialIcon";
+import { COMPANY_INFORMATION, LOGO_IMAGE } from "@/lib/constants";
 import {
   InstagramLogoIcon,
   LinkedInLogoIcon,
@@ -35,6 +35,9 @@ const Footer = () => {
             <p className="text-xs sm:text-sm md:text-base">
               آدرس ایمیل :
               <a href={`mailto:${COMPANY_INFORMATION.emailAddress}`}> {COMPANY_INFORMATION.emailAddress}</a>
+            </p>
+            <p className="text-xs sm:text-sm md:text-base">
+              آدرس شرکت : {COMPANY_INFORMATION.companyAddress}
             </p>
           </div>
         </div>
