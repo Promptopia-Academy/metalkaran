@@ -31,7 +31,6 @@ export default function AdminLoginPage() {
     setLoading(true);
     try {
       await login(username.trim(), password);
-      // redirect is done inside login()
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "خطا در ورود");
     } finally {
@@ -65,7 +64,7 @@ export default function AdminLoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+              <div className="p-3 text-sm text-destructive bg-destructive/10 rounded-md text-right">
                 {error}
               </div>
             )}
@@ -112,14 +111,15 @@ export default function AdminLoginPage() {
                 />
               </div>
             </div>
-            <Button type="submit" className="w-full cursor-pointer" disabled={loading}>              {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 ml-2 animate-spin" />
-                در حال ورود...
-              </>
-            ) : (
-              "ورود"
-            )}
+            <Button type="submit" className="w-full cursor-pointer" disabled={loading}>
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 ml-2 animate-spin" />
+                  در حال ورود...
+                </>
+              ) : (
+                "ورود"
+              )}
             </Button>
           </form>
           <p className="text-xs text-muted-foreground text-center mt-4">
