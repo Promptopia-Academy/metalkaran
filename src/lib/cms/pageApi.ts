@@ -3,6 +3,7 @@ import type {
   ICompanyInformation,
   ICompanySocialLink,
   IContactUsPageData,
+  IQuestion,
   IWebsiteContent,
 } from "@/types/type";
 import { apiUrl, authHeaders, toCamelCase } from "@/utils/apiHelper";
@@ -89,6 +90,31 @@ export async function getSiteCategories() {
   }
 }
 
+/** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — بدون auth */
+export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
+  try {
+    const res = await fetch(apiUrl("/api/site/website-content"));
+    if (!res.ok) return null;
+    const data = await res.json();
+    return toCamelCase(data) as IWebsiteContent;
+  } catch {
+    return null;
+  }
+}
+
+/** سوالات متداول برای نمایش در سایت — بدون auth */
+export async function getSiteQuestions(): Promise<IQuestion[]> {
+  try {
+    const res = await fetch(apiUrl("/api/site/questions"));
+    if (!res.ok) return [];
+    const data = await res.json();
+    const arr = Array.isArray(data) ? data : data?.data ?? [];
+    return toCamelCase(arr) as IQuestion[];
+  } catch {
+    return [];
+  }
+}
+
 export async function getHeroSections() {
   try {
     const res = await fetch(apiUrl("/api/cms/hero-sections"), {
@@ -106,6 +132,7 @@ export async function getHeroSections() {
   }
 }
 
+/** یک رکورد home_page_about (بک‌اند فقط اولین رکورد را برمی‌گرداند) */
 export async function getHomePageAbout() {
   try {
     const res = await fetch(apiUrl("/api/cms/home-page-about"), {
@@ -117,13 +144,13 @@ export async function getHomePageAbout() {
     }
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
-    const arr = Array.isArray(data) ? data : [];
-    return arr[0] ? toCamelCase(arr[0]) : null;
+    return data ? toCamelCase(data) : null;
   } catch {
     return null;
   }
 }
 
+/** یک رکورد contact_us_page_data (بک‌اند ممکن است آرایه یا تک رکورد برگرداند) */
 export async function getContactUsPageData(): Promise<IContactUsPageData | null> {
   try {
     const res = await fetch(apiUrl("/api/cms/contact-us-page"), {
@@ -135,8 +162,8 @@ export async function getContactUsPageData(): Promise<IContactUsPageData | null>
     }
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
-    const arr = Array.isArray(data) ? data : [];
-    return arr[0] ? (toCamelCase(arr[0]) as IContactUsPageData) : null;
+    const raw = Array.isArray(data) ? data[0] : data;
+    return raw ? (toCamelCase(raw) as IContactUsPageData) : null;
   } catch {
     return null;
   }
@@ -158,6 +185,7 @@ export async function updateContactUsPageData(data: IContactUsPageData) {
   }
 }
 
+/** داده درباره ما: whyUs، aboutUsCards، aboutUsDescription */
 export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
   try {
     const res = await fetch(apiUrl("/api/cms/about-us-page"), {
@@ -169,8 +197,7 @@ export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
     }
     if (!res.ok) return null;
     const data = await res.json();
-    const raw = Array.isArray(data) ? data[0] : data;
-    return raw ? (toCamelCase(raw) as IAboutUsPageData) : null;
+    return data ? (toCamelCase(data) as IAboutUsPageData) : null;
   } catch {
     return null;
   }
@@ -225,6 +252,7 @@ export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
   }
 }
 
+/** اطلاعات شرکت + لینک‌های شبکه اجتماعی (company-information یک رکورد برمی‌گرداند) */
 export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
   try {
     const h = authHeaders();
@@ -239,8 +267,8 @@ export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
       return null;
     }
     const social = socialRes.ok ? await socialRes.json() : [];
-    const info = infoRes.ok ? await infoRes.json() : [];
-    const first = Array.isArray(info) ? info[0] : null;
+    const infoRaw = infoRes.ok ? await infoRes.json() : null;
+    const first = Array.isArray(infoRaw) ? infoRaw[0] : infoRaw;
     if (!first) return null;
 
     const base = toCamelCase<Omit<ICompanyInformation, "socialLinks">>(first);
@@ -254,7 +282,7 @@ export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
 export async function updateCompanyInfo(data: {
   phoneNumber: string;
   emailAddress: string;
-  companyAddress: string;
+  companyAddress?: string | null;
 }) {
   const res = await fetch(apiUrl("/api/cms/company-information"), {
     method: "PUT",
@@ -376,6 +404,8 @@ export const api = {
   healthCheck,
   getSiteAboutUs,
   getSiteCategories,
+  getSiteWebsiteContent,
+  getSiteQuestions,
   getHeroSections,
   getHomePageAbout,
   getContactUsPageData,
@@ -399,6 +429,7 @@ export const api = {
   deleteArticle: articleApi.deleteArticle,
   // ادمین - دسته‌بندی
   getCmsCategories: categoryApi.getCategories,
+  getCategoryById: categoryApi.getCategoryById,
   createCategory: categoryApi.createCategory,
   updateCategory: categoryApi.updateCategory,
   deleteCategory: categoryApi.deleteCategory,

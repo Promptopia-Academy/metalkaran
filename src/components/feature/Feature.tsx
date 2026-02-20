@@ -6,16 +6,23 @@ import { cn } from "@/lib/utils";
 import { INDUSTRIES_CAROUSEL } from "@/lib/constants";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getImageUrl } from "@/lib/cms/uploadImageApi";
+import type { IHeroSection } from "@/types/type";
 
-export default function IndustriesCarousel() {
+type IndustriesCarouselProps = { industriesCarousel?: IHeroSection[] | null };
+
+export default function IndustriesCarousel({ industriesCarousel }: IndustriesCarouselProps) {
+  const items = (industriesCarousel && industriesCarousel.length > 0)
+    ? industriesCarousel.map((h, i) => ({ id: i, src: h.src, alt: h.alt }))
+    : INDUSTRIES_CAROUSEL;
   const [current, setCurrent] = useState(1);
 
   const next = () =>
-    setCurrent((prev) => (prev + 1) % INDUSTRIES_CAROUSEL.length);
+    setCurrent((prev) => (prev + 1) % items.length);
   const prev = () =>
     setCurrent(
       (prev) =>
-        (prev - 1 + INDUSTRIES_CAROUSEL.length) % INDUSTRIES_CAROUSEL.length
+        (prev - 1 + items.length) % items.length
     );
 
   return (
@@ -26,15 +33,15 @@ export default function IndustriesCarousel() {
 
       <div className="relative flex items-center justify-center overflow-hidden h-[400px]">
         <AnimatePresence>
-          {INDUSTRIES_CAROUSEL.map((item) => {
+          {items.map((item) => {
             const diff =
-              (item.id - current + INDUSTRIES_CAROUSEL.length) %
-              INDUSTRIES_CAROUSEL.length;
+              (item.id - current + items.length) %
+              items.length;
 
             const scale =
               diff === 0
                 ? 1
-                : diff === 1 || diff === INDUSTRIES_CAROUSEL.length - 1
+                : diff === 1 || diff === items.length - 1
                   ? 0.8
                   : 0.6;
             const x =
@@ -42,7 +49,7 @@ export default function IndustriesCarousel() {
                 ? 0
                 : diff === 1
                   ? 220
-                  : diff === INDUSTRIES_CAROUSEL.length - 1
+                  : diff === items.length - 1
                     ? -220
                     : diff === 2
                       ? 440
@@ -50,11 +57,11 @@ export default function IndustriesCarousel() {
             const zIndex =
               diff === 0
                 ? 30
-                : diff === 1 || diff === INDUSTRIES_CAROUSEL.length - 1
+                : diff === 1 || diff === items.length - 1
                   ? 20
                   : 10;
             const opacity =
-              diff > 2 && diff < INDUSTRIES_CAROUSEL.length - 2 ? 0 : 1;
+              diff > 2 && diff < items.length - 2 ? 0 : 1;
 
             return (
               <motion.div
@@ -76,7 +83,7 @@ export default function IndustriesCarousel() {
                 whileHover={{ scale: diff === 0 ? 1.03 : 0.85 }}
               >
                 <Image
-                  src={item.src}
+                  src={getImageUrl(item.src) || item.src}
                   alt={item.alt}
                   width={350}
                   height={400}

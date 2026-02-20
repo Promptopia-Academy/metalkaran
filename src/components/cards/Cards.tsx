@@ -7,8 +7,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
+import type { IProduct } from "@/types/type";
 
-const Cards = () => {
+type CardsProps = { products?: IProduct[] };
+
+const Cards = ({ products: propProducts }: CardsProps) => {
+  const products = (propProducts && propProducts.length > 0) ? propProducts : PRODUCT_ITEMS;
   return (
     <section className="mt-12 pb-10 md:mt-16 lg:mt-20 w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
       <Carousel
@@ -19,7 +23,7 @@ const Cards = () => {
         }}
       >
         <CarouselContent className="-ml-2 md:-ml-4 p-6">
-          {PRODUCT_ITEMS.map((product) => (
+          {products.map((product) => (
             <CarouselItem
               key={product.id}
               className="pl-2 md:pl-4 basis-[85%] sm:basis-[60%] md:basis-[45%] lg:basis-[33.33%] xl:basis-[25%] hover:z-10"

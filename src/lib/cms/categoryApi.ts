@@ -44,6 +44,25 @@ export async function createCategory(
   return res.json();
 }
 
+/** برای ادمین: یک دسته با id (با auth) */
+export async function getCategoryById(id: number): Promise<ICategory | null> {
+  try {
+    const res = await fetch(apiUrl(`/api/cms/categories/${id}`), {
+      headers: authHeaders(),
+    });
+    if (res.status === 401) {
+      handleUnauthorized();
+      return null;
+    }
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error("خطا در دریافت دسته‌بندی");
+    const data = await res.json();
+    return toCamelCase(data) as ICategory;
+  } catch {
+    return null;
+  }
+}
+
 /** برای ادمین: لیست دسته‌بندی‌ها (با auth) */
 export async function getCategories(): Promise<ICategory[]> {
   try {

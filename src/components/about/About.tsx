@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { HOME_PAGE_ABOUT } from "@/lib/constants";
+import type { IHomePageAbout } from "@/types/type";
 
-export default function About() {
+type AboutProps = { homePageAbout?: IHomePageAbout | null };
+
+export default function About({ homePageAbout }: AboutProps) {
+  const data = homePageAbout ?? HOME_PAGE_ABOUT;
   return (
     <section className="bg-[url('/images/about-bg.jpg')] bg-cover bg-center w-full relative">
       <div className="w-full bg-[#18304ce5]">
@@ -16,7 +20,7 @@ export default function About() {
                 className="text-[clamp(1.35rem,3.2vw,2.25rem)] font-bold text-background leading-relaxed break-words"
                 dir="rtl"
               >
-                {HOME_PAGE_ABOUT.title}
+                {data.title}
               </h2>
               <div className="w-full h-0.5 bg-white"></div>
               <Link href="/about-us">
@@ -31,14 +35,14 @@ export default function About() {
 
             <div className="flex flex-col gap-4 md:gap-6">
               <h3 className="text-center text-[clamp(1.05rem,2.4vw,1.5rem)] font-bold leading-relaxed text-background break-words">
-                {HOME_PAGE_ABOUT.detail}
+                {data.detail}
               </h3>
               <div className="w-[80%] h-0.5 bg-white mx-auto"></div>
               <h3 className="text-center text-[clamp(1.05rem,2.4vw,1.5rem)] font-bold text-background break-words">
-                {HOME_PAGE_ABOUT.extraTitle}
+                {data.extraTitle}
               </h3>
               <p className="leading-relaxed text-[clamp(1rem,2.2vw,1.5rem)] font-medium text-center text-background break-words">
-                {HOME_PAGE_ABOUT.extraDetail}
+                {data.extraDetail}
               </p>
             </div>
           </div>

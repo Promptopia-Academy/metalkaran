@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { api } from "@/lib/cms/pageApi";
 import { ArrowRight } from "lucide-react";
+import type { IArticle } from "@/types/type";
 
 export default function EditArticlePage() {
   const router = useRouter();
@@ -39,7 +40,7 @@ export default function EditArticlePage() {
     }
     const load = async () => {
       try {
-        let article = await api.getArticleById(id);
+        let article: IArticle | null = await api.getArticleById(id);
         if (!article) {
           const res = await api.getArticles({ limit: 500 });
           article = res.data?.find((a) => a.id === id) ?? null;

@@ -25,9 +25,9 @@ export async function getArticles(params?: {
       return { success: false, data: [], pagination: null };
     }
     if (!res.ok) throw new Error("خطا در دریافت مقالات");
-    const data = await res.json();
-    let items = Array.isArray(data) ? data : [];
-    if (params?.search) {
+    const raw = await res.json();
+    let items = Array.isArray(raw) ? raw : raw?.data ?? [];
+    if (params?.search && items.length > 0) {
       const q = params.search.toLowerCase();
       items = items.filter(
         (a: { title?: string; introduction?: string }) =>
@@ -35,11 +35,13 @@ export async function getArticles(params?: {
           a.introduction?.toLowerCase().includes(q),
       );
     }
-    const total = items.length;
-    const page = params?.page || 1;
-    const limit = params?.limit || 10;
-    const start = (page - 1) * limit;
-    const paginated = items.slice(start, start + limit);
+    const pagination = raw?.pagination;
+    const total = pagination?.total ?? items.length;
+    const page = params?.page || pagination?.page || 1;
+    const limit = params?.limit ?? pagination?.limit ?? 10;
+    const totalPages = (pagination?.totalPages ?? Math.ceil(total / limit)) || 1;
+    const start = pagination ? 0 : (page - 1) * limit;
+    const paginated = pagination ? items : items.slice(start, start + limit);
     return {
       success: true,
       data: toCamelCase<IArticle[]>(paginated),
@@ -47,7 +49,7 @@ export async function getArticles(params?: {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit) || 1,
+        totalPages,
       },
     };
   } catch (err) {
@@ -55,8 +57,14 @@ export async function getArticles(params?: {
   }
 }
 
+/** ورودی ایجاد مقاله — applicationIds و applicationTitle اختیاری */
+export type CreateArticleInput = Record<string, string | number[] | undefined> & {
+  applicationIds?: number[];
+  applicationTitle?: string;
+};
+
 export async function createArticle(
-  data: Record<string, string>,
+  data: CreateArticleInput,
   token?: string,
 ) {
   const headers: Record<string, string> = {
@@ -83,6 +91,8 @@ export async function createArticle(
       content4: data.content4 || undefined,
       title5: data.title5 || undefined,
       content5: data.content5 || undefined,
+      applicationTitle: data.applicationTitle || undefined,
+      applicationIds: data.applicationIds ?? undefined,
     }),
   });
   if (res.status === 401) {
@@ -114,8 +124,12 @@ export async function deleteArticle(id: number, token?: string) {
   }
 }
 
-/** برای ادمین: یک مقاله با id (با auth) */
-export async function getArticleById(id: number): Promise<IArticle | null> {
+/** برای ادمین: یک مقاله با id (با auth) — شامل sources، application، applicationIds */
+export async function getArticleById(id: number): Promise<(IArticle & {
+  sources?: { id: number; articleId: number; title: string; url: string }[];
+  application?: { id: number; slug: string; faTitle: string; description: string }[];
+  applicationIds?: number[];
+}) | null> {
   try {
     const res = await fetch(apiUrl(`/api/cms/articles/${id}`), {
       headers: authHeaders(),
@@ -127,7 +141,11 @@ export async function getArticleById(id: number): Promise<IArticle | null> {
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت مقاله");
     const data = await res.json();
-    return toCamelCase(data) as IArticle;
+    return toCamelCase(data) as IArticle & {
+      sources?: { id: number; articleId: number; title: string; url: string }[];
+      application?: { id: number; slug: string; faTitle: string; description: string }[];
+      applicationIds?: number[];
+    };
   } catch {
     return null;
   }
@@ -145,13 +163,16 @@ export async function getArticlesForSite(params?: {
   try {
     const res = await fetch(apiUrl("/api/site/articles"));
     if (!res.ok) throw new Error("خطا در دریافت مقالات");
-    const data = await res.json();
-    const items = Array.isArray(data) ? data : data?.data ?? [];
-    const total = items.length;
-    const page = params?.page || 1;
-    const limit = params?.limit ?? 100;
-    const start = (page - 1) * limit;
-    const paginated = items.slice(start, start + limit);
+    const raw = await res.json();
+    const data = Array.isArray(raw) ? raw : raw?.data ?? [];
+    const items = Array.isArray(data) ? data : [];
+    const pagination = raw?.pagination;
+    const total = pagination?.total ?? items.length;
+    const page = params?.page || pagination?.page || 1;
+    const limit = params?.limit ?? pagination?.limit ?? 100;
+    const totalPages = (pagination?.totalPages ?? Math.ceil(total / limit)) || 1;
+    const start = pagination ? 0 : (page - 1) * limit;
+    const paginated = pagination ? items : items.slice(start, start + limit);
     return {
       success: true,
       data: toCamelCase<IArticle[]>(paginated),
@@ -159,7 +180,7 @@ export async function getArticlesForSite(params?: {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit) || 1,
+        totalPages,
       },
     };
   } catch {
@@ -180,9 +201,15 @@ export async function getArticleByIdForSite(id: number): Promise<IArticle | null
   }
 }
 
+/** ورودی ویرایش مقاله — applicationIds و applicationTitle اختیاری */
+export type UpdateArticleInput = Record<string, string | number[] | undefined> & {
+  applicationIds?: number[];
+  applicationTitle?: string;
+};
+
 export async function updateArticle(
   id: number,
-  data: Record<string, string>,
+  data: UpdateArticleInput,
   token?: string,
 ) {
   const headers: Record<string, string> = {
@@ -210,6 +237,7 @@ export async function updateArticle(
       title5: data.title5 || undefined,
       content5: data.content5 || undefined,
       applicationTitle: data.applicationTitle || undefined,
+      applicationIds: data.applicationIds ?? undefined,
     }),
   });
   if (res.status === 401) {

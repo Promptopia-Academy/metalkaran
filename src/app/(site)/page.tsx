@@ -9,9 +9,16 @@ import CategoryGrid from "@/components/categories/Categories";
 import IndustriesCarousel from "@/components/feature/Feature";
 import AnimatedSection from "@/components/ui/animated-section";
 import { getCategoriesForSite } from "@/lib/cms/categoryApi";
+import { getSiteWebsiteContent } from "@/lib/cms/pageApi";
+import { getProductsForSite } from "@/lib/cms/producstsApi";
 
 export default async function Home() {
-  const categories = await getCategoriesForSite();
+  const [categories, siteContent, productsRes] = await Promise.all([
+    getCategoriesForSite(),
+    getSiteWebsiteContent(),
+    getProductsForSite({ limit: 20 }),
+  ]);
+  const products = productsRes.success ? productsRes.data : [];
   return (
     <section>
       <AnimatedSection
@@ -19,7 +26,7 @@ export default async function Home() {
         variant="down"
         duration={0.6}
       >
-        <CarouselHero />
+        <CarouselHero heroSection={siteContent?.heroSection} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
@@ -27,7 +34,7 @@ export default async function Home() {
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <Cards />
+        <Cards products={products} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
@@ -39,19 +46,19 @@ export default async function Home() {
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <About />
+        <About homePageAbout={siteContent?.homePageAbout} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05} variant="scale">
-        <IndustriesCarousel />
+        <IndustriesCarousel industriesCarousel={siteContent?.industriesCarousel} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <FormSection />
+        <FormSection contactUsPageData={siteContent?.contactUsPageData} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <CallSection />
+        <CallSection companyInfo={siteContent?.companyInformation} />
       </AnimatedSection>
     </section>
   );

@@ -1,10 +1,14 @@
 import { ABOUT_US_PAGE_DATA } from "@/lib/constants";
 import UploadedImage from "@/components/ui/UploadedImage";
+import type { IAboutUsPageData } from "@/types/type";
 
-const AboutUsDes = () => {
+type AboutUsDesProps = { aboutUsPageData?: IAboutUsPageData | null };
+
+const AboutUsDes = ({ aboutUsPageData }: AboutUsDesProps) => {
+  const descriptions = aboutUsPageData?.aboutUsDescription ?? ABOUT_US_PAGE_DATA.aboutUsDescription;
   return (
     <div>
-      {ABOUT_US_PAGE_DATA.aboutUsDescription.map((item) => (
+      {descriptions.map((item) => (
         <div
           key={item.id}
           className="flex flex-col w-full justify-between items-center gap-6 py-14 md:flex-row md:gap-10"

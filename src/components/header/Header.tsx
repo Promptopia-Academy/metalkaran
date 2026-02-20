@@ -5,14 +5,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Search } from "../search/Search";
-import { NAV_LINKS, CATEGORIES_ARRAY, LOGO_IMAGE } from "@/lib/constants";
+import { NAV_LINKS, LOGO_IMAGE } from "@/lib/constants";
+import type { ICategory, IHeroSection } from "@/types/type";
+import { getImageUrl } from "@/lib/cms/uploadImageApi";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-const Header = () => {
+type HeaderProps = {
+  categories?: ICategory[] | null;
+  logoImage?: IHeroSection | null;
+};
+
+const Header = ({ categories = [], logoImage }: HeaderProps) => {
+  const categoryList = (categories && categories.length > 0) ? categories : [];
+  const logo = logoImage ?? LOGO_IMAGE;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -68,7 +77,7 @@ const Header = () => {
                       className="w-[276px] rounded-lg p-3 shadow-md border-0 bg-primary-secondary"
                     >
                       <div className="flex flex-col gap-1.5">
-                        {CATEGORIES_ARRAY.map((category) => (
+                        {categoryList.map((category) => (
                           <Link
                             key={category.id}
                             href={`/categories/${category.slug}`}
@@ -96,8 +105,8 @@ const Header = () => {
           </div>
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="/logo.png"
-              alt="Metalkaran Logo"
+              src={(getImageUrl(logo?.src) || logo?.src) ?? "/logo.png"}
+              alt={logo?.alt ?? "Metalkaran Logo"}
               width={86}
               height={63}
               className="w-12 h-auto md:w-16 lg:w-20 lg:h-auto hover:opacity-80 transition-opacity"

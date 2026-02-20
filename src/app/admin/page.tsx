@@ -50,6 +50,12 @@ export default function AdminDashboard() {
         }
 
         try {
+          const contactsList = await api.getContactFormData();
+          setStats((prev) => ({ ...prev, contacts: contactsList.length }));
+        } catch {
+          // keep default 0
+        }
+        try {
           const { status } = await api.healthCheck();
           setStats((prev) => ({
             ...prev,

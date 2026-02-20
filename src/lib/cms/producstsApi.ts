@@ -32,13 +32,16 @@ export async function getProductsForSite(params?: {
   try {
     const res = await fetch(apiUrl("/api/site/products"));
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
-    const data = await res.json();
-    const items = Array.isArray(data) ? data : data?.data ?? [];
-    const total = items.length;
-    const page = params?.page || 1;
-    const limit = params?.limit ?? 100;
-    const start = (page - 1) * limit;
-    const paginated = items.slice(start, start + limit);
+    const raw = await res.json();
+    const data = Array.isArray(raw) ? raw : raw?.data ?? [];
+    const pagination = raw?.pagination;
+    const items = Array.isArray(data) ? data : [];
+    const total = pagination?.total ?? items.length;
+    const page = params?.page || pagination?.page || 1;
+    const limit = params?.limit ?? pagination?.limit ?? 100;
+    const totalPages = (pagination?.totalPages ?? Math.ceil(total / limit)) || 1;
+    const start = pagination ? 0 : (page - 1) * limit;
+    const paginated = pagination ? items : items.slice(start, start + limit);
     return {
       success: true,
       data: toCamelCase<IProduct[]>(paginated),
@@ -46,7 +49,7 @@ export async function getProductsForSite(params?: {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit) || 1,
+        totalPages,
       },
     };
   } catch {
@@ -224,9 +227,9 @@ export async function getProducts(params?: {
       throw new Error("توکن نامعتبر است");
     }
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
-    const data = await res.json();
-    let items = Array.isArray(data) ? data : [];
-    if (params?.search) {
+    const raw = await res.json();
+    let items = Array.isArray(raw) ? raw : raw?.data ?? [];
+    if (params?.search && items.length > 0) {
       const q = params.search.toLowerCase();
       items = items.filter(
         (p: { title?: string; introduction?: string }) =>
@@ -234,11 +237,13 @@ export async function getProducts(params?: {
           p.introduction?.toLowerCase().includes(q),
       );
     }
-    const total = items.length;
-    const page = params?.page || 1;
-    const limit = params?.limit || 10;
-    const start = (page - 1) * limit;
-    const paginated = items.slice(start, start + limit);
+    const pagination = raw?.pagination;
+    const total = pagination?.total ?? items.length;
+    const page = params?.page || pagination?.page || 1;
+    const limit = params?.limit ?? pagination?.limit ?? 10;
+    const totalPages = (pagination?.totalPages ?? Math.ceil(total / limit)) || 1;
+    const start = pagination ? 0 : (page - 1) * limit;
+    const paginated = pagination ? items : items.slice(start, start + limit);
     return {
       success: true,
       data: toCamelCase<IProduct[]>(paginated),
@@ -246,7 +251,7 @@ export async function getProducts(params?: {
         page,
         limit,
         total,
-        totalPages: Math.ceil(total / limit) || 1,
+        totalPages,
       },
     };
   } catch (err) {
