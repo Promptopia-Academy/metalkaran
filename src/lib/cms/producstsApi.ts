@@ -30,7 +30,7 @@ export async function getProductsForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/site/products-full"));
+    const res = await fetch(apiUrl("/api/site/products"));
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
     const data = await res.json();
     const items = Array.isArray(data) ? data : (data?.data ?? []);
@@ -63,7 +63,7 @@ export async function getProductFullForAdmin(
   id: number,
 ): Promise<(IProduct & { usageIds?: string[] }) | null> {
   try {
-    const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
+    const res = await fetch(apiUrl(`/api/cms/products/${id}`), {
       headers: authHeaders(),
     });
     if (res.status === 401) {
@@ -118,7 +118,7 @@ export async function createProduct(
   const t = token ?? getStoredToken();
   if (t) headers["Authorization"] = `Bearer ${t}`;
 
-  const res = await fetch(apiUrl("/api/cms/products-full"), {
+  const res = await fetch(apiUrl("/api/cms/products"), {
     method: "POST",
     headers,
     body: form,
@@ -139,7 +139,7 @@ export async function deleteProduct(id: number, token?: string) {
   const t = token ?? getStoredToken();
   if (t) headers["Authorization"] = `Bearer ${t}`;
 
-  const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
+  const res = await fetch(apiUrl(`/api/cms/products/${id}`), {
     method: "DELETE",
     headers,
   });
@@ -187,7 +187,7 @@ export async function updateProduct(
   };
   if (data.usageIds?.length) body.usageIds = data.usageIds.join(",");
 
-  const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
+  const res = await fetch(apiUrl(`/api/cms/products/${id}`), {
     method: "PUT",
     headers,
     body: JSON.stringify(body),
@@ -212,7 +212,7 @@ export async function getProducts(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/cms/products-full"), {
+    const res = await fetch(apiUrl("/api/cms/products"), {
       headers: authHeaders(),
     });
     if (res.status === 401) {
