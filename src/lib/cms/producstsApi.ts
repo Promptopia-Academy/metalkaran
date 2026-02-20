@@ -30,7 +30,7 @@ export async function getProductsForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/site/products"));
+    const res = await fetch(apiUrl("/api/site/products-full"));
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
     const data = await res.json();
     const items = Array.isArray(data) ? data : (data?.data ?? []);
