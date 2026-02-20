@@ -143,7 +143,7 @@ export async function getArticlesForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/site/articles"));
+    const res = await fetch(apiUrl("/api/cms/articles"));
     if (!res.ok) throw new Error("خطا در دریافت مقالات");
     const data = await res.json();
     const items = Array.isArray(data) ? data : data?.data ?? [];
@@ -170,7 +170,7 @@ export async function getArticlesForSite(params?: {
 /** برای سایت: یک مقاله با id (بدون auth) */
 export async function getArticleByIdForSite(id: number): Promise<IArticle | null> {
   try {
-    const res = await fetch(apiUrl(`/api/site/articles/${id}`));
+    const res = await fetch(apiUrl(`/api/cms/articles/${id}`));
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت مقاله");
     const data = await res.json();

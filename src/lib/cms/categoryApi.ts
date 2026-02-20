@@ -70,7 +70,7 @@ export async function getCategories(): Promise<ICategory[]> {
 /** برای سایت: لیست دسته‌بندی‌ها (بدون auth) */
 export async function getCategoriesForSite(): Promise<ICategory[]> {
   try {
-    const res = await fetch(apiUrl("/api/site/categories"));
+    const res = await fetch(apiUrl("/api/cms/categories"));
     if (!res.ok) throw new Error("خطا در دریافت دسته‌بندی‌ها");
     const data = await res.json();
     const items = Array.isArray(data) ? data : data?.data ?? data ?? [];

@@ -63,7 +63,7 @@ export async function healthCheck() {
 
 export async function getSiteAboutUs() {
   try {
-    const res = await fetch(apiUrl("/api/site/about-us"));
+    const res = await fetch(apiUrl("/api/cms/about-us-page"));
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
@@ -74,7 +74,7 @@ export async function getSiteAboutUs() {
 
 export async function getSiteCategories() {
   try {
-    const res = await fetch(apiUrl("/api/site/categories"));
+    const res = await fetch(apiUrl("/api/cms/categories"));
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
