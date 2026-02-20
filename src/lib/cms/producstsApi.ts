@@ -10,7 +10,7 @@ import {
 /** برای سایت: یک محصول با id (بدون auth) */
 export async function getProductById(id: number): Promise<IProduct | null> {
   try {
-    const res = await fetch(apiUrl(`/api/site/products/${id}`));
+    const res = await fetch(apiUrl(`/api/site/products-full/${id}`));
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت محصول");
     const data = await res.json();
@@ -30,7 +30,7 @@ export async function getProductsForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/site/products"));
+    const res = await fetch(apiUrl("/api/site/products-full"));
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
     const data = await res.json();
     const items = Array.isArray(data) ? data : (data?.data ?? []);
@@ -63,7 +63,7 @@ export async function getProductFullForAdmin(
   id: number,
 ): Promise<(IProduct & { usageIds?: string[] }) | null> {
   try {
-    const res = await fetch(apiUrl(`/api/cms/products/${id}`), {
+    const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
       headers: authHeaders(),
     });
     if (res.status === 401) {
@@ -118,7 +118,7 @@ export async function createProduct(
   const t = token ?? getStoredToken();
   if (t) headers["Authorization"] = `Bearer ${t}`;
 
-  const res = await fetch(apiUrl("/api/cms/products"), {
+  const res = await fetch(apiUrl("/api/cms/products-full"), {
     method: "POST",
     headers,
     body: form,
@@ -139,7 +139,7 @@ export async function deleteProduct(id: number, token?: string) {
   const t = token ?? getStoredToken();
   if (t) headers["Authorization"] = `Bearer ${t}`;
 
-  const res = await fetch(apiUrl(`/api/cms/products/${id}`), {
+  const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
     method: "DELETE",
     headers,
   });
@@ -187,7 +187,7 @@ export async function updateProduct(
   };
   if (data.usageIds?.length) body.usageIds = data.usageIds.join(",");
 
-  const res = await fetch(apiUrl(`/api/cms/products/${id}`), {
+  const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
     method: "PUT",
     headers,
     body: JSON.stringify(body),
@@ -212,7 +212,7 @@ export async function getProducts(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/cms/products"), {
+    const res = await fetch(apiUrl("/api/cms/products-full"), {
       headers: authHeaders(),
     });
     if (res.status === 401) {
