@@ -28,8 +28,14 @@ function getUploadsBaseUrl(): string {
   return "";
 }
 
+/** آدرس‌های placeholder که روی سرور وجود ندارند — درخواست نشوند تا 404 ندهند */
+const PLACEHOLDER_IMAGE_NAMES = /^(example\.jpg|example\.png|placeholder\.(jpg|png))$/i;
+
 export function getImageUrl(path: string | null | undefined): string {
-  if (!path) return "";
+  if (!path || typeof path !== "string") return "";
+  const trimmed = path.trim();
+  const fileName = trimmed.split("/").pop() ?? trimmed;
+  if (PLACEHOLDER_IMAGE_NAMES.test(fileName)) return "";
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
   const base = getUploadsBaseUrl();
   const normalized = path.startsWith("/") ? path : `/${path}`;

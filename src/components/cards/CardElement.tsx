@@ -16,7 +16,7 @@ function getProductId(product: IProduct): number {
 
 const cardContent = ({ product }: ICardElementProps) => (
   <>
-    <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-60">
+    <div className="relative w-full h-48 sm:h-52 md:h-56 lg:h-60 bg-muted/50">
       <UploadedImage
         src={product.image || ""}
         alt={product.title}
