@@ -10,7 +10,7 @@ import {
 /** برای سایت: یک محصول با id (بدون auth — از همان مسیر CMS استفاده می‌کنیم؛ بک‌اند GET را بدون auth مجاز کرده) */
 export async function getProductById(id: number): Promise<IProduct | null> {
   try {
-    const res = await fetch(apiUrl(`/api/cms/products-full/${id}`));
+    const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), { cache: "no-store" });
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت محصول");
     const data = await res.json();
@@ -30,7 +30,7 @@ export async function getProductsForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/cms/products-full"));
+    const res = await fetch(apiUrl("/api/cms/products-full"), { cache: "no-store" });
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
     const data = await res.json();
     const items = Array.isArray(data) ? data : (data?.data ?? []);
