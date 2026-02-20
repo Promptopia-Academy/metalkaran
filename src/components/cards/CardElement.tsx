@@ -4,9 +4,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { ICardElementProps } from "@/types/type";
+import type { IProduct } from "@/types/type";
 import UploadedImage from "@/components/ui/UploadedImage";
 
-const PLACEHOLDER_IMAGE = "/carousel-img/image-1.png";
+/** شناسه محصول: ممکن است بک‌اند id یا product_id (به‌صورت productId) بفرستد */
+function getProductId(product: IProduct): number {
+  const p = product as IProduct & { productId?: number };
+  return p.id ?? p.productId ?? 0;
+}
+
 
 const cardContent = ({ product }: ICardElementProps) => (
   <>
@@ -41,9 +47,8 @@ export default function CardElement({ product }: ICardElementProps) {
     "group cursor-pointer bg-card w-full h-full pb-3 md:pb-4 rounded-xl md:rounded-2xl shrink-0 overflow-hidden min-w-0 relative transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1 md:hover:-translate-y-2 flex flex-col";
   const style = { boxShadow: "3px 5px 10px 4px rgba(0, 0, 0, 0.25)" };
 
-  // لینک به صفحه جزئیات: از id استفاده می‌کنیم. اگه بک‌اند فیلد رو product_id فرستاد، toCamelCase می‌شه productId
-
-  const href = `/products/${product.id}`;
+  const productId = getProductId(product);
+  const href = `/products/${productId}`;
 
   const content = cardContent({ product });
 
