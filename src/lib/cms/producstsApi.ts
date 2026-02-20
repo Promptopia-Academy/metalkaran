@@ -30,10 +30,10 @@ export async function getProductsForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/site/products"));
+    const res = await fetch(apiUrl("/api/site/products-full"));
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
     const data = await res.json();
-    const items = Array.isArray(data) ? data : data?.data ?? [];
+    const items = Array.isArray(data) ? data : (data?.data ?? []);
     const total = items.length;
     const page = params?.page || 1;
     const limit = params?.limit ?? 100;
@@ -59,7 +59,9 @@ export async function getProductsForSite(params?: {
 }
 
 /** برای ادمین: گرفتن یک محصول از CMS با usageIds */
-export async function getProductFullForAdmin(id: number): Promise<(IProduct & { usageIds?: string[] }) | null> {
+export async function getProductFullForAdmin(
+  id: number,
+): Promise<(IProduct & { usageIds?: string[] }) | null> {
   try {
     const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
       headers: authHeaders(),
@@ -72,9 +74,15 @@ export async function getProductFullForAdmin(id: number): Promise<(IProduct & { 
     if (!res.ok) throw new Error("خطا در دریافت محصول");
     const data = await res.json();
     const parsed = toCamelCase(data) as IProduct & { usageIds?: string };
-    const usageIds = typeof parsed.usageIds === "string"
-      ? parsed.usageIds.split(",").map((s: string) => s.trim()).filter(Boolean)
-      : Array.isArray(parsed.usageIds) ? parsed.usageIds : [];
+    const usageIds =
+      typeof parsed.usageIds === "string"
+        ? parsed.usageIds
+            .split(",")
+            .map((s: string) => s.trim())
+            .filter(Boolean)
+        : Array.isArray(parsed.usageIds)
+          ? parsed.usageIds
+          : [];
     return { ...parsed, usageIds };
   } catch {
     return null;
