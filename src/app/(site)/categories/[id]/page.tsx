@@ -31,8 +31,8 @@ export default async function CategoryPage({ params }: ICategoryPageProps) {
           </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-            {products.map((product, index) => (
-              <CardElement key={product.id ?? `cat-${index}`} product={product} />
+            {products.map((product) => (
+              <CardElement key={product.id} product={product} />
             ))}
           </div>
         )}
