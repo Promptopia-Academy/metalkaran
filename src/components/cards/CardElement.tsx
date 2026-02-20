@@ -48,7 +48,7 @@ export default function CardElement({ product }: ICardElementProps) {
   const style = { boxShadow: "3px 5px 10px 4px rgba(0, 0, 0, 0.25)" };
 
   const productId = getProductId(product);
-  const href = `/products/${productId}`;
+  const href = product.slug ? `/products/${product.slug}` : `/products/${productId}`;
 
   const content = cardContent({ product });
 

@@ -1,12 +1,16 @@
 import { IPageProps } from "@/types/type";
-import { getProductById } from "@/lib/cms/producstsApi";
+import { getProductById, getProductBySlug } from "@/lib/cms/producstsApi";
 import ProductDetail from "@/components/product/ProductDetail";
 import { IProduct } from "@/types/type";
 import { notFound } from "next/navigation";
 
 const ProductDetailPage = async ({ params }: IPageProps) => {
-  const { id } = await params;
-  const product = (await getProductById(Number(id))) as IProduct;
+  const { id: idOrSlug } = await params;
+  const idNum = Number(idOrSlug);
+  const byId = idNum > 0 && !Number.isNaN(idNum);
+  const product = byId
+    ? await getProductById(idNum)
+    : await getProductBySlug(String(idOrSlug));
   if (!product) {
     notFound();
   }

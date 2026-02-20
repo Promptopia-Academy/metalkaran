@@ -7,10 +7,24 @@ import {
   toCamelCase,
 } from "@/utils/apiHelper";
 
-/** برای سایت: یک محصول با id (بدون auth — از همان مسیر CMS استفاده می‌کنیم؛ بک‌اند GET را بدون auth مجاز کرده) */
+/** برای سایت: یک محصول با id (بدون auth) */
 export async function getProductById(id: number): Promise<IProduct | null> {
   try {
     const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), { cache: "no-store" });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error("خطا در دریافت محصول");
+    const data = await res.json();
+    return toCamelCase(data) as IProduct;
+  } catch {
+    return null;
+  }
+}
+
+/** برای سایت: یک محصول با slug (بک‌اند: GET /api/cms/products-full/slug/:slug) */
+export async function getProductBySlug(slug: string): Promise<IProduct | null> {
+  try {
+    const encoded = encodeURIComponent(slug);
+    const res = await fetch(apiUrl(`/api/cms/products-full/slug/${encoded}`), { cache: "no-store" });
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت محصول");
     const data = await res.json();
