@@ -19,6 +19,7 @@ export async function getArticles(params?: {
   try {
     const res = await fetch(apiUrl("/api/cms/articles"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -133,6 +134,7 @@ export async function getArticleById(id: number): Promise<(IArticle & {
   try {
     const res = await fetch(apiUrl(`/api/cms/articles/${id}`), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();

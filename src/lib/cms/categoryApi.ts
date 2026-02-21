@@ -49,6 +49,7 @@ export async function getCategoryById(id: number): Promise<ICategory | null> {
   try {
     const res = await fetch(apiUrl(`/api/cms/categories/${id}`), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -68,6 +69,7 @@ export async function getCategories(): Promise<ICategory[]> {
   try {
     const res = await fetch(apiUrl("/api/cms/categories"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -89,7 +91,7 @@ export async function getCategories(): Promise<ICategory[]> {
 /** برای سایت: لیست دسته‌بندی‌ها (بدون auth — همان مسیر CMS با GET عمومی) */
 export async function getCategoriesForSite(): Promise<ICategory[]> {
   try {
-    const res = await fetch(apiUrl("/api/cms/categories"));
+    const res = await fetch(apiUrl("/api/cms/categories"), { cache: "no-store" });
     if (!res.ok) throw new Error("خطا در دریافت دسته‌بندی‌ها");
     const data = await res.json();
     const items = Array.isArray(data) ? data : data?.data ?? data ?? [];

@@ -10,7 +10,7 @@ import {
 /** برای سایت: یک محصول با id (بدون auth — همان مسیر CMS با GET عمومی) */
 export async function getProductById(id: number): Promise<IProduct | null> {
   try {
-    const res = await fetch(apiUrl(`/api/cms/products/${id}`));
+    const res = await fetch(apiUrl(`/api/cms/products/${id}`), { cache: "no-store" });
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت محصول");
     const data = await res.json();
@@ -32,7 +32,7 @@ export async function getProductsForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/cms/products"));
+    const res = await fetch(apiUrl("/api/cms/products"), { cache: "no-store" });
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
     const raw = await res.json();
     const data = Array.isArray(raw) ? raw : raw?.data ?? [];
@@ -68,6 +68,7 @@ export async function getProductFullForAdmin(id: number): Promise<(IProduct & { 
   try {
     const res = await fetch(apiUrl(`/api/cms/products-full/${id}`), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -223,6 +224,7 @@ export async function getProducts(params?: {
   try {
     const res = await fetch(apiUrl("/api/cms/products-full"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();

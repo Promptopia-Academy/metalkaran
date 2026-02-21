@@ -46,6 +46,7 @@ export async function getCmsUsages() {
   try {
     const res = await fetch(apiUrl("/api/cms/usages"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -61,7 +62,7 @@ export async function getCmsUsages() {
 
 export async function healthCheck() {
   try {
-    const res = await fetch(apiUrl("/"));
+    const res = await fetch(apiUrl("/"), { cache: "no-store" });
     return { status: res.ok ? 200 : res.status };
   } catch {
     return { status: 0 };
@@ -71,7 +72,7 @@ export async function healthCheck() {
 /** داده درباره ما از بک‌اند (تجمیعی about-us-page) — بدون auth */
 export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
   try {
-    const res = await fetch(apiUrl("/api/cms/about-us-page"));
+    const res = await fetch(apiUrl("/api/cms/about-us-page"), { cache: "no-store" });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     const raw = toCamelCase(data) as {
@@ -96,7 +97,7 @@ export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
 /** دسته‌بندی‌ها برای سایت — بدون auth (همان مسیر CMS با GET عمومی) */
 export async function getSiteCategories() {
   try {
-    const res = await fetch(apiUrl("/api/cms/categories"));
+    const res = await fetch(apiUrl("/api/cms/categories"), { cache: "no-store" });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
@@ -108,7 +109,7 @@ export async function getSiteCategories() {
 /** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — بدون auth */
 export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
-    const res = await fetch(apiUrl("/api/cms/website-content"));
+    const res = await fetch(apiUrl("/api/cms/website-content"), { cache: "no-store" });
     if (!res.ok) return null;
     const data = await res.json();
     return toCamelCase(data) as IWebsiteContent;
@@ -120,7 +121,7 @@ export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
 /** سوالات متداول برای نمایش در سایت — بدون auth */
 export async function getSiteQuestions(): Promise<IQuestion[]> {
   try {
-    const res = await fetch(apiUrl("/api/cms/questions"));
+    const res = await fetch(apiUrl("/api/cms/questions"), { cache: "no-store" });
     if (!res.ok) return [];
     const data = await res.json();
     const arr = Array.isArray(data) ? data : data?.data ?? [];
@@ -134,6 +135,7 @@ export async function getHeroSections() {
   try {
     const res = await fetch(apiUrl("/api/cms/hero-sections"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -152,6 +154,7 @@ export async function getHomePageAbout() {
   try {
     const res = await fetch(apiUrl("/api/cms/home-page-about"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -170,6 +173,7 @@ export async function getContactUsPageData(): Promise<IContactUsPageData | null>
   try {
     const res = await fetch(apiUrl("/api/cms/contact-us-page"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -205,6 +209,7 @@ export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
   try {
     const res = await fetch(apiUrl("/api/cms/about-us-page"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -245,6 +250,7 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
     const res = await fetch(apiUrl("/api/cms/website-content"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -280,9 +286,11 @@ export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
     const h = authHeaders();
     const socialRes = await fetch(apiUrl("/api/cms/company-social-links"), {
       headers: h,
+      cache: "no-store",
     });
     const infoRes = await fetch(apiUrl("/api/cms/company-information"), {
       headers: h,
+      cache: "no-store",
     });
     if (socialRes.status === 401 || infoRes.status === 401) {
       handleUnauthorized();
@@ -380,6 +388,7 @@ export async function getQuestions() {
   try {
     const res = await fetch(apiUrl("/api/cms/questions"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
@@ -406,6 +415,7 @@ export async function getContactFormData(): Promise<ContactFormItem[]> {
   try {
     const res = await fetch(apiUrl("/api/cms/contact-form-data"), {
       headers: authHeaders(),
+      cache: "no-store",
     });
     if (res.status === 401) {
       handleUnauthorized();
