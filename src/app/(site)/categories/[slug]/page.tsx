@@ -6,12 +6,15 @@ import { ICategory, IProduct } from "@/types/type";
 import { getProductsForSite } from "@/lib/cms/producstsApi";
 
 export default async function CategoryPage({ params }: ICategoryPageProps) {
-  const slug = await params;
+  const { slug } = await params;
+  const categories = await getCategoriesForSite();
+  const category = categories.find((c: ICategory) => c.slug === slug);
+  if (!category) notFound();
+
   const { data: allProducts } = await getProductsForSite({ limit: 200 });
   const products = (allProducts ?? []).filter(
     (product: IProduct) =>
-      product.category?.slug === slugOrId ||
-      String(product.category?.id) === slugOrId,
+      product.category?.slug === slug || String(product.category?.id) === slug,
   );
 
   return (
