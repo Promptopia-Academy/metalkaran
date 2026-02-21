@@ -87,8 +87,10 @@ pm2 restart metalkaran-frontend
 ```nginx
 server {
     listen 80;
-    server_name metalkarantech.com www.metalkarantech.com;
+    # هر دو دامنه را اضافه کنید تا /articles/1 و بقیهٔ مسیرها روی هر دو کار کنند
+    server_name metalkarantech.com www.metalkarantech.com metalkarantech.ir www.metalkarantech.ir;
 
+    # همهٔ درخواست‌های سایت (از جمله /articles/1) باید به فرانت Next بروند
     location / {
         proxy_pass http://localhost:3001;
         proxy_http_version 1.1;

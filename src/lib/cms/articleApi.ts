@@ -146,7 +146,7 @@ export async function getArticlesForSite(params?: {
     const res = await fetch(apiUrl("/api/cms/articles"), { cache: "no-store" });
     if (!res.ok) throw new Error("خطا در دریافت مقالات");
     const data = await res.json();
-    const items = Array.isArray(data) ? data : data?.data ?? [];
+    const items = Array.isArray(data) ? data : (data?.data ?? []);
     const total = items.length;
     const page = params?.page || 1;
     const limit = params?.limit ?? 100;
@@ -167,10 +167,13 @@ export async function getArticlesForSite(params?: {
   }
 }
 
-/** برای سایت: یک مقاله با id (بدون auth) */
-export async function getArticleByIdForSite(id: number): Promise<IArticle | null> {
+export async function getArticleByIdForSite(
+  id: number,
+): Promise<IArticle | null> {
   try {
-    const res = await fetch(apiUrl(`/api/cms/articles/${id}`), { cache: "no-store" });
+    const res = await fetch(apiUrl(`/api/cms/articles/${id}`), {
+      cache: "no-store",
+    });
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت مقاله");
     const data = await res.json();
