@@ -3,10 +3,9 @@ import AnimatedSection from "@/components/ui/animated-section";
 import AboutUsDes from "@/components/about-us/description/AboutUsDes";
 import AboutUsCardsDiv from "@/components/about-us/cards/AboutUsCardsDiv";
 import { getSiteAboutUs } from "@/lib/cms/pageApi";
-import type { IAboutUsPageData } from "@/types/type";
 
 export default async function AboutUsPage() {
-  const aboutUsData = (await getSiteAboutUs()) as IAboutUsPageData | null;
+  const aboutUsData = await getSiteAboutUs();
 
   return (
     <div className="px-24 py-10 flex flex-col justify-center items-center gap-10">

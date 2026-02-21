@@ -68,20 +68,35 @@ export async function healthCheck() {
   }
 }
 
-export async function getSiteAboutUs() {
+/** داده درباره ما از بک‌اند (تجمیعی about-us-page) — بدون auth */
+export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
   try {
-    const res = await fetch(apiUrl("/api/site/about-us"));
+    const res = await fetch(apiUrl("/api/cms/about-us-page"));
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
-    return toCamelCase(data);
+    const raw = toCamelCase(data) as {
+      aboutUsCards?: IAboutUsPageData["aboutUsCards"];
+      aboutUsWhyUs?: IAboutUsPageData["whyUs"][];
+      aboutUsDescriptions?: IAboutUsPageData["aboutUsDescription"];
+    };
+    if (!raw) return null;
+    const whyUs = Array.isArray(raw.aboutUsWhyUs) && raw.aboutUsWhyUs[0]
+      ? raw.aboutUsWhyUs[0]
+      : { title: "", description: "" };
+    return {
+      aboutUsCards: raw.aboutUsCards ?? [],
+      whyUs,
+      aboutUsDescription: raw.aboutUsDescriptions ?? [],
+    };
   } catch {
     return null;
   }
 }
 
+/** دسته‌بندی‌ها برای سایت — بدون auth (همان مسیر CMS با GET عمومی) */
 export async function getSiteCategories() {
   try {
-    const res = await fetch(apiUrl("/api/site/categories"));
+    const res = await fetch(apiUrl("/api/cms/categories"));
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
@@ -93,7 +108,7 @@ export async function getSiteCategories() {
 /** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — بدون auth */
 export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
-    const res = await fetch(apiUrl("/api/site/website-content"));
+    const res = await fetch(apiUrl("/api/cms/website-content"));
     if (!res.ok) return null;
     const data = await res.json();
     return toCamelCase(data) as IWebsiteContent;
@@ -105,7 +120,7 @@ export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
 /** سوالات متداول برای نمایش در سایت — بدون auth */
 export async function getSiteQuestions(): Promise<IQuestion[]> {
   try {
-    const res = await fetch(apiUrl("/api/site/questions"));
+    const res = await fetch(apiUrl("/api/cms/questions"));
     if (!res.ok) return [];
     const data = await res.json();
     const arr = Array.isArray(data) ? data : data?.data ?? [];
@@ -185,7 +200,7 @@ export async function updateContactUsPageData(data: IContactUsPageData) {
   }
 }
 
-/** داده درباره ما: whyUs، aboutUsCards، aboutUsDescription */
+/** داده درباره ما: whyUs، aboutUsCards، aboutUsDescription (از مسیر تجمیعی بک‌اند) */
 export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
   try {
     const res = await fetch(apiUrl("/api/cms/about-us-page"), {
@@ -197,7 +212,14 @@ export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
     }
     if (!res.ok) return null;
     const data = await res.json();
-    return data ? (toCamelCase(data) as IAboutUsPageData) : null;
+    const raw = data ? toCamelCase(data) as { aboutUsCards?: IAboutUsPageData["aboutUsCards"]; aboutUsWhyUs?: IAboutUsPageData["whyUs"][]; aboutUsDescriptions?: IAboutUsPageData["aboutUsDescription"] } : null;
+    if (!raw) return null;
+    const whyUs = Array.isArray(raw.aboutUsWhyUs) && raw.aboutUsWhyUs[0] ? raw.aboutUsWhyUs[0] : { title: "", description: "" };
+    return {
+      aboutUsCards: raw.aboutUsCards ?? [],
+      whyUs,
+      aboutUsDescription: raw.aboutUsDescriptions ?? [],
+    };
   } catch {
     return null;
   }

@@ -7,20 +7,22 @@ import {
   toCamelCase,
 } from "@/utils/apiHelper";
 
-/** برای سایت: یک محصول با id (بدون auth) */
+/** برای سایت: یک محصول با id (بدون auth — همان مسیر CMS با GET عمومی) */
 export async function getProductById(id: number): Promise<IProduct | null> {
   try {
-    const res = await fetch(apiUrl(`/api/site/products/${id}`));
+    const res = await fetch(apiUrl(`/api/cms/products/${id}`));
     if (res.status === 404) return null;
     if (!res.ok) throw new Error("خطا در دریافت محصول");
     const data = await res.json();
-    return toCamelCase(data) as IProduct;
+    const parsed = toCamelCase(data) as IProduct & { usageIds?: string };
+    if (typeof parsed?.usageIds === "string") delete (parsed as Record<string, unknown>).usageIds;
+    return parsed as IProduct;
   } catch {
     return null;
   }
 }
 
-/** برای سایت: لیست محصولات (بدون auth) */
+/** برای سایت: لیست محصولات (بدون auth — همان مسیر CMS با GET عمومی) */
 export async function getProductsForSite(params?: {
   page?: number;
   limit?: number;
@@ -30,7 +32,7 @@ export async function getProductsForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch(apiUrl("/api/site/products"));
+    const res = await fetch(apiUrl("/api/cms/products"));
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
     const raw = await res.json();
     const data = Array.isArray(raw) ? raw : raw?.data ?? [];
