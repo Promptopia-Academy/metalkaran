@@ -1,20 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { api } from "@/lib/cms/pageApi";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Upload, X } from "lucide-react";
 
 export default function NewArticlePage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
-    image: "",
     introduction: "",
     title1: "",
     content1: "",
@@ -29,12 +31,40 @@ export default function NewArticlePage() {
     sources: "",
   });
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("لطفاً یک فایل تصویری انتخاب کنید.");
+        return;
+      }
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setImageFile(null);
+      setImagePreview(null);
+    }
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const clearImage = () => {
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    setImageFile(null);
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setLoading(true);
     try {
-      await api.createArticle(formData);
+      let imageUrl = "";
+      if (imageFile) {
+        imageUrl = await api.uploadImage(imageFile);
+      }
+      await api.createArticle({ ...formData, image: imageUrl });
       alert("مقاله با موفقیت ایجاد شد");
       router.push("/admin/articles");
     } catch (error: unknown) {
@@ -73,15 +103,50 @@ export default function NewArticlePage() {
             </div>
 
             <div>
-              <Label htmlFor="image">آدرس تصویر</Label>
-              <Input
-                id="image"
-                type="url"
-                value={formData.image}
-                onChange={(e) =>
-                  setFormData({ ...formData, image: e.target.value })
-                }
+              <Label>تصویر مقاله</Label>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+                id="article-image"
               />
+              <div className="mt-2 flex flex-wrap items-center gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="gap-2"
+                >
+                  <Upload className="w-4 h-4" />
+                  انتخاب تصویر
+                </Button>
+                {imageFile && (
+                  <span className="text-sm text-muted-foreground">
+                    {imageFile.name}
+                  </span>
+                )}
+                {imagePreview && (
+                  <div className="relative inline-block">
+                    <img
+                      src={imagePreview}
+                      alt="پیش‌نمایش"
+                      className="h-20 w-auto rounded border object-cover"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                      onClick={clearImage}
+                      aria-label="حذف تصویر"
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div>

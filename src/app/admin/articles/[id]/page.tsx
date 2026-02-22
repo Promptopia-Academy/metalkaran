@@ -1,21 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { api } from "@/lib/cms/pageApi";
-import { ArrowRight } from "lucide-react";
+import { getImageUrl } from "@/lib/cms/uploadImageApi";
+import { ArrowRight, Upload, X } from "lucide-react";
 import type { IArticle } from "@/types/type";
 
 export default function EditArticlePage() {
   const router = useRouter();
   const params = useParams();
   const id = Number(params.id);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: "",
     image: "",
@@ -75,12 +79,41 @@ export default function EditArticlePage() {
     load();
   }, [id, router]);
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (imagePreview && imagePreview.startsWith("blob:")) URL.revokeObjectURL(imagePreview);
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("لطفاً یک فایل تصویری انتخاب کنید.");
+        return;
+      }
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    } else {
+      setImageFile(null);
+      setImagePreview(null);
+    }
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const clearImage = () => {
+    if (imagePreview && imagePreview.startsWith("blob:")) URL.revokeObjectURL(imagePreview);
+    setImageFile(null);
+    setImagePreview(null);
+    setFormData((prev) => ({ ...prev, image: "" }));
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (Number.isNaN(id)) return;
     setLoading(true);
     try {
-      await api.updateArticle(id, formData);
+      let imageUrl = formData.image;
+      if (imageFile) {
+        imageUrl = await api.uploadImage(imageFile);
+      }
+      await api.updateArticle(id, { ...formData, image: imageUrl });
       alert("مقاله با موفقیت ویرایش شد");
       router.push("/admin/articles");
     } catch (error: unknown) {
@@ -118,13 +151,50 @@ export default function EditArticlePage() {
               />
             </div>
             <div>
-              <Label htmlFor="image">آدرس تصویر</Label>
-              <Input
-                id="image"
-                type="url"
-                value={formData.image}
-                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+              <Label>تصویر مقاله</Label>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+                id="article-image-edit"
               />
+              <div className="mt-2 flex flex-wrap items-center gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="gap-2"
+                >
+                  <Upload className="w-4 h-4" />
+                  انتخاب تصویر
+                </Button>
+                {imageFile && (
+                  <span className="text-sm text-muted-foreground">
+                    {imageFile.name}
+                  </span>
+                )}
+                {(imagePreview || formData.image) && (
+                  <div className="relative inline-block">
+                    <img
+                      src={imagePreview ?? getImageUrl(formData.image)}
+                      alt="پیش‌نمایش"
+                      className="h-20 w-auto rounded border object-cover"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="icon"
+                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full"
+                      onClick={clearImage}
+                      aria-label="حذف تصویر"
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
             <div>
               <Label htmlFor="introduction">مقدمه *</Label>
