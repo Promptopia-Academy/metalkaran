@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { UsageImageUploader } from "@/components/admin/UsageImageUploader";
 
 const textareaClass =
   "w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm";
@@ -244,15 +245,13 @@ export default function NewProductPage() {
                       }}
                       className="w-40"
                     />
-                    <Input
-                      placeholder="آدرس تصویر"
+                    <UsageImageUploader
                       value={row.image}
-                      onChange={(e) => {
+                      onChange={(path) => {
                         const next = [...formData.usages];
-                        next[idx] = { ...next[idx], image: e.target.value };
+                        next[idx] = { ...next[idx], image: path };
                         setFormData((p) => ({ ...p, usages: next }));
                       }}
-                      className="flex-1 min-w-[180px]"
                     />
                     <Button
                       type="button"

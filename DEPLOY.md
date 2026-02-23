@@ -82,12 +82,23 @@ pm2 restart metalkaran-frontend
 
 ## تنظیمات Nginx
 
-بکند روی پورت **3000**، فرانت روی **3001**:
+بکند روی پورت **3000**، فرانت روی **3001**.
+
+**مهم (رفع خطای 413 در افزودن محصول)**: برای آپلود تصویر و FormData محصولات، حد مجاز حجم درخواست را افزایش بده. داخل بلوک `server` این خط را اضافه کن:
+
+```nginx
+client_max_body_size 20M;
+```
+
+مثال کامل:
 
 ```nginx
 server {
     listen 80;
     server_name metalkarantech.com www.metalkarantech.com;
+
+    # حد مجاز حجم بدنه درخواست (برای آپلود تصویر محصول و FormData) — رفع 413
+    client_max_body_size 20M;
 
     location / {
         proxy_pass http://localhost:3001;

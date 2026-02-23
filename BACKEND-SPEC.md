@@ -97,7 +97,7 @@
 | GET | /api/site/products/:id | خیر | یک محصول با همان ساختار برای سایت |
 | GET | /api/cms/products-full | بله | لیست محصولات ادمین (با pagination در صورت نیاز) |
 | GET | /api/cms/products-full/:id | بله | یک محصول برای ادمین؛ علاوه بر فیلدهای بالا، `usageIds` (آرایه یا رشته جدا شده با کاما) برای ویرایش |
-| POST | /api/cms/products-full | بله | ایجاد محصول. بدنه: FormData — title, slug, introduction, description, categoryId (عدد یا خالی), standards?, thermalExpansion?, corrosionResistance?, heatResistance?, manufacturing?, hotForming?, coldForming?, welding?, machining?, image? (فایل), usageIds? (رشته مثلاً "1,2,3"), usages? (JSON string آرایه `[{title, image}]`), chemicalComposition? (JSON string آرایه `[{slug, title, value}]`) |
+| POST | /api/cms/products-full | بله | ایجاد محصول. بدنه: FormData — title, slug, introduction, description, categoryId (عدد یا خالی), standards?, thermalExpansion?, corrosionResistance?, heatResistance?, manufacturing?, hotForming?, coldForming?, welding?, machining?, image? (فایل), usageIds? (رشته مثلاً "1,2,3"), usages? (JSON string آرایه `[{title, image}]`), chemicalComposition? (JSON string آرایه `[{slug, title, value}]`). **برای جلوگیری از 413:** حد body (و در صورت استفاده از multer، حد حجم فایل) را حداقل ۱۰–۲۰ مگابایت قرار دهید؛ Nginx هم باید `client_max_body_size` مناسب داشته باشد (ر.ک. docs/fix-413-request-entity-too-large.md). |
 | PUT | /api/cms/products-full/:id | بله | ویرایش. بدنه: JSON — همان فیلدها به صورت JSON (image می‌تواند URL رشته باشد؛ usageIds به صورت رشته یا آرایه) |
 | DELETE | /api/cms/products-full/:id | بله | حذف محصول |
 

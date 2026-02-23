@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { api } from "@/lib/cms/pageApi";
+import { UsageImageUploader } from "@/components/admin/UsageImageUploader";
 import { ArrowRight, Plus } from "lucide-react";
 
 const textareaClass =
@@ -290,15 +291,13 @@ export default function EditProductPage() {
                       }}
                       className="w-40"
                     />
-                    <Input
-                      placeholder="آدرس تصویر"
+                    <UsageImageUploader
                       value={row.image}
-                      onChange={(e) => {
+                      onChange={(path) => {
                         const next = [...formData.usages];
-                        next[idx] = { ...next[idx], image: e.target.value };
+                        next[idx] = { ...next[idx], image: path };
                         setFormData((p) => ({ ...p, usages: next }));
                       }}
-                      className="flex-1 min-w-[180px]"
                     />
                     <Button
                       type="button"
