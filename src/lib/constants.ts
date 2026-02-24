@@ -487,6 +487,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ضد زنگ UNS N08904",
     slug: "uns-n08904",
+    categoryId: CATEGORIES_ARRAY[2].id,
     category: CATEGORIES_ARRAY[2],
     introduction:
       "نوار فولادی ضد زنگ UNS N08904 با مقاومت بالا در برابر خوردگی و حرارت، مناسب برای صنایع نفت و گاز و پتروشیمی.",
@@ -546,8 +547,9 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۰۴",
     slug: "304",
-    description: "نوار فولادی ۳۰۴ با مقاومت خوب در برابر خوردگی.",
+    categoryId: CATEGORIES_ARRAY[2].id,
     category: CATEGORIES_ARRAY[2],
+    description: "نوار فولادی ۳۰۴ با مقاومت خوب در برابر خوردگی.",
     introduction:
       "نوار فولادی ضد زنگ ۳۰۴ پرکاربردترین گرید استنلس استیل با مقاومت خوب در برابر خوردگی.",
     usage: [
@@ -567,9 +569,10 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۱۶",
     slug: "316",
+    categoryId: CATEGORIES_ARRAY[2].id,
+    category: CATEGORIES_ARRAY[2],
     description:
       "نوار فولادی ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
-    category: CATEGORIES_ARRAY[2],
     introduction:
       "نوار فولادی ضد زنگ ۳۱۶ با افزودن مولیبدن، مقاومت بالاتر در محیط‌های خورنده.",
     usage: [
@@ -589,6 +592,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     title: "نوار فولادی ۳۱۶ال",
     slug: "316l",
     description: "نوار فولادی ۳۱۶ال با مقاومت بهتر در جوشکاری.",
+    categoryId: CATEGORIES_ARRAY[1].id,
     category: CATEGORIES_ARRAY[1],
     introduction: "نسخه کم‌کربن ۳۱۶ با مقاومت بهتر در جوشکاری.",
     usage: [
@@ -611,6 +615,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۲۱",
     slug: "321",
+    categoryId: CATEGORIES_ARRAY[0].id,
     category: CATEGORIES_ARRAY[0],
     introduction: "نوار فولادی ضد زنگ ۳۲۱ با پایداری بالا در دماهای بالا.",
     usage: [
@@ -635,6 +640,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۴۳۰",
     slug: "430",
+    categoryId: CATEGORIES_ARRAY[5].id,
     category: CATEGORIES_ARRAY[5],
     introduction:
       "نوار فولادی فرومغناطیسی با هزینه کمتر، مناسب برای کاربردهای عمومی.",
@@ -694,12 +700,14 @@ export const QUESTION_ITEMS: IQuestion[] = [
 export const PRODUCTS_FROM_MOCK_CALCULATOR = PRODUCT_ITEMS.map((p) => ({
   value: String(p.id),
   label: p.title,
-  categoryValue: String(p.category.id),
+  categoryValue: String(p.category?.id ?? p.categoryId),
   density: parseDensityFromProduct(p),
 }));
 
 export const CATEGORIES_FROM_MOCK = Array.from(
   new Map(
-    Object.values(PRODUCT_DETAIL_MOCK).map((p) => [p.category.id, { value: String(p.category.id), label: p.category.title }])
+    Object.values(PRODUCT_DETAIL_MOCK)
+      .filter((p): p is typeof p & { category: NonNullable<typeof p.category> } => p.category != null)
+      .map((p) => [p.category.id, { value: String(p.category.id), label: p.category.title }])
   ).values()
 );

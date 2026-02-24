@@ -85,6 +85,8 @@ export type IProduct = {
   title: string;
   slug: string;
   categoryId: number;
+  /** وقتی API دسته را join کند (مثلاً برای سایت) */
+  category?: { id: number; title: string; slug?: string; image?: string };
   introduction: string;
   description: string;
   standards?: string;

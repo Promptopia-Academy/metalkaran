@@ -70,7 +70,7 @@ export default function EditProductPage() {
             slug: product.slug || "",
             introduction: product.introduction || "",
             description: product.description || "",
-            categoryId: product.category ? String(product.category.id) : "",
+            categoryId: product.categoryId != null ? String(product.categoryId) : "",
             usageIds: product.usageIds || [],
             usages: (product.usage ?? []).map((u) => ({
               title: u.title ?? "",
