@@ -187,6 +187,30 @@ export async function getHomePageAbout() {
   }
 }
 
+/** به‌روزرسانی home_page_about (وقتی مسیر website-content روی سرور ۴۰۴ می‌دهد از این استفاده می‌شود) */
+export async function updateHomePageAbout(data: {
+  title: string;
+  detail: string;
+  extraTitle: string;
+  extraDetail: string;
+}) {
+  const first = await getHomePageAbout() as { id: number } | null;
+  if (!first?.id) throw new Error("رکوردی برای به‌روزرسانی یافت نشد");
+  const res = await fetch(apiUrl(`/api/cms/home-page-about/${first.id}`), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ذخیره");
+  }
+}
+
 /** یک رکورد contact_us_page_data (بک‌اند ممکن است آرایه یا تک رکورد برگرداند) */
 export async function getContactUsPageData(): Promise<IContactUsPageData | null> {
   try {
@@ -265,6 +289,7 @@ export async function updateAboutUsPageData(data: IAboutUsPageData) {
   }
 }
 
+/** محتوای لندینگ برای ادمین. اگر CMS مسیر نداشت (۴۰۴)، از مسیر site بارگذاری می‌شود. */
 export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
     const res = await fetch(apiUrl("/api/cms/website-content"), {
@@ -275,14 +300,36 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
       handleUnauthorized();
       return null;
     }
-    if (!res.ok) return null;
+    if (res.status === 404 || !res.ok) {
+      return getSiteWebsiteContent();
+    }
     const data = await res.json();
-    return toCamelCase(data) as IWebsiteContent;
+    const raw = toCamelCase(data) as {
+      heroSections?: { id: number; src: string; alt: string }[];
+      homePageAbout?: Record<string, unknown>;
+      contactUsPageData?: Record<string, unknown>;
+      companyInformation?: Record<string, unknown>;
+      companySocialLinks?: { id: number; title: string; url: string }[];
+    };
+    const heroSection = raw.heroSections ?? [];
+    const firstHero = heroSection[0];
+    return {
+      heroSection,
+      logoImage: firstHero ?? { id: 0, src: "/logo.png", alt: "لوگو" },
+      industriesCarousel: heroSection,
+      homePageAbout: (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? { title: "", detail: "", extraTitle: "", extraDetail: "" },
+      aboutUsPageData: { whyUs: { title: "", description: "" }, aboutUsCards: [], aboutUsDescription: [] },
+      companyInformation: raw.companyInformation
+        ? { ...(raw.companyInformation as unknown as ICompanyInformation), socialLinks: raw.companySocialLinks ?? [] }
+        : { phoneNumber: "", emailAddress: "", companyAddress: "", socialLinks: raw.companySocialLinks ?? [] },
+      contactUsPageData: (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? { mainParagraph: "", subParagraph: "" },
+    };
   } catch {
-    return null;
+    return getSiteWebsiteContent();
   }
 }
 
+/** به‌روزرسانی محتوای لندینگ. اگر مسیر website-content ۴۰۴ داد، از endpointهای جدا (home-page-about، contact-us-page، company-information) استفاده می‌کند. */
 export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
   const res = await fetch(apiUrl("/api/cms/website-content"), {
     method: "PUT",
@@ -293,9 +340,26 @@ export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
     handleUnauthorized();
     throw new Error("توکن نامعتبر است");
   }
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error((err as { error?: string }).error || "خطا در ذخیره");
+  if (res.status === 404 || !res.ok) {
+    if (data.homePageAbout) {
+      await updateHomePageAbout({
+        title: data.homePageAbout.title ?? "",
+        detail: data.homePageAbout.detail ?? "",
+        extraTitle: data.homePageAbout.extraTitle ?? "",
+        extraDetail: data.homePageAbout.extraDetail ?? "",
+      });
+    }
+    if (data.contactUsPageData) {
+      await updateContactUsPageData(data.contactUsPageData);
+    }
+    if (data.companyInformation) {
+      await updateCompanyInfo({
+        phoneNumber: data.companyInformation.phoneNumber ?? "",
+        emailAddress: data.companyInformation.emailAddress ?? "",
+        companyAddress: data.companyInformation.companyAddress ?? undefined,
+      });
+    }
+    return;
   }
 }
 
@@ -506,6 +570,7 @@ export const api = {
   getSiteQuestions,
   getHeroSections,
   getHomePageAbout,
+  updateHomePageAbout,
   getContactUsPageData,
   updateContactUsPageData,
   getCompanyInfo,
