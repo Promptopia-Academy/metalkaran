@@ -1,4 +1,4 @@
-import { AUTH_STORAGE_KEY } from "@/lib/cms/pageApi";
+import { AUTH_STORAGE_KEY } from "@/lib/dev/getData";
 
 export const getBaseUrl = () => {
   const url = process.env.NEXT_PUBLIC_API_URL;

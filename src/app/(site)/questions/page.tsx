@@ -1,6 +1,6 @@
 import AnimatedSection from "@/components/ui/animated-section";
 import { QuestionSection } from "@/components/questions/QuestionsSection";
-import { getSiteQuestions } from "@/lib/cms/pageApi";
+import { getSiteQuestions } from "@/lib/dev/getData";
 
 export default async function QuestionsPage() {
   const questions = await getSiteQuestions();

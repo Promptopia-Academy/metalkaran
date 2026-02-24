@@ -2,7 +2,7 @@ import WhyUs from "@/components/about-us/whay-us/WhyUs";
 import AnimatedSection from "@/components/ui/animated-section";
 import AboutUsDes from "@/components/about-us/description/AboutUsDes";
 import AboutUsCardsDiv from "@/components/about-us/cards/AboutUsCardsDiv";
-import { getSiteAboutUs } from "@/lib/cms/pageApi";
+import { getSiteAboutUs } from "@/lib/dev/getData";
 
 export default async function AboutUsPage() {
   const aboutUsData = await getSiteAboutUs();

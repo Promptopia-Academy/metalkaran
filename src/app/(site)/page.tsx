@@ -9,7 +9,7 @@ import CategoryGrid from "@/components/categories/Categories";
 import IndustriesCarousel from "@/components/feature/Feature";
 import AnimatedSection from "@/components/ui/animated-section";
 import { getCategoriesForSite } from "@/lib/cms/categoryApi";
-import { getSiteWebsiteContent } from "@/lib/cms/pageApi";
+import { getSiteWebsiteContent } from "@/lib/dev/getData";
 import { getProductsForSite } from "@/lib/cms/producstsApi";
 
 export default async function Home() {

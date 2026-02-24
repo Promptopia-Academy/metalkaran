@@ -12,7 +12,7 @@ import {
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
-import { api } from "@/lib/cms/pageApi";
+import { api } from "@/lib/dev/getData";
 import { IArticle } from "@/types/type";
 import Link from "next/link";
 

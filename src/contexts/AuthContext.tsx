@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
-import { api, AUTH_STORAGE_KEY } from "@/lib/cms/pageApi";
+import { api, AUTH_STORAGE_KEY } from "@/lib/dev/getData";
 
 /** همون نامی که در middleware چک می‌شود - باید با لاگین/لاگ‌اوت همگام باشد */
 const ADMIN_AUTH_COOKIE = "admin_authenticated";

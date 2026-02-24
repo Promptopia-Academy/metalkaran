@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { api } from "@/lib/cms/pageApi";
+import { api } from "@/lib/dev/getData";
 import type {
   IAboutUsPageData,
   IAboutUsPageCard,
@@ -32,7 +32,7 @@ export default function AdminAboutUsPage() {
   useEffect(() => {
     api
       .getAboutUsPageData()
-      .then((d) => {
+      .then((d: IAboutUsPageData | null) => {
         if (d) {
           setData(d);
           setForm({

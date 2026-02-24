@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { api } from "@/lib/cms/pageApi";
+import { api } from "@/lib/dev/getData";
 import { IProduct } from "@/types/type";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

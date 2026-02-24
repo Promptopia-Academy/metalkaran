@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { api } from "@/lib/cms/pageApi";
+import { api } from "@/lib/dev/getData";
 import { getImageUrl } from "@/lib/cms/uploadImageApi";
 import { ArrowRight, Upload, X } from "lucide-react";
 import type { IArticle } from "@/types/type";

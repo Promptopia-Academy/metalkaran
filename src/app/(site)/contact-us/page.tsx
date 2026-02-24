@@ -1,7 +1,7 @@
 import FormSection from "@/components/form/FormSection";
 import CallSection from "@/components/call-us/CallSection";
 import AnimatedSection from "@/components/ui/animated-section";
-import { getSiteWebsiteContent } from "@/lib/cms/pageApi";
+import { getSiteWebsiteContent } from "@/lib/dev/getData";
 
 export default async function ContactUs() {
   const siteContent = await getSiteWebsiteContent();

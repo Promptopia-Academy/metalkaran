@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Save, Eye, EyeOff, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { AUTH_STORAGE_KEY } from "@/lib/cms/pageApi";
+import { AUTH_STORAGE_KEY } from "@/lib/dev/getData";
 
 export default function AdminSettingsPage() {
   const { logout, setToken } = useAuth();

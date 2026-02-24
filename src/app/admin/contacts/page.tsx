@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { api, type ContactFormItem } from "@/lib/cms/pageApi";
+import { api, type ContactFormItem } from "@/lib/dev/getData";
 
 export default function AdminContactsPage() {
   const [items, setItems] = useState<ContactFormItem[]>([]);

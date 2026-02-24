@@ -2,7 +2,7 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import AnimatedSection from "@/components/ui/animated-section";
 import { getCategoriesForSite } from "@/lib/cms/categoryApi";
-import { getSiteWebsiteContent } from "@/lib/cms/pageApi";
+import { getSiteWebsiteContent } from "@/lib/dev/getData";
 import type { ICategory, ICompanyInformation } from "@/types/type";
 
 export default async function SiteLayout({

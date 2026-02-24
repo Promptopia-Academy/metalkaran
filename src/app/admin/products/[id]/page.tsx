@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { api } from "@/lib/cms/pageApi";
+import { api } from "@/lib/dev/getData";
 import { UsageImageUploader } from "@/components/admin/UsageImageUploader";
 import { ArrowRight, Plus } from "lucide-react";
 
