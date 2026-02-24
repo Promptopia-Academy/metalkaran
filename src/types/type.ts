@@ -84,7 +84,7 @@ export type IProduct = {
   image?: string;
   title: string;
   slug: string;
-  category: ICategory;
+  categoryId: number;
   introduction: string;
   description: string;
   standards?: string;
@@ -283,7 +283,7 @@ export type IPageProps<
   params: TParams;
 };
 
-export type ICategoryPageProps = IPageProps<{ slug: string }>;
+export type ICategoryPageProps = IPageProps<{ id: string }>;
 
 export interface IProductUsageDivProps {
   usages: IUsage[];

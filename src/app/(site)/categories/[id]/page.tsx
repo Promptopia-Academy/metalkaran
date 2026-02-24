@@ -1,30 +1,26 @@
 import { notFound } from "next/navigation";
 import { ICategoryPageProps } from "@/types/type";
 import CardElement from "@/components/cards/CardElement";
-import { getCategoriesForSite } from "@/lib/cms/categoryApi";
+import { getCategoryById } from "@/lib/cms/categoryApi";
 import { ICategory, IProduct } from "@/types/type";
 import { getProductsForSite } from "@/lib/cms/producstsApi";
-import TestComponent from "@/components/testComponent";
 
 export default async function CategoryPage({ params }: ICategoryPageProps) {
-  const { slug } = await params;
-  const categories = await getCategoriesForSite();
-  const category = categories.find((c: ICategory) => c.slug === slug);
+  const { id } = await params;
+  const category = (await getCategoryById(Number(id))) as ICategory | null;
   if (!category) notFound();
-
   const { data: allProducts } = await getProductsForSite({ limit: 200 });
 
   const products = (allProducts ?? []).filter(
     (product: IProduct) =>
-      product.category?.slug === slug || String(product.category?.id) === slug,
+      product.categoryId === Number(id),
   );
 
   return (
     <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-8 md:py-12">
-      <TestComponent products={products} />
       <section className="w-full max-w-[1600px] mx-auto">
         <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8" dir="rtl">
-          {category.title}
+          {category?.title}
         </h1>
         {products.length === 0 ? (
           <p className="text-muted-foreground text-center py-12" dir="rtl">

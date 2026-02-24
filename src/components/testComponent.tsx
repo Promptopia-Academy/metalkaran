@@ -1,23 +1,28 @@
 "use client";
-import { IProduct } from "@/types/type";
-import React, { useEffect } from "react";
-type Props = {
-  products: IProduct[];
-};
+import { getProductsForSite } from "@/lib/dev/getData";
+import { IProduct, Pagination } from "@/types/type";
+import React, { useEffect, useState } from "react";
 
-function testComponent({ products }: Props) {
+function testComponent() {
+  const [data, setData] = useState<{
+    success: boolean;
+    data: IProduct[];
+    pagination: Pagination | null;
+  }>({
+    success: false,
+    data: [],
+    pagination: null,
+  });
+
   useEffect(() => {
-    console.log(products);
-  }, [products]);
-  return (
-    <div>
-      {products.map((product) => (
-        <div key={product.id}>
-          <h2>{product.title}</h2>
-        </div>
-      ))}
-    </div>
-  );
+    async function getProducts() {
+      const products = await getProductsForSite();
+      setData(products);
+    }
+    getProducts();
+  }, []);
+  console.log(data);
+  return <div></div>;
 }
 
 export default testComponent;
