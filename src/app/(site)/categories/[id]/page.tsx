@@ -1,19 +1,24 @@
 import { notFound } from "next/navigation";
 import { ICategoryPageProps } from "@/types/type";
 import CardElement from "@/components/cards/CardElement";
-import { getCategoryById } from "@/lib/cms/categoryApi";
+import { getCategoriesForSite } from "@/lib/cms/categoryApi";
 import { ICategory, IProduct } from "@/types/type";
 import { getProductsForSite } from "@/lib/cms/producstsApi";
 
 export default async function CategoryPage({ params }: ICategoryPageProps) {
-  const { id } = await params;
-  const category = (await getCategoryById(Number(id))) as ICategory | null;
+  const { id: idOrSlug } = await params;
+  const categories = await getCategoriesForSite();
+  const numericId = Number(idOrSlug);
+  const category: ICategory | null = Number.isNaN(numericId)
+    ? categories.find((c) => c.slug === idOrSlug) ?? null
+    : categories.find((c) => c.id === numericId) ?? null;
   if (!category) notFound();
+  const categoryId = category.id;
   const { data: allProducts } = await getProductsForSite({ limit: 200 });
 
   const products = (allProducts ?? []).filter(
     (product: IProduct) =>
-      product.categoryId === Number(id),
+      product.categoryId === categoryId,
   );
 
   return (
