@@ -569,6 +569,7 @@ export const PRODUCT_DETAIL_MOCK: Record<number, IProduct> = {
     image: "/carousel-img/image-1.png",
     title: "نوار فولادی ۳۱۶",
     slug: "316",
+    category: CATEGORIES_ARRAY[2],
     categoryId: CATEGORIES_ARRAY[2].id,
     category: CATEGORIES_ARRAY[2],
     description:
