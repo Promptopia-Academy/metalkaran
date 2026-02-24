@@ -42,7 +42,7 @@ export default async function Home() {
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <Calculator />
+        <Calculator categories={categories} products={products} />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>

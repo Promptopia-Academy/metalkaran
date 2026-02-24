@@ -3,15 +3,21 @@
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { IUnit } from "@/types/type";
+import type { ICategory, IProduct } from "@/types/type";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CalculatorInput } from "./CalculatorInput";
 import { Combobox } from "@/components/ui/combobox";
 import { calculateWeight } from "@/lib/calculateWeight";
-import { CATEGORIES_FROM_MOCK, PRODUCTS_FROM_MOCK_CALCULATOR } from "@/lib/constants";
+import { parseDensityFromProduct } from "@/lib/parseDensityFromProduct";
 
-export function CalculatorForm() {
+type CalculatorFormProps = {
+  categories?: ICategory[] | null;
+  products?: IProduct[] | null;
+};
+
+export function CalculatorForm({ categories = [], products = [] }: CalculatorFormProps) {
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [length, setLength] = useState("");
@@ -23,18 +29,32 @@ export function CalculatorForm() {
   const [resultKg, setResultKg] = useState<number | null>(null);
   const [showWarning, setShowWarning] = useState(false);
 
-  const categoryOptions = useMemo(() => CATEGORIES_FROM_MOCK, []);
+  const categoryOptions = useMemo(
+    () => (categories ?? []).map((c) => ({ value: String(c.id), label: c.title })),
+    [categories]
+  );
+
+  const productsForCalculator = useMemo(
+    () =>
+      (products ?? []).map((p) => ({
+        value: String(p.id),
+        label: p.title,
+        categoryValue: String(p.categoryId ?? (p as { category?: { id: number } }).category?.id ?? ""),
+        density: parseDensityFromProduct(p),
+      })),
+    [products]
+  );
 
   const productOptions = useMemo(() => {
     if (!categoryValue) return [];
-    return PRODUCTS_FROM_MOCK_CALCULATOR.filter((p) => p.categoryValue === categoryValue).map(
-      (p) => ({ value: p.value, label: p.label })
-    );
-  }, [categoryValue]);
+    return productsForCalculator
+      .filter((p) => p.categoryValue === categoryValue)
+      .map((p) => ({ value: p.value, label: p.label }));
+  }, [categoryValue, productsForCalculator]);
 
   const selectedProduct = useMemo(
-    () => PRODUCTS_FROM_MOCK_CALCULATOR.find((p) => p.value === productValue),
-    [productValue]
+    () => productsForCalculator.find((p) => p.value === productValue),
+    [productValue, productsForCalculator]
   );
 
   const density = selectedProduct?.density ?? 0;

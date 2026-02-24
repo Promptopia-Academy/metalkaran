@@ -69,35 +69,35 @@ export async function healthCheck() {
   }
 }
 
-/** داده درباره ما از بک‌اند (تجمیعی about-us-page) — بدون auth */
+/** داده درباره ما — از مسیر site بدون auth */
 export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
   try {
-    const res = await fetch(apiUrl("/api/cms/about-us-page"), { cache: "no-store" });
-    if (!res.ok) throw new Error("خطا");
+    const res = await fetch(apiUrl("/api/site/about-us"), { cache: "no-store" });
+    if (!res.ok) return null;
     const data = await res.json();
     const raw = toCamelCase(data) as {
-      aboutUsCards?: IAboutUsPageData["aboutUsCards"];
-      aboutUsWhyUs?: IAboutUsPageData["whyUs"][];
-      aboutUsDescriptions?: IAboutUsPageData["aboutUsDescription"];
+      whyUs?: { title?: string; description?: string }[];
+      cards?: IAboutUsPageData["aboutUsCards"];
+      descriptions?: IAboutUsPageData["aboutUsDescription"];
     };
     if (!raw) return null;
-    const whyUs = Array.isArray(raw.aboutUsWhyUs) && raw.aboutUsWhyUs[0]
-      ? raw.aboutUsWhyUs[0]
+    const whyUs = Array.isArray(raw.whyUs) && raw.whyUs[0]
+      ? { title: raw.whyUs[0].title ?? "", description: raw.whyUs[0].description ?? "" }
       : { title: "", description: "" };
     return {
-      aboutUsCards: raw.aboutUsCards ?? [],
+      aboutUsCards: raw.cards ?? [],
       whyUs,
-      aboutUsDescription: raw.aboutUsDescriptions ?? [],
+      aboutUsDescription: raw.descriptions ?? [],
     };
   } catch {
     return null;
   }
 }
 
-/** دسته‌بندی‌ها برای سایت — بدون auth (همان مسیر CMS با GET عمومی) */
+/** دسته‌بندی‌ها برای سایت — از مسیر site بدون auth */
 export async function getSiteCategories() {
   try {
-    const res = await fetch(apiUrl("/api/cms/categories"), { cache: "no-store" });
+    const res = await fetch(apiUrl("/api/site/categories"), { cache: "no-store" });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
@@ -106,22 +106,41 @@ export async function getSiteCategories() {
   }
 }
 
-/** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — بدون auth */
+/** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — از مسیر site بدون auth */
 export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
-    const res = await fetch(apiUrl("/api/cms/website-content"), { cache: "no-store" });
+    const res = await fetch(apiUrl("/api/site/website-content"), { cache: "no-store" });
     if (!res.ok) return null;
     const data = await res.json();
-    return toCamelCase(data) as IWebsiteContent;
+    const raw = toCamelCase(data) as {
+      heroSections?: { id: number; src: string; alt: string }[];
+      homePageAbout?: Record<string, unknown>;
+      contactUsPageData?: Record<string, unknown>;
+      companyInformation?: Record<string, unknown>;
+      companySocialLinks?: { id: number; title: string; url: string }[];
+    };
+    const heroSection = raw.heroSections ?? [];
+    const firstHero = heroSection[0];
+    return {
+      heroSection,
+      logoImage: firstHero ?? { id: 0, src: "/logo.png", alt: "لوگو" },
+      industriesCarousel: heroSection,
+      homePageAbout: (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? { title: "", detail: "", extraTitle: "", extraDetail: "" },
+      aboutUsPageData: { whyUs: { title: "", description: "" }, aboutUsCards: [], aboutUsDescription: [] },
+      companyInformation: raw.companyInformation
+        ? { ...(raw.companyInformation as unknown as ICompanyInformation), socialLinks: raw.companySocialLinks ?? [] }
+        : { phoneNumber: "", emailAddress: "", companyAddress: "", socialLinks: raw.companySocialLinks ?? [] },
+      contactUsPageData: (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? { mainParagraph: "", subParagraph: "" },
+    };
   } catch {
     return null;
   }
 }
 
-/** سوالات متداول برای نمایش در سایت — بدون auth */
+/** سوالات متداول برای نمایش در سایت — از مسیر site بدون auth */
 export async function getSiteQuestions(): Promise<IQuestion[]> {
   try {
-    const res = await fetch(apiUrl("/api/cms/questions"), { cache: "no-store" });
+    const res = await fetch(apiUrl("/api/site/questions"), { cache: "no-store" });
     if (!res.ok) return [];
     const data = await res.json();
     const arr = Array.isArray(data) ? data : data?.data ?? [];
@@ -402,6 +421,53 @@ export async function getQuestions() {
   }
 }
 
+export async function createQuestion(data: { question: string; answer: string }) {
+  const res = await fetch(apiUrl("/api/cms/questions"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ذخیره");
+  }
+}
+
+export async function updateQuestion(id: number, data: { question: string; answer: string }) {
+  const res = await fetch(apiUrl(`/api/cms/questions/${id}`), {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در ویرایش");
+  }
+}
+
+export async function deleteQuestion(id: number) {
+  const res = await fetch(apiUrl(`/api/cms/questions/${id}`), {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (res.status === 401) {
+    handleUnauthorized();
+    throw new Error("توکن نامعتبر است");
+  }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error((err as { error?: string }).error || "خطا در حذف");
+  }
+}
+
 export type ContactFormItem = {
   id: number;
   name: string;
@@ -452,6 +518,9 @@ export const api = {
   getWebsiteContent,
   updateWebsiteContent,
   getQuestions,
+  createQuestion,
+  updateQuestion,
+  deleteQuestion,
   getContactFormData,
   // ادمین - مقالات
   getArticles: articleApi.getArticles,
