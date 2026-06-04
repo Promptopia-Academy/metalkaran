@@ -4,11 +4,38 @@ const nextConfig: NextConfig = {
   // تصاویر آپلودشده از بک‌اند (مثلاً localhost:3001 یا دامنهٔ API)
   images: {
     remotePatterns: [
-      { protocol: "http", hostname: "localhost", port: "3001", pathname: "/uploads/**" },
-      { protocol: "https", hostname: "metalkarantech.com", pathname: "/uploads/**" },
-      { protocol: "https", hostname: "www.metalkarantech.com", pathname: "/uploads/**" },
-      { protocol: "https", hostname: "metalkarantech.ir", pathname: "/uploads/**" },
-      { protocol: "https", hostname: "www.metalkarantech.ir", pathname: "/uploads/**" },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3001",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "metalkarantech.com",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.metalkarantech.com",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "metalkarantech.ir",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.metalkarantech.ir",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "http",
+        hostname: "metalkarantech.ir",
+        port: "3000",
+        pathname: "/uploads/**",
+      },
     ],
   },
   // Headers for security and CORS

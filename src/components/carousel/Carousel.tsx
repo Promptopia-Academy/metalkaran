@@ -5,11 +5,7 @@ import Image from "next/image";
 import { HERO_SECTION } from "@/lib/constants";
 import { TextAnimate } from "../ui/text-animate";
 import type { CarouselApi } from "../ui/carousel";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "../ui/carousel";
+import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import type { IHeroSection } from "@/types/type";
 import { getImageUrl } from "@/lib/cms/uploadImageApi";
 
@@ -17,7 +13,23 @@ type CarouselHeroProps = { heroSection?: IHeroSection[] | null };
 
 const CarouselHero = ({ heroSection: propHero }: CarouselHeroProps) => {
   const [api, setApi] = useState<CarouselApi | null>(null);
-  const sections = (propHero && propHero.length > 0) ? propHero : HERO_SECTION;
+  const [slides, setSlides] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchHero = async () => {
+      try {
+        const res = await fetch(
+          "http://metalkarantech.ir:3000/api/cms/hero-sections",
+        );
+        const data = await res.json();
+        setSlides(data);
+      } catch (err) {
+        console.error("Hero fetch error:", err);
+      }
+    };
+
+    fetchHero();
+  }, []);
 
   useEffect(() => {
     if (!api) return;
@@ -40,14 +52,11 @@ const CarouselHero = ({ heroSection: propHero }: CarouselHeroProps) => {
       setApi={setApi}
     >
       <CarouselContent className="ml-0 md:-ml-1">
-        {sections.map((image) => (
-          <CarouselItem
-            key={image.id}
-            className="basis-5/7 lg:basis-8/10"
-          >
+        {slides.map((image) => (
+          <CarouselItem key={image.id} className="basis-5/7 lg:basis-8/10">
             <div className="group shrink-0 rounded-xl md:rounded-2xl overflow-hidden relative transition-all duration-500 ease-out h-[clamp(260px,55vh,420px)] md:h-[450px] lg:h-[480px] w-full">
               <Image
-                src={getImageUrl(image.src) || image.src}
+                src={`http://metalkarantech.ir:3000${image.src}`}
                 alt={image.alt}
                 fill
                 className="rounded-xl md:rounded-2xl object-cover transform transition-transform duration-700"
