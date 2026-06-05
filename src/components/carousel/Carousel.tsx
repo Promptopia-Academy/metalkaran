@@ -18,9 +18,7 @@ const CarouselHero = ({ heroSection: propHero }: CarouselHeroProps) => {
   useEffect(() => {
     const fetchHero = async () => {
       try {
-        const res = await fetch(
-          "http://metalkarantech.ir:3000/api/cms/hero-sections",
-        );
+        const res = await fetch("/api/cms/hero-sections");
         const data = await res.json();
         setSlides(data);
       } catch (err) {
@@ -56,7 +54,7 @@ const CarouselHero = ({ heroSection: propHero }: CarouselHeroProps) => {
           <CarouselItem key={image.id} className="basis-5/7 lg:basis-8/10">
             <div className="group shrink-0 rounded-xl md:rounded-2xl overflow-hidden relative transition-all duration-500 ease-out h-[clamp(260px,55vh,420px)] md:h-[450px] lg:h-[480px] w-full">
               <Image
-                src={`http://metalkarantech.ir:3000${image.src}`}
+                src={`${image.src}`}
                 alt={image.alt}
                 fill
                 className="rounded-xl md:rounded-2xl object-cover transform transition-transform duration-700"
