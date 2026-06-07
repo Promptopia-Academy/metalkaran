@@ -377,14 +377,20 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
     }
 
     const data = await res.json();
-
-    // ⛔ مهم: API شما snake_case است
     const raw = toCamelCase(data) as {
       heroSections?: { id: number; src: string; alt: string }[];
-      home_page_about?: Record<string, unknown>;
-      contact_us_page_data?: Record<string, unknown>;
-      company_information?: Record<string, unknown>;
-      company_social_links?: { id: number; title: string; url: string }[];
+      homePageAbout?: {
+        title?: string;
+        detail?: string;
+        extraTitle?: string;
+        extraDetail?: string;
+      };
+      contactUsPageData?: {
+        mainParagraph?: string;
+        subParagraph?: string;
+      };
+      companyInformation?: ICompanyInformation;
+      companySocialLinks?: ICompanySocialLink[];
     };
 
     const heroSection = raw.heroSections ?? [];
@@ -395,13 +401,12 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
       logoImage: firstHero ?? { id: 0, src: "/logo.png", alt: "لوگو" },
       industriesCarousel: heroSection,
 
-      homePageAbout:
-        (raw.home_page_about as unknown as IWebsiteContent["homePageAbout"]) ?? {
-          title: "",
-          detail: "",
-          extraTitle: "",
-          extraDetail: "",
-        },
+      homePageAbout: {
+        title: raw.homePageAbout?.title ?? "",
+        detail: raw.homePageAbout?.detail ?? "",
+        extraTitle: raw.homePageAbout?.extraTitle ?? "",
+        extraDetail: raw.homePageAbout?.extraDetail ?? "",
+      },
 
       aboutUsPageData: {
         whyUs: { title: "", description: "" },
@@ -409,23 +414,17 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
         aboutUsDescription: [],
       },
 
-      companyInformation: raw.company_information
-        ? {
-            ...(raw.company_information as unknown as ICompanyInformation),
-            socialLinks: raw.company_social_links ?? [],
-          }
-        : {
-            phoneNumber: "",
-            emailAddress: "",
-            companyAddress: "",
-            socialLinks: raw.company_social_links ?? [],
-          },
+      companyInformation: {
+        phoneNumber: raw.companyInformation?.phoneNumber ?? "",
+        emailAddress: raw.companyInformation?.emailAddress ?? "",
+        companyAddress: raw.companyInformation?.companyAddress ?? "",
+        socialLinks: raw.companySocialLinks ?? [],
+      },
 
-      contactUsPageData:
-        (raw.contact_us_page_data as unknown as IWebsiteContent["contactUsPageData"]) ?? {
-          mainParagraph: "",
-          subParagraph: "",
-        },
+      contactUsPageData: {
+        mainParagraph: raw.contactUsPageData?.mainParagraph ?? "",
+        subParagraph: raw.contactUsPageData?.subParagraph ?? "",
+      },
     };
   } catch {
     return getSiteWebsiteContent();
