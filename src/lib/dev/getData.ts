@@ -362,7 +362,6 @@ export async function updateAboutUsPageData(data: IAboutUsPageData) {
   }
 }
 
-/** محتوای لندینگ برای ادمین. اگر CMS مسیر نداشت (۴۰۴)، از مسیر site بارگذاری می‌شود. */
 export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
     const res = await fetch(
@@ -372,48 +371,58 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
         cache: "no-store",
       },
     );
+
     if (!res.ok) {
       return getSiteWebsiteContent();
     }
+
     const data = await res.json();
+
+    // ⛔ مهم: API شما snake_case است
     const raw = toCamelCase(data) as {
       heroSections?: { id: number; src: string; alt: string }[];
-      homePageAbout?: Record<string, unknown>;
-      contactUsPageData?: Record<string, unknown>;
-      companyInformation?: Record<string, unknown>;
-      companySocialLinks?: { id: number; title: string; url: string }[];
+      home_page_about?: Record<string, unknown>;
+      contact_us_page_data?: Record<string, unknown>;
+      company_information?: Record<string, unknown>;
+      company_social_links?: { id: number; title: string; url: string }[];
     };
+
     const heroSection = raw.heroSections ?? [];
     const firstHero = heroSection[0];
+
     return {
       heroSection,
       logoImage: firstHero ?? { id: 0, src: "/logo.png", alt: "لوگو" },
       industriesCarousel: heroSection,
+
       homePageAbout:
-        (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? {
+        (raw.home_page_about as unknown as IWebsiteContent["homePageAbout"]) ?? {
           title: "",
           detail: "",
           extraTitle: "",
           extraDetail: "",
         },
+
       aboutUsPageData: {
         whyUs: { title: "", description: "" },
         aboutUsCards: [],
         aboutUsDescription: [],
       },
-      companyInformation: raw.companyInformation
+
+      companyInformation: raw.company_information
         ? {
-            ...(raw.companyInformation as unknown as ICompanyInformation),
-            socialLinks: raw.companySocialLinks ?? [],
+            ...(raw.company_information as unknown as ICompanyInformation),
+            socialLinks: raw.company_social_links ?? [],
           }
         : {
             phoneNumber: "",
             emailAddress: "",
             companyAddress: "",
-            socialLinks: raw.companySocialLinks ?? [],
+            socialLinks: raw.company_social_links ?? [],
           },
+
       contactUsPageData:
-        (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? {
+        (raw.contact_us_page_data as unknown as IWebsiteContent["contactUsPageData"]) ?? {
           mainParagraph: "",
           subParagraph: "",
         },
@@ -422,7 +431,6 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
     return getSiteWebsiteContent();
   }
 }
-
 /** به‌روزرسانی محتوای لندینگ. اگر مسیر website-content ۴۰۴ داد، از endpointهای جدا (home-page-about، contact-us-page، company-information) استفاده می‌کند. */
 export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
   const res = await fetch("https://metalkarantech.ir/api/cms/website-content", {
