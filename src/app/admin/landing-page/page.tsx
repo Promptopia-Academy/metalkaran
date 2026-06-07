@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { api } from "@/lib/dev/getData";
 import type { IWebsiteContent, IHomePageAbout } from "@/types/type";
 import { ArrowRight } from "lucide-react";
+import { AdminHeroCarousel } from "@/components/admin/AdminHeroCarousel";
 
 const textareaClass =
   "w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm";
@@ -88,7 +89,10 @@ export default function AdminLandingPage() {
               <Input
                 value={homePageAbout.extraTitle}
                 onChange={(e) =>
-                  setHomePageAbout((p) => ({ ...p, extraTitle: e.target.value }))
+                  setHomePageAbout((p) => ({
+                    ...p,
+                    extraTitle: e.target.value,
+                  }))
                 }
               />
             </div>
@@ -107,12 +111,16 @@ export default function AdminLandingPage() {
             </div>
           </CardContent>
         </Card>
-
+        <AdminHeroCarousel />
         <div className="flex gap-4">
           <Button type="submit" disabled={loading}>
             {loading ? "در حال ذخیره..." : "ذخیره تغییرات"}
           </Button>
-          <Button type="button" variant="outline" onClick={() => history.back()}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => history.back()}
+          >
             <ArrowRight className="w-4 h-4 ml-2" />
             بازگشت
           </Button>
