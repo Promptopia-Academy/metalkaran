@@ -8,12 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Trash2, Plus, Save } from "lucide-react";
 import { uploadImage } from "@/lib/cms/uploadImageApi";
-
-type HeroSlide = {
-  id: number;
-  src: string;
-  alt: string;
-};
+import {
+  getHeroSections,
+  createHeroSection,
+  updateHeroSection,
+  deleteHeroSection,
+  type HeroSlide,
+} from "@/lib/cms/heroSectionApi";
 
 export function AdminHeroCarousel() {
   const [slides, setSlides] = useState<HeroSlide[]>([]);
@@ -27,65 +28,51 @@ export function AdminHeroCarousel() {
   }, []);
 
   const fetchSlides = async () => {
-    try {
-      const res = await fetch("/api/cms/hero-sections");
-      const data = await res.json();
-      setSlides(data);
-    } finally {
-      setLoading(false);
-    }
+    const data = await getHeroSections();
+    setSlides(data);
   };
 
   const handleCreate = async () => {
     if (!newSlide.src || !newSlide.alt) return;
 
     try {
-      const res = await fetch("/api/cms/hero-sections", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newSlide),
+      await createHeroSection(newSlide);
+
+      setNewSlide({
+        src: "",
+        alt: "",
       });
 
-      console.log("status:", res.status);
-
-      const data = await res.json();
-      console.log(data);
-
-      if (!res.ok) {
-        throw new Error(data.error || "خطا در ثبت");
-      }
-
-      setNewSlide({ src: "", alt: "" });
       await fetchSlides();
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
+      console.error(error);
     }
   };
   const handleUpdate = async (slide: HeroSlide) => {
-    setSavingId(slide.id);
+    try {
+      setSavingId(slide.id);
 
-    await fetch(`/api/cms/hero-sections/${slide.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+      await updateHeroSection(slide.id, {
         src: slide.src,
         alt: slide.alt,
-      }),
-    });
-
-    setSavingId(null);
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSavingId(null);
+    }
   };
 
   const handleDelete = async (id: number) => {
     if (!confirm("حذف شود؟")) return;
 
-    await fetch(`/api/cms/hero-sections/${id}`, {
-      method: "DELETE",
-    });
+    try {
+      await deleteHeroSection(id);
 
-    setSlides((prev) => prev.filter((s) => s.id !== id));
+      setSlides((prev) => prev.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleUpload = async (file: File) => {
