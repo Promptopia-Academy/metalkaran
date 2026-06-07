@@ -364,13 +364,10 @@ export async function updateAboutUsPageData(data: IAboutUsPageData) {
 
 export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
-    const res = await fetch(
-      "https://metalkarantech.ir/api/cms/website-content",
-      {
-        headers: authHeaders(),
-        cache: "no-store",
-      },
-    );
+    const res = await fetch("/api/cms/website-content", {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       return getSiteWebsiteContent();

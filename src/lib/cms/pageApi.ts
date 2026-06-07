@@ -72,7 +72,9 @@ export async function healthCheck() {
 /** داده درباره ما — از مسیر site بدون auth */
 export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
   try {
-    const res = await fetch(apiUrl("/api/site/about-us"), { cache: "no-store" });
+    const res = await fetch(apiUrl("/api/site/about-us"), {
+      cache: "no-store",
+    });
     if (!res.ok) return null;
     const data = await res.json();
     const raw = toCamelCase(data) as {
@@ -81,9 +83,13 @@ export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
       descriptions?: IAboutUsPageData["aboutUsDescription"];
     };
     if (!raw) return null;
-    const whyUs = Array.isArray(raw.whyUs) && raw.whyUs[0]
-      ? { title: raw.whyUs[0].title ?? "", description: raw.whyUs[0].description ?? "" }
-      : { title: "", description: "" };
+    const whyUs =
+      Array.isArray(raw.whyUs) && raw.whyUs[0]
+        ? {
+            title: raw.whyUs[0].title ?? "",
+            description: raw.whyUs[0].description ?? "",
+          }
+        : { title: "", description: "" };
     return {
       aboutUsCards: raw.cards ?? [],
       whyUs,
@@ -97,7 +103,9 @@ export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
 /** دسته‌بندی‌ها برای سایت — از مسیر site بدون auth */
 export async function getSiteCategories() {
   try {
-    const res = await fetch(apiUrl("/api/site/categories"), { cache: "no-store" });
+    const res = await fetch(apiUrl("/api/site/categories"), {
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return toCamelCase(data);
@@ -109,7 +117,9 @@ export async function getSiteCategories() {
 /** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — از مسیر site بدون auth */
 export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
-    const res = await fetch(apiUrl("/api/site/website-content"), { cache: "no-store" });
+    const res = await fetch(apiUrl("/api/site/website-content"), {
+      cache: "no-store",
+    });
     if (!res.ok) return null;
     const data = await res.json();
     const raw = toCamelCase(data) as {
@@ -125,12 +135,34 @@ export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
       heroSection,
       logoImage: firstHero ?? { id: 0, src: "/logo.png", alt: "لوگو" },
       industriesCarousel: heroSection,
-      homePageAbout: (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? { title: "", detail: "", extraTitle: "", extraDetail: "" },
-      aboutUsPageData: { whyUs: { title: "", description: "" }, aboutUsCards: [], aboutUsDescription: [] },
+      homePageAbout:
+        (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? {
+          title: "",
+          detail: "",
+          extraTitle: "",
+          extraDetail: "",
+        },
+      aboutUsPageData: {
+        whyUs: { title: "", description: "" },
+        aboutUsCards: [],
+        aboutUsDescription: [],
+      },
       companyInformation: raw.companyInformation
-        ? { ...(raw.companyInformation as unknown as ICompanyInformation), socialLinks: raw.companySocialLinks ?? [] }
-        : { phoneNumber: "", emailAddress: "", companyAddress: "", socialLinks: raw.companySocialLinks ?? [] },
-      contactUsPageData: (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? { mainParagraph: "", subParagraph: "" },
+        ? {
+            ...(raw.companyInformation as unknown as ICompanyInformation),
+            socialLinks: raw.companySocialLinks ?? [],
+          }
+        : {
+            phoneNumber: "",
+            emailAddress: "",
+            companyAddress: "",
+            socialLinks: raw.companySocialLinks ?? [],
+          },
+      contactUsPageData:
+        (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? {
+          mainParagraph: "",
+          subParagraph: "",
+        },
     };
   } catch {
     return null;
@@ -140,10 +172,12 @@ export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
 /** سوالات متداول برای نمایش در سایت — از مسیر site بدون auth */
 export async function getSiteQuestions(): Promise<IQuestion[]> {
   try {
-    const res = await fetch(apiUrl("/api/site/questions"), { cache: "no-store" });
+    const res = await fetch(apiUrl("/api/site/questions"), {
+      cache: "no-store",
+    });
     if (!res.ok) return [];
     const data = await res.json();
-    const arr = Array.isArray(data) ? data : data?.data ?? [];
+    const arr = Array.isArray(data) ? data : (data?.data ?? []);
     return toCamelCase(arr) as IQuestion[];
   } catch {
     return [];
@@ -194,7 +228,7 @@ export async function updateHomePageAbout(data: {
   extraTitle: string;
   extraDetail: string;
 }) {
-  const first = await getHomePageAbout() as { id: number } | null;
+  const first = (await getHomePageAbout()) as { id: number } | null;
   if (!first?.id) throw new Error("رکوردی برای به‌روزرسانی یافت نشد");
   const res = await fetch(apiUrl(`/api/cms/home-page-about/${first.id}`), {
     method: "PUT",
@@ -260,9 +294,18 @@ export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
     }
     if (!res.ok) return null;
     const data = await res.json();
-    const raw = data ? toCamelCase(data) as { aboutUsCards?: IAboutUsPageData["aboutUsCards"]; aboutUsWhyUs?: IAboutUsPageData["whyUs"][]; aboutUsDescriptions?: IAboutUsPageData["aboutUsDescription"] } : null;
+    const raw = data
+      ? (toCamelCase(data) as {
+          aboutUsCards?: IAboutUsPageData["aboutUsCards"];
+          aboutUsWhyUs?: IAboutUsPageData["whyUs"][];
+          aboutUsDescriptions?: IAboutUsPageData["aboutUsDescription"];
+        })
+      : null;
     if (!raw) return null;
-    const whyUs = Array.isArray(raw.aboutUsWhyUs) && raw.aboutUsWhyUs[0] ? raw.aboutUsWhyUs[0] : { title: "", description: "" };
+    const whyUs =
+      Array.isArray(raw.aboutUsWhyUs) && raw.aboutUsWhyUs[0]
+        ? raw.aboutUsWhyUs[0]
+        : { title: "", description: "" };
     return {
       aboutUsCards: raw.aboutUsCards ?? [],
       whyUs,
@@ -292,7 +335,7 @@ export async function updateAboutUsPageData(data: IAboutUsPageData) {
 /** محتوای لندینگ برای ادمین. اگر CMS مسیر نداشت (۴۰۴)، از مسیر site بارگذاری می‌شود. */
 export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
-    const res = await fetch(apiUrl("/api/cms/website-content"), {
+    const res = await fetch("/api/cms/website-content", {
       headers: authHeaders(),
       cache: "no-store",
     });
@@ -317,12 +360,34 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
       heroSection,
       logoImage: firstHero ?? { id: 0, src: "/logo.png", alt: "لوگو" },
       industriesCarousel: heroSection,
-      homePageAbout: (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? { title: "", detail: "", extraTitle: "", extraDetail: "" },
-      aboutUsPageData: { whyUs: { title: "", description: "" }, aboutUsCards: [], aboutUsDescription: [] },
+      homePageAbout:
+        (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? {
+          title: "",
+          detail: "",
+          extraTitle: "",
+          extraDetail: "",
+        },
+      aboutUsPageData: {
+        whyUs: { title: "", description: "" },
+        aboutUsCards: [],
+        aboutUsDescription: [],
+      },
       companyInformation: raw.companyInformation
-        ? { ...(raw.companyInformation as unknown as ICompanyInformation), socialLinks: raw.companySocialLinks ?? [] }
-        : { phoneNumber: "", emailAddress: "", companyAddress: "", socialLinks: raw.companySocialLinks ?? [] },
-      contactUsPageData: (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? { mainParagraph: "", subParagraph: "" },
+        ? {
+            ...(raw.companyInformation as unknown as ICompanyInformation),
+            socialLinks: raw.companySocialLinks ?? [],
+          }
+        : {
+            phoneNumber: "",
+            emailAddress: "",
+            companyAddress: "",
+            socialLinks: raw.companySocialLinks ?? [],
+          },
+      contactUsPageData:
+        (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? {
+          mainParagraph: "",
+          subParagraph: "",
+        },
     };
   } catch {
     return getSiteWebsiteContent();
@@ -485,7 +550,10 @@ export async function getQuestions() {
   }
 }
 
-export async function createQuestion(data: { question: string; answer: string }) {
+export async function createQuestion(data: {
+  question: string;
+  answer: string;
+}) {
   const res = await fetch(apiUrl("/api/cms/questions"), {
     method: "POST",
     headers: { "Content-Type": "application/json", ...authHeaders() },
@@ -501,7 +569,10 @@ export async function createQuestion(data: { question: string; answer: string })
   }
 }
 
-export async function updateQuestion(id: number, data: { question: string; answer: string }) {
+export async function updateQuestion(
+  id: number,
+  data: { question: string; answer: string },
+) {
   const res = await fetch(apiUrl(`/api/cms/questions/${id}`), {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },
