@@ -1,11 +1,42 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Vazirmatn } from "next/font/google";
+import localFont from "next/font/local";
 
-const Vazir = Vazirmatn({
-  weight: ["300", "400", "500", "700", "800", "900"],
+const Vazir = localFont({
+  src: [
+    {
+      path: "../../public/fonts/vazirmatn/Vazirmatn-Light.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/vazirmatn/Vazirmatn-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/vazirmatn/Vazirmatn-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/vazirmatn/Vazirmatn-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/vazirmatn/Vazirmatn-ExtraBold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/vazirmatn/Vazirmatn-Black.woff2",
+      weight: "900",
+      style: "normal",
+    },
+  ],
   variable: "--font-vazir-sans",
-  subsets: ["arabic", "latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +66,7 @@ export const metadata: Metadata = {
   },
 
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   ),
 
   alternates: {
