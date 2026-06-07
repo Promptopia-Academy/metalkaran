@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Trash2, Plus, Save } from "lucide-react";
+import { uploadImage } from "@/lib/cms/uploadImageApi";
 
 type HeroSlide = {
   id: number;
@@ -38,16 +39,30 @@ export function AdminHeroCarousel() {
   const handleCreate = async () => {
     if (!newSlide.src || !newSlide.alt) return;
 
-    await fetch("/api/cms/hero-sections", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newSlide),
-    });
+    try {
+      const res = await fetch("/api/cms/hero-sections", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newSlide),
+      });
 
-    setNewSlide({ src: "", alt: "" });
-    fetchSlides();
+      console.log("status:", res.status);
+
+      const data = await res.json();
+      console.log(data);
+
+      if (!res.ok) {
+        throw new Error(data.error || "خطا در ثبت");
+      }
+
+      setNewSlide({ src: "", alt: "" });
+      await fetchSlides();
+    } catch (err) {
+      console.error(err);
+    }
   };
-
   const handleUpdate = async (slide: HeroSlide) => {
     setSavingId(slide.id);
 
@@ -74,20 +89,15 @@ export function AdminHeroCarousel() {
   };
 
   const handleUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append("file", file);
+    try {
+      setUploading(true);
 
-    setUploading(true);
+      const src = await uploadImage(file);
 
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    const data = await res.json();
-    setUploading(false);
-
-    return data.src;
+      return src;
+    } finally {
+      setUploading(false);
+    }
   };
 
   if (loading) {
