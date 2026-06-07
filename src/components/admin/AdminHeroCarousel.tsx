@@ -28,8 +28,14 @@ export function AdminHeroCarousel() {
   }, []);
 
   const fetchSlides = async () => {
-    const data = await getHeroSections();
-    setSlides(data);
+    try {
+      const data = await getHeroSections();
+      setSlides(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCreate = async () => {
