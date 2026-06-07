@@ -114,60 +114,6 @@ export async function getSiteCategories() {
   }
 }
 
-/** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — از مسیر site بدون auth */
-export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
-  try {
-    const res = await fetch(apiUrl("/api/site/website-content"), {
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    const raw = toCamelCase(data) as {
-      heroSections?: { id: number; src: string; alt: string }[];
-      homePageAbout?: Record<string, unknown>;
-      contactUsPageData?: Record<string, unknown>;
-      companyInformation?: Record<string, unknown>;
-      companySocialLinks?: { id: number; title: string; url: string }[];
-    };
-    const heroSection = raw.heroSections ?? [];
-    const firstHero = heroSection[0];
-    return {
-      heroSection,
-      logoImage: firstHero ?? { id: 0, src: "/logo.png", alt: "لوگو" },
-      industriesCarousel: heroSection,
-      homePageAbout:
-        (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? {
-          title: "",
-          detail: "",
-          extraTitle: "",
-          extraDetail: "",
-        },
-      aboutUsPageData: {
-        whyUs: { title: "", description: "" },
-        aboutUsCards: [],
-        aboutUsDescription: [],
-      },
-      companyInformation: raw.companyInformation
-        ? {
-            ...(raw.companyInformation as unknown as ICompanyInformation),
-            socialLinks: raw.companySocialLinks ?? [],
-          }
-        : {
-            phoneNumber: "",
-            emailAddress: "",
-            companyAddress: "",
-            socialLinks: raw.companySocialLinks ?? [],
-          },
-      contactUsPageData:
-        (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? {
-          mainParagraph: "",
-          subParagraph: "",
-        },
-    };
-  } catch {
-    return null;
-  }
-}
 
 /** سوالات متداول برای نمایش در سایت — از مسیر site بدون auth */
 export async function getSiteQuestions(): Promise<IQuestion[]> {
@@ -334,7 +280,7 @@ export async function updateAboutUsPageData(data: IAboutUsPageData) {
 
 /** محتوای لندینگ برای ادمین. اگر CMS مسیر نداشت (۴۰۴)، از مسیر site بارگذاری می‌شود. */
 export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
-  try {
+
     const res = await fetch("/api/cms/website-content", {
       headers: authHeaders(),
       cache: "no-store",
@@ -343,9 +289,7 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
       handleUnauthorized();
       return null;
     }
-    if (res.status === 404 || !res.ok) {
-      return getSiteWebsiteContent();
-    }
+
     const data = await res.json();
     const raw = toCamelCase(data) as {
       heroSections?: { id: number; src: string; alt: string }[];
@@ -389,9 +333,7 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
           subParagraph: "",
         },
     };
-  } catch {
-    return getSiteWebsiteContent();
-  }
+
 }
 
 /** به‌روزرسانی محتوای لندینگ. اگر مسیر website-content ۴۰۴ داد، از endpointهای جدا (home-page-about، contact-us-page، company-information) استفاده می‌کند. */
@@ -637,7 +579,7 @@ export const api = {
   healthCheck,
   getSiteAboutUs,
   getSiteCategories,
-  getSiteWebsiteContent,
+
   getSiteQuestions,
   getHeroSections,
   getHomePageAbout,

@@ -25,7 +25,7 @@ export async function getProductsForSite(params?: {
   pagination: Pagination | null;
 }> {
   try {
-    const res = await fetch("https://metalkarantech.ir/api/cms/products", {
+    const res = await fetch("/api/cms/products", {
       cache: "no-store",
     });
     if (!res.ok) throw new Error("خطا در دریافت محصولات");
@@ -68,14 +68,11 @@ export async function submitContact(data: {
   company: string;
 }): Promise<{ success: boolean; message?: string; status?: number }> {
   try {
-    const res = await fetch(
-      "https://metalkarantech.ir/api/cms/contact-form-data",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      },
-    );
+    const res = await fetch("/api/cms/contact-form-data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
     const json = await res.json().catch(() => ({}));
     if (res.ok) {
       return { success: true, message: json.message || "ارسال شد" };
@@ -92,7 +89,7 @@ export async function submitContact(data: {
 
 export async function getCmsUsages() {
   try {
-    const res = await fetch("https://metalkarantech.ir/api/cms/usages", {
+    const res = await fetch("/api/cms/usages", {
       headers: authHeaders(),
       cache: "no-store",
     });
@@ -106,7 +103,7 @@ export async function getCmsUsages() {
 
 export async function healthCheck() {
   try {
-    const res = await fetch("https://metalkarantech.ir/", {
+    const res = await fetch("/", {
       cache: "no-store",
     });
     return { status: res.ok ? 200 : res.status };
@@ -118,7 +115,7 @@ export async function healthCheck() {
 /** داده درباره ما — از مسیر site بدون auth */
 export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
   try {
-    const res = await fetch("https://metalkarantech.ir/api/site/about-us", {
+    const res = await fetch("/api/site/about-us", {
       cache: "no-store",
     });
     if (!res.ok) return null;
@@ -149,7 +146,7 @@ export async function getSiteAboutUs(): Promise<IAboutUsPageData | null> {
 /** دسته‌بندی‌ها برای سایت — از مسیر site بدون auth */
 export async function getSiteCategories() {
   try {
-    const res = await fetch("https://metalkarantech.ir/api/site/categories", {
+    const res = await fetch("/api/site/categories", {
       cache: "no-store",
     });
     if (!res.ok) throw new Error("خطا");
@@ -160,68 +157,10 @@ export async function getSiteCategories() {
   }
 }
 
-/** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — از مسیر site بدون auth */
-export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
-  try {
-    const res = await fetch(
-      "https://metalkarantech.ir/api/site/website-content",
-      {
-        cache: "no-store",
-      },
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    const raw = toCamelCase(data) as {
-      heroSections?: { id: number; src: string; alt: string }[];
-      homePageAbout?: Record<string, unknown>;
-      contactUsPageData?: Record<string, unknown>;
-      companyInformation?: Record<string, unknown>;
-      companySocialLinks?: { id: number; title: string; url: string }[];
-    };
-    const heroSection = raw.heroSections ?? [];
-    const firstHero = heroSection[0];
-    return {
-      heroSection,
-      logoImage: firstHero ?? { id: 0, src: "/logo.png", alt: "لوگو" },
-      industriesCarousel: heroSection,
-      homePageAbout:
-        (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? {
-          title: "",
-          detail: "",
-          extraTitle: "",
-          extraDetail: "",
-        },
-      aboutUsPageData: {
-        whyUs: { title: "", description: "" },
-        aboutUsCards: [],
-        aboutUsDescription: [],
-      },
-      companyInformation: raw.companyInformation
-        ? {
-            ...(raw.companyInformation as unknown as ICompanyInformation),
-            socialLinks: raw.companySocialLinks ?? [],
-          }
-        : {
-            phoneNumber: "",
-            emailAddress: "",
-            companyAddress: "",
-            socialLinks: raw.companySocialLinks ?? [],
-          },
-      contactUsPageData:
-        (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? {
-          mainParagraph: "",
-          subParagraph: "",
-        },
-    };
-  } catch {
-    return null;
-  }
-}
-
 /** سوالات متداول برای نمایش در سایت — از مسیر site بدون auth */
 export async function getSiteQuestions(): Promise<IQuestion[]> {
   try {
-    const res = await fetch("https://metalkarantech.ir/api/site/questions", {
+    const res = await fetch("/api/site/questions", {
       cache: "no-store",
     });
     if (!res.ok) return [];
@@ -235,7 +174,7 @@ export async function getSiteQuestions(): Promise<IQuestion[]> {
 
 export async function getHeroSections() {
   try {
-    const res = await fetch("https://metalkarantech.ir/api/cms/hero-sections", {
+    const res = await fetch("/api/cms/hero-sections", {
       headers: authHeaders(),
       cache: "no-store",
     });
@@ -250,13 +189,10 @@ export async function getHeroSections() {
 /** یک رکورد home_page_about (بک‌اند فقط اولین رکورد را برمی‌گرداند) */
 export async function getHomePageAbout() {
   try {
-    const res = await fetch(
-      "https://metalkarantech.ir/api/cms/home-page-about",
-      {
-        headers: authHeaders(),
-        cache: "no-store",
-      },
-    );
+    const res = await fetch("/api/cms/home-page-about", {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return data ? toCamelCase(data) : null;
@@ -274,14 +210,11 @@ export async function updateHomePageAbout(data: {
 }) {
   const first = (await getHomePageAbout()) as { id: number } | null;
   if (!first?.id) throw new Error("رکوردی برای به‌روزرسانی یافت نشد");
-  const res = await fetch(
-    `https://metalkarantech.ir/api/cms/home-page-about/${first.id}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify(data),
-    },
-  );
+  const res = await fetch(`/api/cms/home-page-about/${first.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در ذخیره");
@@ -291,13 +224,10 @@ export async function updateHomePageAbout(data: {
 /** یک رکورد contact_us_page_data (بک‌اند ممکن است آرایه یا تک رکورد برگرداند) */
 export async function getContactUsPageData(): Promise<IContactUsPageData | null> {
   try {
-    const res = await fetch(
-      "https://metalkarantech.ir/api/cms/contact-us-page",
-      {
-        headers: authHeaders(),
-        cache: "no-store",
-      },
-    );
+    const res = await fetch("/api/cms/contact-us-page", {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     const raw = Array.isArray(data) ? data[0] : data;
@@ -308,7 +238,7 @@ export async function getContactUsPageData(): Promise<IContactUsPageData | null>
 }
 
 export async function updateContactUsPageData(data: IContactUsPageData) {
-  const res = await fetch("https://metalkarantech.ir/api/cms/contact-us-page", {
+  const res = await fetch("/api/cms/contact-us-page", {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(data),
@@ -322,7 +252,7 @@ export async function updateContactUsPageData(data: IContactUsPageData) {
 /** داده درباره ما: whyUs، aboutUsCards، aboutUsDescription (از مسیر تجمیعی بک‌اند) */
 export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
   try {
-    const res = await fetch("https://metalkarantech.ir/api/cms/about-us-page", {
+    const res = await fetch("/api/cms/about-us-page", {
       headers: authHeaders(),
       cache: "no-store",
     });
@@ -351,7 +281,7 @@ export async function getAboutUsPageData(): Promise<IAboutUsPageData | null> {
 }
 
 export async function updateAboutUsPageData(data: IAboutUsPageData) {
-  const res = await fetch("https://metalkarantech.ir/api/cms/about-us-page", {
+  const res = await fetch("/api/cms/about-us-page", {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(data),
@@ -362,16 +292,12 @@ export async function updateAboutUsPageData(data: IAboutUsPageData) {
   }
 }
 
-export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
+export async function getWebsiteContent() {
   try {
     const res = await fetch("/api/cms/website-content", {
       headers: authHeaders(),
       cache: "no-store",
     });
-
-    if (!res.ok) {
-      return getSiteWebsiteContent();
-    }
 
     const data = await res.json();
     const raw = toCamelCase(data) as {
@@ -424,12 +350,12 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
       },
     };
   } catch {
-    return getSiteWebsiteContent();
+    console.error("tadaaaaa");
   }
 }
 /** به‌روزرسانی محتوای لندینگ. اگر مسیر website-content ۴۰۴ داد، از endpointهای جدا (home-page-about، contact-us-page، company-information) استفاده می‌کند. */
 export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
-  const res = await fetch("https://metalkarantech.ir/api/cms/website-content", {
+  const res = await fetch("/api/cms/website-content", {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(data),
@@ -461,20 +387,14 @@ export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
 export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
   try {
     const h = authHeaders();
-    const socialRes = await fetch(
-      "https://metalkarantech.ir/api/cms/company-social-links",
-      {
-        headers: h,
-        cache: "no-store",
-      },
-    );
-    const infoRes = await fetch(
-      "https://metalkarantech.ir/api/cms/company-information",
-      {
-        headers: h,
-        cache: "no-store",
-      },
-    );
+    const socialRes = await fetch("/api/cms/company-social-links", {
+      headers: h,
+      cache: "no-store",
+    });
+    const infoRes = await fetch("/api/cms/company-information", {
+      headers: h,
+      cache: "no-store",
+    });
     const social = socialRes.ok ? await socialRes.json() : [];
     const infoRaw = infoRes.ok ? await infoRes.json() : null;
     const first = Array.isArray(infoRaw) ? infoRaw[0] : infoRaw;
@@ -493,14 +413,11 @@ export async function updateCompanyInfo(data: {
   emailAddress: string;
   companyAddress?: string | null;
 }) {
-  const res = await fetch(
-    "https://metalkarantech.ir/api/cms/company-information",
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify(data),
-    },
-  );
+  const res = await fetch("/api/cms/company-information", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در ذخیره");
@@ -511,14 +428,11 @@ export async function createCompanySocialLink(data: {
   title: string;
   url: string;
 }): Promise<ICompanySocialLink> {
-  const res = await fetch(
-    "https://metalkarantech.ir/api/cms/company-social-links",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify(data),
-    },
-  );
+  const res = await fetch("/api/cms/company-social-links", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در ایجاد");
@@ -531,14 +445,11 @@ export async function updateCompanySocialLink(
   id: number,
   data: { title: string; url: string },
 ) {
-  const res = await fetch(
-    `https://metalkarantech.ir/api/cms/company-social-links/${id}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify(data),
-    },
-  );
+  const res = await fetch(`/api/cms/company-social-links/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در ویرایش");
@@ -546,13 +457,10 @@ export async function updateCompanySocialLink(
 }
 
 export async function deleteCompanySocialLink(id: number) {
-  const res = await fetch(
-    `https://metalkarantech.ir/api/cms/company-social-links/${id}`,
-    {
-      method: "DELETE",
-      headers: authHeaders(),
-    },
-  );
+  const res = await fetch(`/api/cms/company-social-links/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در حذف");
@@ -561,7 +469,7 @@ export async function deleteCompanySocialLink(id: number) {
 
 export async function getQuestions() {
   try {
-    const res = await fetch("https://metalkarantech.ir/api/cms/questions", {
+    const res = await fetch("/api/cms/questions", {
       headers: authHeaders(),
       cache: "no-store",
     });
@@ -577,7 +485,7 @@ export async function createQuestion(data: {
   question: string;
   answer: string;
 }) {
-  const res = await fetch("https://metalkarantech.ir/api/cms/questions", {
+  const res = await fetch("/api/cms/questions", {
     method: "POST",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(data),
@@ -592,7 +500,7 @@ export async function updateQuestion(
   id: number,
   data: { question: string; answer: string },
 ) {
-  const res = await fetch(`https://metalkarantech.ir/api/cms/questions/${id}`, {
+  const res = await fetch(`/api/cms/questions/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(data),
@@ -604,7 +512,7 @@ export async function updateQuestion(
 }
 
 export async function deleteQuestion(id: number) {
-  const res = await fetch(`https://metalkarantech.ir/api/cms/questions/${id}`, {
+  const res = await fetch(`/api/cms/questions/${id}`, {
     method: "DELETE",
     headers: authHeaders(),
   });
@@ -625,13 +533,10 @@ export type ContactFormItem = {
 
 export async function getContactFormData(): Promise<ContactFormItem[]> {
   try {
-    const res = await fetch(
-      "https://metalkarantech.ir/api/cms/contact-form-data",
-      {
-        headers: authHeaders(),
-        cache: "no-store",
-      },
-    );
+    const res = await fetch("/api/cms/contact-form-data", {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("خطا در دریافت پیام‌ها");
     const data = await res.json();
     const arr = Array.isArray(data) ? data : [];
@@ -647,7 +552,7 @@ export const api = {
   healthCheck,
   getSiteAboutUs,
   getSiteCategories,
-  getSiteWebsiteContent,
+
   getSiteQuestions,
   getHeroSections,
   getHomePageAbout,
