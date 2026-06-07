@@ -14,6 +14,7 @@ type CarouselHeroProps = { heroSection?: IHeroSection[] | null };
 const CarouselHero = ({ heroSection: propHero }: CarouselHeroProps) => {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [slides, setSlides] = useState<any[]>([]);
+  console.log(slides);
 
   useEffect(() => {
     const fetchHero = async () => {
@@ -54,7 +55,7 @@ const CarouselHero = ({ heroSection: propHero }: CarouselHeroProps) => {
           <CarouselItem key={image.id} className="basis-5/7 lg:basis-8/10">
             <div className="group shrink-0 rounded-xl md:rounded-2xl overflow-hidden relative transition-all duration-500 ease-out h-[clamp(260px,55vh,420px)] md:h-[450px] lg:h-[480px] w-full">
               <Image
-                src={`${image.src}`}
+                src={image.src}
                 alt={image.alt}
                 fill
                 className="rounded-xl md:rounded-2xl object-cover transform transition-transform duration-700"
