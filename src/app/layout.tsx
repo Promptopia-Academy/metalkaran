@@ -5,32 +5,32 @@ import localFont from "next/font/local";
 const Vazir = localFont({
   src: [
     {
-      path: "../../public/fonts/vazirmatn/Vazirmatn-Light.woff2",
+      path: "../fonts/vazirmatn/Vazirmatn-Light.ttf",
       weight: "300",
       style: "normal",
     },
     {
-      path: "../../public/fonts/vazirmatn/Vazirmatn-Regular.woff2",
+      path: "../fonts/vazirmatn/Vazirmatn-Regular.ttf",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/vazirmatn/Vazirmatn-Medium.woff2",
+      path: "../fonts/vazirmatn/Vazirmatn-Medium.ttf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../../public/fonts/vazirmatn/Vazirmatn-Bold.woff2",
+      path: "../fonts/vazirmatn/Vazirmatn-Bold.ttf",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../../public/fonts/vazirmatn/Vazirmatn-ExtraBold.woff2",
+      path: "../fonts/vazirmatn/Vazirmatn-ExtraBold.ttf",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../../public/fonts/vazirmatn/Vazirmatn-Black.woff2",
+      path: "../fonts/vazirmatn/Vazirmatn-Black.ttf",
       weight: "900",
       style: "normal",
     },
