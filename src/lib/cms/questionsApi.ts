@@ -1,7 +1,7 @@
 import { authHeaders } from "@/utils/apiHelper";
 import type { IQuestion } from "@/types/type";
 
-const BASE_URL = "/api/questions";
+const BASE_URL = "/api/cms/questions";
 
 export async function getQuestions(): Promise<IQuestion[]> {
   const res = await fetch(BASE_URL, {
