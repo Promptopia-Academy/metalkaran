@@ -5,9 +5,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { api } from "@/lib/dev/getData";
 import type { IQuestion } from "@/types/type";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+
+import {
+  getQuestions,
+  createQuestion,
+  updateQuestion,
+  deleteQuestion,
+} from "@/lib/cms/questionsApi";
 
 const textareaClass =
   "w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm";
@@ -16,21 +22,24 @@ export default function AdminQuestionsPage() {
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
+
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editQuestion, setEditQuestion] = useState("");
   const [editAnswer, setEditAnswer] = useState("");
 
-  const load = () => {
-    api
-      .getQuestions()
-      .then((data) => {
-        const arr = Array.isArray(data) ? data : [];
-        setQuestions(arr as IQuestion[]);
-      })
-      .catch(() => setQuestions([]))
-      .finally(() => setLoading(false));
+  const load = async () => {
+    try {
+      setLoading(true);
+      const data = await getQuestions();
+      setQuestions(data);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "خطا در دریافت سوالات");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -39,15 +48,23 @@ export default function AdminQuestionsPage() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!newQuestion.trim() || !newAnswer.trim()) {
       alert("سوال و پاسخ را پر کنید");
       return;
     }
+
     setSaving(true);
+
     try {
-      await api.createQuestion({ question: newQuestion.trim(), answer: newAnswer.trim() });
+      await createQuestion({
+        question: newQuestion.trim(),
+        answer: newAnswer.trim(),
+      });
+
       setNewQuestion("");
       setNewAnswer("");
+
       load();
     } catch (err) {
       alert(err instanceof Error ? err.message : "خطا در ذخیره");
@@ -70,10 +87,19 @@ export default function AdminQuestionsPage() {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingId == null || !editQuestion.trim() || !editAnswer.trim()) return;
+
+    if (editingId == null) return;
+
+    if (!editQuestion.trim() || !editAnswer.trim()) return;
+
     setSaving(true);
+
     try {
-      await api.updateQuestion(editingId, { question: editQuestion.trim(), answer: editAnswer.trim() });
+      await updateQuestion(editingId, {
+        question: editQuestion.trim(),
+        answer: editAnswer.trim(),
+      });
+
       cancelEdit();
       load();
     } catch (err) {
@@ -85,10 +111,13 @@ export default function AdminQuestionsPage() {
 
   const handleDelete = async (id: number) => {
     if (!confirm("حذف این سوال؟")) return;
+
     setSaving(true);
+
     try {
-      await api.deleteQuestion(id);
-      load();
+      await deleteQuestion(id);
+
+      setQuestions((prev) => prev.filter((q) => q.id !== id));
     } catch (err) {
       alert(err instanceof Error ? err.message : "خطا در حذف");
     } finally {
@@ -112,6 +141,7 @@ export default function AdminQuestionsPage() {
             افزودن سوال جدید
           </CardTitle>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={handleAdd} className="space-y-4">
             <div>
@@ -123,6 +153,7 @@ export default function AdminQuestionsPage() {
                 required
               />
             </div>
+
             <div>
               <Label>پاسخ</Label>
               <textarea
@@ -133,6 +164,7 @@ export default function AdminQuestionsPage() {
                 required
               />
             </div>
+
             <Button type="submit" disabled={saving}>
               {saving ? "در حال ذخیره..." : "ذخیره"}
             </Button>
@@ -153,6 +185,7 @@ export default function AdminQuestionsPage() {
           <CardHeader>
             <CardTitle>لیست سوالات ({questions.length})</CardTitle>
           </CardHeader>
+
           <CardContent>
             <div className="space-y-4">
               {questions.map((q) => (
@@ -162,21 +195,27 @@ export default function AdminQuestionsPage() {
                       <Input
                         value={editQuestion}
                         onChange={(e) => setEditQuestion(e.target.value)}
-                        placeholder="سوال"
                         required
                       />
+
                       <textarea
                         className={textareaClass}
                         value={editAnswer}
                         onChange={(e) => setEditAnswer(e.target.value)}
-                        placeholder="پاسخ"
                         required
                       />
+
                       <div className="flex gap-2">
                         <Button type="submit" size="sm" disabled={saving}>
                           ذخیره
                         </Button>
-                        <Button type="button" variant="outline" size="sm" onClick={cancelEdit}>
+
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={cancelEdit}
+                        >
                           انصراف
                         </Button>
                       </div>
@@ -184,12 +223,13 @@ export default function AdminQuestionsPage() {
                   ) : (
                     <>
                       <p className="font-medium">{q.question}</p>
+
                       <p className="text-sm text-muted-foreground whitespace-pre-wrap">
                         {q.answer}
                       </p>
+
                       <div className="flex gap-2 pt-2">
                         <Button
-                          type="button"
                           variant="outline"
                           size="sm"
                           onClick={() => startEdit(q)}
@@ -197,8 +237,8 @@ export default function AdminQuestionsPage() {
                           <Pencil className="w-4 h-4 ml-1" />
                           ویرایش
                         </Button>
+
                         <Button
-                          type="button"
                           variant="outline"
                           size="sm"
                           className="text-destructive"
