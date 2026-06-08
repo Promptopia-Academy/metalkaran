@@ -6,15 +6,15 @@ import { HERO_SECTION } from "@/lib/constants";
 import { TextAnimate } from "../ui/text-animate";
 import type { CarouselApi } from "../ui/carousel";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
-import type { IHeroSection } from "@/types/type";
-import { getImageUrl } from "@/lib/cms/uploadImageApi";
 
-type CarouselHeroProps = { heroSection?: IHeroSection[] | null };
 
-const CarouselHero = ({ heroSection: propHero }: CarouselHeroProps) => {
+
+
+
+const CarouselHero = () => {
   const [api, setApi] = useState<CarouselApi | null>(null);
   const [slides, setSlides] = useState<any[]>([]);
-  console.log(slides);
+
 
   useEffect(() => {
     const fetchHero = async () => {

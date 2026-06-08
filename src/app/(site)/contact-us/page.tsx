@@ -19,7 +19,7 @@ export default async function ContactUs() {
       </AnimatedSection>
 
       <AnimatedSection delay={0.1}>
-        <CallSection companyInfo={companyInfo} />
+        <CallSection />
       </AnimatedSection>
     </section>
   );

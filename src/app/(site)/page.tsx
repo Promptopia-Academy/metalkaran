@@ -26,7 +26,7 @@ export default async function Home() {
         variant="down"
         duration={0.6}
       >
-        <CarouselHero heroSection={siteContent?.heroSection} />
+        <CarouselHero />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
@@ -46,7 +46,7 @@ export default async function Home() {
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <About homePageAbout={siteContent?.homePageAbout} />
+        <About/>
       </AnimatedSection>
 
       <AnimatedSection delay={0.05} variant="scale">
@@ -60,7 +60,7 @@ export default async function Home() {
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <CallSection companyInfo={siteContent?.companyInformation} />
+        <CallSection  />
       </AnimatedSection>
     </section>
   );
