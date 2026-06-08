@@ -249,11 +249,10 @@ export interface ICompanySocialLink {
 // ========== Backend: company_information ==========
 export interface ICompanyInformation {
   id?: number;
-  phoneNumber: string;
-  emailAddress: string;
-  /** ممکن است در بک‌اند به جدول جدا یا فیلد اضافه شود */
-  companyAddress?: string;
-  socialLinks: ICompanySocialLink[];
+  phone_number: string;
+  email_address: string;
+
+  company_address?: string;
 }
 
 // ترکیب داده‌های چند جدول برای صفحهٔ لندینگ

@@ -3,7 +3,7 @@ import Footer from "@/components/footer/Footer";
 import AnimatedSection from "@/components/ui/animated-section";
 import { getCategoriesForSite } from "@/lib/cms/categoryApi";
 import { getSiteWebsiteContent } from "@/lib/dev/getData";
-import type { ICategory, ICompanyInformation } from "@/types/type";
+import type { ICategory } from "@/types/type";
 
 export default async function SiteLayout({
   children,
@@ -14,7 +14,7 @@ export default async function SiteLayout({
     getCategoriesForSite(),
     getSiteWebsiteContent(),
   ]);
-  const companyInfo: ICompanyInformation | null = siteContent?.companyInformation ?? null;
+
   const logoImage = siteContent?.logoImage ?? null;
 
   return (
@@ -25,7 +25,7 @@ export default async function SiteLayout({
       <main>{children}</main>
       <footer>
         <AnimatedSection delay={0.1} variant="fade">
-          <Footer companyInfo={companyInfo} />
+          <Footer  />
         </AnimatedSection>
       </footer>
     </>

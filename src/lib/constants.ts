@@ -3,7 +3,7 @@
  * این فایل فقط برای منوی ادمین، لینک‌های ناو، ستون‌های جدول و رنگ‌های ترکیب شیمیایی است.
  */
 
-import type { IHeroSection, ICompanyInformation, IContactUsPageData, IHomePageAbout, IAboutUsPageData, IQuestion, ICategory, IProduct } from "@/types/type";
+import type { IHeroSection, IContactUsPageData, IHomePageAbout, IAboutUsPageData, IQuestion, ICategory, IProduct } from "@/types/type";
 import type { DataTableColumn } from "@/types/type";
 import type { IMechanicalProperties, IPhysicalProperties } from "@/types/type";
 import {
@@ -89,12 +89,12 @@ export const EXTRA_CONTENT_SECTIONS = [
 // ——— پیش‌فرض‌ها وقتی API خالی یا خطا برگرداند ———
 export const DEFAULT_HERO_SECTION: IHeroSection[] = [];
 export const DEFAULT_INDUSTRIES_CAROUSEL: IHeroSection[] = [];
-export const DEFAULT_COMPANY_INFORMATION: ICompanyInformation = {
-  phoneNumber: "",
-  emailAddress: "",
-  companyAddress: "",
-  socialLinks: [],
-};
+// export const DEFAULT_COMPANY_INFORMATION: ICompanyInformation = {
+//   phoneNumber: "",
+//   emailAddress: "",
+//   companyAddress: "",
+//   socialLinks: [],
+// };
 export const DEFAULT_CONTACT_US_PAGE_DATA: IContactUsPageData = {
   mainParagraph: "",
   subParagraph: "",
@@ -116,7 +116,7 @@ export const DEFAULT_QUESTION_ITEMS: IQuestion[] = [];
 export const QUESTION_ITEMS = DEFAULT_QUESTION_ITEMS;
 export const HERO_SECTION = DEFAULT_HERO_SECTION;
 export const INDUSTRIES_CAROUSEL = DEFAULT_INDUSTRIES_CAROUSEL;
-export const COMPANY_INFORMATION = DEFAULT_COMPANY_INFORMATION;
+// export const COMPANY_INFORMATION = DEFAULT_COMPANY_INFORMATION;
 export const CONTACT_US_PAGE_DATA = DEFAULT_CONTACT_US_PAGE_DATA;
 export const HOME_PAGE_ABOUT = DEFAULT_HOME_PAGE_ABOUT;
 export const ABOUT_US_PAGE_DATA = DEFAULT_ABOUT_US_PAGE_DATA;

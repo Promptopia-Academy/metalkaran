@@ -27,10 +27,10 @@ const CallSection = () => {
       </div>
 
       <a
-        href={`tel:${info?.phoneNumber}`}
+        href={`tel:${info?.phone_number}`}
         className="py-1 flex flex-col items-center justify-center w-3xs bg-[#1E78AA] text-white rounded-2xl border-2 border-[#1E78AA] hover:bg-[#2B517E] transition-all duration-300"
       >
-        <p className="text-2xl font-medium">{info?.phoneNumber}</p>
+        <p className="text-2xl font-medium">{info?.phone_number}</p>
       </a>
     </div>
   );

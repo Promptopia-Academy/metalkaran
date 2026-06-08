@@ -13,10 +13,9 @@ export default function AdminInformationPage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [info, setInfo] = useState<ICompanyInformation>({
-    phoneNumber: "",
-    emailAddress: "",
-    companyAddress: "",
-    socialLinks: [],
+    phone_number: "",
+    email_address: "",
+    company_address: "",
   });
   const [editingLinkId, setEditingLinkId] = useState<number | null>(null);
   const [newLink, setNewLink] = useState({ title: "", url: "" });
@@ -37,9 +36,9 @@ export default function AdminInformationPage() {
     setLoading(true);
     try {
       await api.updateCompanyInfo({
-        phoneNumber: info.phoneNumber,
-        emailAddress: info.emailAddress,
-        companyAddress: info.companyAddress,
+        phone_number: info.phone_number,
+        emailAddress: info.email_address,
+        companyAddress: info.company_address,
       });
       alert("ذخیره شد");
     } catch (err: unknown) {
@@ -53,10 +52,8 @@ export default function AdminInformationPage() {
     if (!newLink.title.trim() || !newLink.url.trim()) return;
     setLoading(true);
     try {
-      const created = await api.createCompanySocialLink(newLink);
       setInfo((p) => ({
         ...p,
-        socialLinks: [...(p.socialLinks || []), created],
       }));
       setNewLink({ title: "", url: "" });
       setShowNewLink(false);
@@ -71,12 +68,7 @@ export default function AdminInformationPage() {
     setLoading(true);
     try {
       await api.updateCompanySocialLink(id, { title, url });
-      setInfo((p) => ({
-        ...p,
-        socialLinks: (p.socialLinks || []).map((l) =>
-          l.id === id ? { ...l, title, url } : l,
-        ),
-      }));
+
       setEditingLinkId(null);
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : "خطا در ویرایش");
@@ -92,7 +84,6 @@ export default function AdminInformationPage() {
       await api.deleteCompanySocialLink(id);
       setInfo((p) => ({
         ...p,
-        socialLinks: (p.socialLinks || []).filter((l) => l.id !== id),
       }));
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : "خطا در حذف");
@@ -123,7 +114,7 @@ export default function AdminInformationPage() {
             <div>
               <Label>شماره تلفن</Label>
               <Input
-                value={info.phoneNumber}
+                value={info.phone_number}
                 onChange={(e) =>
                   setInfo((p) => ({ ...p, phoneNumber: e.target.value }))
                 }
@@ -133,7 +124,7 @@ export default function AdminInformationPage() {
               <Label>ایمیل</Label>
               <Input
                 type="email"
-                value={info.emailAddress}
+                value={info.email_address}
                 onChange={(e) =>
                   setInfo((p) => ({ ...p, emailAddress: e.target.value }))
                 }
@@ -142,7 +133,7 @@ export default function AdminInformationPage() {
             <div>
               <Label>آدرس شرکت</Label>
               <Input
-                value={info.companyAddress}
+                value={info.company_address}
                 onChange={(e) =>
                   setInfo((p) => ({ ...p, companyAddress: e.target.value }))
                 }
@@ -199,7 +190,8 @@ export default function AdminInformationPage() {
                 </Button>
               </div>
             )}
-            {(!info.socialLinks || info.socialLinks.length === 0) && !showNewLink ? (
+            {/* {(!info.socialLinks || info.socialLinks.length === 0) &&
+            !showNewLink ? (
               <p className="text-muted-foreground text-sm">
                 لینکی ثبت نشده. با دکمه بالا اضافه کنید.
               </p>
@@ -248,7 +240,7 @@ export default function AdminInformationPage() {
                   </div>
                 ))}
               </div>
-            )}
+            )} */}
           </CardContent>
         </Card>
 
@@ -256,7 +248,11 @@ export default function AdminInformationPage() {
           <Button type="submit" disabled={loading}>
             {loading ? "در حال ذخیره..." : "ذخیره اطلاعات تماس"}
           </Button>
-          <Button type="button" variant="outline" onClick={() => history.back()}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => history.back()}
+          >
             <ArrowRight className="w-4 h-4 ml-2" />
             بازگشت
           </Button>

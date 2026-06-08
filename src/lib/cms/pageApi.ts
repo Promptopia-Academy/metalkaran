@@ -150,13 +150,11 @@ export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
       companyInformation: raw.companyInformation
         ? {
             ...(raw.companyInformation as unknown as ICompanyInformation),
-            socialLinks: raw.companySocialLinks ?? [],
           }
         : {
-            phoneNumber: "",
-            emailAddress: "",
-            companyAddress: "",
-            socialLinks: raw.companySocialLinks ?? [],
+            phone_number: "",
+            email_address: "",
+            company_address: "",
           },
       contactUsPageData:
         (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? {
@@ -375,13 +373,11 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
       companyInformation: raw.companyInformation
         ? {
             ...(raw.companyInformation as unknown as ICompanyInformation),
-            socialLinks: raw.companySocialLinks ?? [],
           }
         : {
-            phoneNumber: "",
-            emailAddress: "",
-            companyAddress: "",
-            socialLinks: raw.companySocialLinks ?? [],
+            phone_number: "",
+            email_address: "",
+            company_address: "",
           },
       contactUsPageData:
         (raw.contactUsPageData as unknown as IWebsiteContent["contactUsPageData"]) ?? {
@@ -419,9 +415,9 @@ export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
     }
     if (data.companyInformation) {
       await updateCompanyInfo({
-        phoneNumber: data.companyInformation.phoneNumber ?? "",
-        emailAddress: data.companyInformation.emailAddress ?? "",
-        companyAddress: data.companyInformation.companyAddress ?? undefined,
+        phoneNumber: data.companyInformation.phone_number ?? "",
+        emailAddress: data.companyInformation.email_address ?? "",
+        companyAddress: data.companyInformation.company_address ?? undefined,
       });
     }
     return;
@@ -450,8 +446,8 @@ export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
     if (!first) return null;
 
     const base = toCamelCase<Omit<ICompanyInformation, "socialLinks">>(first);
-    const socialLinks = toCamelCase<ICompanySocialLink[]>(social);
-    return { ...base, socialLinks };
+
+    return { ...base };
   } catch {
     return null;
   }

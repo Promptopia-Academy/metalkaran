@@ -1,20 +1,44 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { XsocialIcon } from "@/components/icons/XsocialIcon";
-import { COMPANY_INFORMATION, LOGO_IMAGE } from "@/lib/constants";
-import type { ICompanyInformation } from "@/types/type";
-import {
-  InstagramLogoIcon,
-  LinkedInLogoIcon,
-} from "@radix-ui/react-icons";
+import {  LOGO_IMAGE } from "@/lib/constants";
+import type { ICompanyInformation, ICompanySocialLink } from "@/types/type";
+import { InstagramLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
+import { useEffect, useState } from "react";
 
-type FooterProps = {
-  companyInfo?: ICompanyInformation | null;
-};
+const Footer = () => {
+  const [companyInfo, setCompanyInfo] = useState<ICompanyInformation[]>();
+  const [companySocialLinks, setCompanySocialLinks] =
+    useState<ICompanySocialLink[]>();
+  useEffect(() => {
+    const fetchCompanyInfo = async () => {
+      try {
+        const res = await fetch("/api/cms/company-information");
+        const data = await res.json();
+        setCompanyInfo(data);
+      } catch (err) {
+        console.error("Hero fetch error:", err);
+      }
+    };
 
-const Footer = ({ companyInfo: propCompanyInfo }: FooterProps) => {
-  const companyInfo = propCompanyInfo ?? COMPANY_INFORMATION;
-  const socialLinks = companyInfo.socialLinks ?? [];
+    fetchCompanyInfo();
+  }, []);
+  const info = companyInfo?.at(0);
+  useEffect(() => {
+    const fetchCompanySocialLinks = async () => {
+      try {
+        const res = await fetch("/api/cms/company-social-links");
+        const data = await res.json();
+        setCompanySocialLinks(data);
+      } catch (err) {
+        console.error("Hero fetch error:", err);
+      }
+    };
+
+    fetchCompanySocialLinks();
+  }, []);
+
 
   return (
     <div className="w-full min-h-60 mt-5 flex flex-col md:flex-row justify-between px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 rounded-t-2xl py-6 md:py-8 bg-primary gap-8 md:gap-16 lg:gap-32 xl:gap-52">
@@ -38,35 +62,39 @@ const Footer = ({ companyInfo: propCompanyInfo }: FooterProps) => {
             dir="rtl"
           >
             <p>
-              شماره تماس :<a href={`tel:${companyInfo.phoneNumber}`}> {companyInfo.phoneNumber}</a>
+              شماره تماس :
+              <a href={`tel:${info?.phone_number}`}> {info?.phone_number}</a>
             </p>
             <p className="text-xs sm:text-sm md:text-base">
               آدرس ایمیل :
-              <a href={`mailto:${companyInfo.emailAddress}`}> {companyInfo.emailAddress}</a>
+              <a href={`mailto:${info?.email_address}`}>
+                {" "}
+                {info?.email_address}
+              </a>
             </p>
-            {(companyInfo.companyAddress != null && companyInfo.companyAddress !== "") && (
+            {info?.company_address != null && info?.company_address !== "" && (
               <p className="text-xs sm:text-sm md:text-base">
-                آدرس شرکت : {companyInfo.companyAddress}
+                آدرس شرکت : {info?.company_address}
               </p>
             )}
           </div>
         </div>
 
         <div className="w-full h-[2px] bg-background my-4 md:mb-4"></div>
-        {socialLinks.length > 0 && (
+        {companySocialLinks && (
           <div className="flex gap-8 sm:gap-12 md:gap-16 justify-center sm:justify-start">
-            {socialLinks[0] && (
-              <Link href={socialLinks[0].url}>
+            {companySocialLinks[0] && (
+              <Link href={companySocialLinks[0].url}>
                 <InstagramLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-6" />
               </Link>
             )}
-            {socialLinks[1] && (
-              <Link href={socialLinks[1].url}>
+            {companySocialLinks[1] && (
+              <Link href={companySocialLinks[1].url}>
                 <LinkedInLogoIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:-rotate-6" />
               </Link>
             )}
-            {socialLinks[2] && (
-              <Link href={socialLinks[2].url}>
+            {companySocialLinks[2] && (
+              <Link href={companySocialLinks[2].url}>
                 <XsocialIcon className="w-5 h-5 sm:w-6 sm:h-6 text-background cursor-pointer transition-all duration-200 ease-out hover:text-primary-secondary hover:scale-110 hover:rotate-3" />
               </Link>
             )}
