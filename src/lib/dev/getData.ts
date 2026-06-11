@@ -524,15 +524,16 @@ export async function deleteCompanySocialLink(id: number) {
 }
 
 export async function getQuestions(): Promise<IQuestion[]> {
-  const res = await fetch("/api/cms/questions", {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error("خطا در دریافت سوالات");
+  try {
+    const res = await fetch("/api/cms/questions", {
+      cache: "no-store",
+    });
+    if (!res.ok) throw new Error("خطا");
+    const data = await res.json();
+    return data;
+  } catch {
+    return [];
   }
-
-  return await res.json();
 }
 
 export async function createQuestion(data: {
