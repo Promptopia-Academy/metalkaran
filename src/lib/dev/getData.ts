@@ -531,7 +531,7 @@ export async function getQuestions(): Promise<IQuestion[]> {
     });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
-    return toCamelCase(data);
+    return data;
   } catch {
     return [];
   }
