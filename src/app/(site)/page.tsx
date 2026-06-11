@@ -51,7 +51,7 @@ export default async function Home() {
 
       <AnimatedSection delay={0.05} variant="scale">
         <IndustriesCarousel
-          industriesCarousel={siteContent?.industriesCarousel}
+         
         />
       </AnimatedSection>
 

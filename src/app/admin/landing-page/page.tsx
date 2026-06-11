@@ -9,6 +9,7 @@ import { api } from "@/lib/dev/getData";
 import type { IWebsiteContent, IHomePageAbout } from "@/types/type";
 import { ArrowRight } from "lucide-react";
 import { AdminHeroCarousel } from "@/components/admin/AdminHeroCarousel";
+import { AdminIndustriesCarousel } from "@/components/admin/AdminIndustriesCarousel";
 
 const textareaClass =
   "w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm";
@@ -112,6 +113,8 @@ export default function AdminLandingPage() {
           </CardContent>
         </Card>
         <AdminHeroCarousel />
+        <AdminIndustriesCarousel/>
+
         <div className="flex gap-4">
           <Button type="submit" disabled={loading}>
             {loading ? "در حال ذخیره..." : "ذخیره تغییرات"}
