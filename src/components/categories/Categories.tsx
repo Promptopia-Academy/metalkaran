@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CategoryItem } from "./CategoryItem";
-import { CATEGORIES_ARRAY } from "@/lib/constants";
 import type { ICategory } from "@/types/type";
 
 type CategoryGridProps = {
@@ -8,7 +7,7 @@ type CategoryGridProps = {
 };
 
 export default function CategoryGrid({ categories }: CategoryGridProps) {
-  const list = categories?.length ? categories : CATEGORIES_ARRAY;
+  const list = categories?.length;
   return (
     <section className="py-8 md:py-12 px-4">
       <h2

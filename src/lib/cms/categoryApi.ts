@@ -91,10 +91,12 @@ export async function getCategories(): Promise<ICategory[]> {
 /** برای سایت: لیست دسته‌بندی‌ها (بدون auth — از مسیر site) */
 export async function getCategoriesForSite(): Promise<ICategory[]> {
   try {
-    const res = await fetch(apiUrl("/api/site/categories"), { cache: "no-store" });
+    const res = await fetch(apiUrl("/api/cms/categories"), {
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("خطا در دریافت دسته‌بندی‌ها");
     const data = await res.json();
-    const items = Array.isArray(data) ? data : data?.data ?? data ?? [];
+    const items = Array.isArray(data) ? data : (data?.data ?? data ?? []);
     return toCamelCase(items) as ICategory[];
   } catch {
     return [];
@@ -128,7 +130,9 @@ export async function updateCategory(
   }
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error((err as { error?: string }).error || "خطا در ویرایش دسته‌بندی");
+    throw new Error(
+      (err as { error?: string }).error || "خطا در ویرایش دسته‌بندی",
+    );
   }
 }
 
@@ -147,6 +151,8 @@ export async function deleteCategory(id: number, token?: string) {
   }
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
-    throw new Error((err as { error?: string }).error || "خطا در حذف دسته‌بندی");
+    throw new Error(
+      (err as { error?: string }).error || "خطا در حذف دسته‌بندی",
+    );
   }
 }
