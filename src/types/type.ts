@@ -356,7 +356,7 @@ export interface ICalculatorInputProps {
 }
 
 export interface IQuestionSectionProps {
-  questions?: IQuestion[];
+
   title?: string;
 }
 

@@ -1,15 +1,34 @@
-import type { IQuestionSectionProps } from "@/types/type";
+"use client";
+import type { IQuestion, IQuestionSectionProps } from "@/types/type";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { useEffect, useState } from "react";
+import { getQuestions } from "@/lib/dev/getData";
 
 export function QuestionSection({
-  questions,
   title = "سوالات متداول",
 }: IQuestionSectionProps) {
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
+  const [loading, setLoading] = useState(true);
+  const load = async () => {
+    try {
+      setLoading(true);
+      const data = await getQuestions();
+      setQuestions(data);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "خطا در دریافت سوالات");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
   return (
     <div className="min-h-0 mt-10 px-4 sm:px-6 md:px-28 pb-8">
       <div className="text-center pt-3">
