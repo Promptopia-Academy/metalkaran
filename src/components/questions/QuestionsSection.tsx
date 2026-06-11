@@ -1,4 +1,3 @@
-import { QUESTION_ITEMS } from "@/lib/constants";
 import type { IQuestionSectionProps } from "@/types/type";
 import {
   Accordion,
@@ -8,7 +7,7 @@ import {
 } from "@/components/ui/accordion";
 
 export function QuestionSection({
-  questions = QUESTION_ITEMS,
+  questions,
   title = "سوالات متداول",
 }: IQuestionSectionProps) {
   return (
@@ -21,7 +20,7 @@ export function QuestionSection({
         collapsible
         className="w-full flex flex-col gap-6 justify-center items-center py-10 sm:flex-row sm:flex-wrap"
       >
-        {questions.map((item) => (
+        {questions?.map((item) => (
           <AccordionItem
             key={item.id}
             value={`item-${item.id}`}

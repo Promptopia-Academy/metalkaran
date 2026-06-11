@@ -68,14 +68,11 @@ export async function submitContact(data: {
   company: string;
 }): Promise<{ success: boolean; message?: string; status?: number }> {
   try {
-    const res = await fetch(
-      "/api/cms/contact-form-data",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      },
-    );
+    const res = await fetch("/api/cms/contact-form-data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
     const json = await res.json().catch(() => ({}));
     if (res.ok) {
       return { success: true, message: json.message || "ارسال شد" };
@@ -163,12 +160,9 @@ export async function getSiteCategories() {
 /** محتوای عمومی سایت (هیرو، دربارهٔ اصلی، تماس، شرکت و...) — از مسیر site بدون auth */
 export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
   try {
-    const res = await fetch(
-      "/api/site/website-content",
-      {
-        cache: "no-store",
-      },
-    );
+    const res = await fetch("/api/site/website-content", {
+      cache: "no-store",
+    });
     if (!res.ok) return null;
     const data = await res.json();
     const raw = toCamelCase(data) as {
@@ -248,13 +242,10 @@ export async function getHeroSections() {
 /** یک رکورد home_page_about (بک‌اند فقط اولین رکورد را برمی‌گرداند) */
 export async function getHomePageAbout() {
   try {
-    const res = await fetch(
-      "/api/cms/home-page-about",
-      {
-        headers: authHeaders(),
-        cache: "no-store",
-      },
-    );
+    const res = await fetch("/api/cms/home-page-about", {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     return data ? toCamelCase(data) : null;
@@ -272,14 +263,11 @@ export async function updateHomePageAbout(data: {
 }) {
   const first = (await getHomePageAbout()) as { id: number } | null;
   if (!first?.id) throw new Error("رکوردی برای به‌روزرسانی یافت نشد");
-  const res = await fetch(
-    `/api/cms/home-page-about/${first.id}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify(data),
-    },
-  );
+  const res = await fetch(`/api/cms/home-page-about/${first.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در ذخیره");
@@ -289,13 +277,10 @@ export async function updateHomePageAbout(data: {
 /** یک رکورد contact_us_page_data (بک‌اند ممکن است آرایه یا تک رکورد برگرداند) */
 export async function getContactUsPageData(): Promise<IContactUsPageData | null> {
   try {
-    const res = await fetch(
-      "/api/cms/contact-us-page",
-      {
-        headers: authHeaders(),
-        cache: "no-store",
-      },
-    );
+    const res = await fetch("/api/cms/contact-us-page", {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("خطا");
     const data = await res.json();
     const raw = Array.isArray(data) ? data[0] : data;
@@ -458,20 +443,14 @@ export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
 export async function getCompanyInfo(): Promise<ICompanyInformation | null> {
   try {
     const h = authHeaders();
-    const socialRes = await fetch(
-      "/api/cms/company-social-links",
-      {
-        headers: h,
-        cache: "no-store",
-      },
-    );
-    const infoRes = await fetch(
-      "/api/cms/company-information",
-      {
-        headers: h,
-        cache: "no-store",
-      },
-    );
+    const socialRes = await fetch("/api/cms/company-social-links", {
+      headers: h,
+      cache: "no-store",
+    });
+    const infoRes = await fetch("/api/cms/company-information", {
+      headers: h,
+      cache: "no-store",
+    });
     const social = socialRes.ok ? await socialRes.json() : [];
     const infoRaw = infoRes.ok ? await infoRes.json() : null;
     const first = Array.isArray(infoRaw) ? infoRaw[0] : infoRaw;
@@ -490,14 +469,11 @@ export async function updateCompanyInfo(data: {
   emailAddress: string;
   companyAddress?: string | null;
 }) {
-  const res = await fetch(
-    "/api/cms/company-information",
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify(data),
-    },
-  );
+  const res = await fetch("/api/cms/company-information", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در ذخیره");
@@ -508,14 +484,11 @@ export async function createCompanySocialLink(data: {
   title: string;
   url: string;
 }): Promise<ICompanySocialLink> {
-  const res = await fetch(
-    "/api/cms/company-social-links",
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify(data),
-    },
-  );
+  const res = await fetch("/api/cms/company-social-links", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در ایجاد");
@@ -528,14 +501,11 @@ export async function updateCompanySocialLink(
   id: number,
   data: { title: string; url: string },
 ) {
-  const res = await fetch(
-    `/api/cms/company-social-links/${id}`,
-    {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", ...authHeaders() },
-      body: JSON.stringify(data),
-    },
-  );
+  const res = await fetch(`/api/cms/company-social-links/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...authHeaders() },
+    body: JSON.stringify(data),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در ویرایش");
@@ -543,20 +513,17 @@ export async function updateCompanySocialLink(
 }
 
 export async function deleteCompanySocialLink(id: number) {
-  const res = await fetch(
-    `/api/cms/company-social-links/${id}`,
-    {
-      method: "DELETE",
-      headers: authHeaders(),
-    },
-  );
+  const res = await fetch(`/api/cms/company-social-links/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as { error?: string }).error || "خطا در حذف");
   }
 }
 
-export async function getQuestions() {
+export async function getQuestions(): Promise<IQuestion[]> {
   try {
     const res = await fetch("/api/cms/questions", {
       headers: authHeaders(),
@@ -566,7 +533,7 @@ export async function getQuestions() {
     const data = await res.json();
     return toCamelCase(data);
   } catch {
-    return null;
+    return [];
   }
 }
 
@@ -622,13 +589,10 @@ export type ContactFormItem = {
 
 export async function getContactFormData(): Promise<ContactFormItem[]> {
   try {
-    const res = await fetch(
-      "/api/cms/contact-form-data",
-      {
-        headers: authHeaders(),
-        cache: "no-store",
-      },
-    );
+    const res = await fetch("/api/cms/contact-form-data", {
+      headers: authHeaders(),
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("خطا در دریافت پیام‌ها");
     const data = await res.json();
     const arr = Array.isArray(data) ? data : [];
