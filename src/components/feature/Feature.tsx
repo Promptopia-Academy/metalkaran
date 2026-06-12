@@ -7,7 +7,10 @@ import { INDUSTRIES_CAROUSEL } from "@/lib/constants";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getImageUrl } from "@/lib/cms/uploadImageApi";
-import { getIndustriesCarousel, type IndustriesCarouselItem } from "@/lib/cms/industriesCarouselApi";
+import {
+  getIndustriesCarousel,
+  type IndustriesCarouselItem,
+} from "@/lib/cms/industriesCarouselApi";
 
 export default function IndustriesCarousel() {
   const [apiItems, setApiItems] = useState<IndustriesCarouselItem[]>([]);
@@ -101,15 +104,14 @@ export default function IndustriesCarousel() {
                   ? 20
                   : 10;
 
-            const opacity =
-              diff > 2 && diff < items.length - 2 ? 0 : 1;
+            const opacity = diff > 2 && diff < items.length - 2 ? 0 : 1;
 
             return (
               <motion.div
                 key={item.id}
                 className={cn(
                   "group absolute rounded-2xl overflow-hidden shadow-md hover:shadow-xl",
-                  diff === 0 ? "cursor-default" : "cursor-pointer"
+                  diff === 0 ? "cursor-default" : "cursor-pointer",
                 )}
                 style={{ zIndex, opacity }}
                 animate={{ scale, x }}
@@ -118,13 +120,14 @@ export default function IndustriesCarousel() {
                 whileHover={{ scale: diff === 0 ? 1.03 : 0.85 }}
               >
                 <Image
-                  src={getImageUrl(item.src) || item.src}
+                  src={item.src}
                   alt={item.alt}
                   width={350}
                   height={400}
+                  unoptimized
                   className={cn(
                     "object-cover w-[350px] h-[400px] transition-all duration-500",
-                    diff === 0 ? "" : "grayscale group-hover:grayscale-0"
+                    diff === 0 ? "" : "grayscale group-hover:grayscale-0",
                   )}
                 />
               </motion.div>
