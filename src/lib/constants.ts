@@ -3,7 +3,15 @@
  * این فایل فقط برای منوی ادمین، لینک‌های ناو، ستون‌های جدول و رنگ‌های ترکیب شیمیایی است.
  */
 
-import type { IHeroSection, IContactUsPageData, IHomePageAbout, IAboutUsPageData, IQuestion, ICategory, IProduct } from "@/types/type";
+import type {
+  IHeroSection,
+  IContactUsPageData,
+  IHomePageAbout,
+  IAboutUsPageData,
+  IQuestion,
+  ICategory,
+  IProduct,
+} from "@/types/type";
 import type { DataTableColumn } from "@/types/type";
 import type { IMechanicalProperties, IPhysicalProperties } from "@/types/type";
 import {
@@ -102,8 +110,8 @@ export const DEFAULT_CONTACT_US_PAGE_DATA: IContactUsPageData = {
 export const DEFAULT_HOME_PAGE_ABOUT: IHomePageAbout = {
   title: "",
   detail: "",
-  extraTitle: "",
-  extraDetail: "",
+  extra_title: "",
+  extra_detail: "",
 };
 export const DEFAULT_ABOUT_US_PAGE_DATA: IAboutUsPageData = {
   whyUs: { title: "", description: "" },

@@ -139,8 +139,8 @@ export async function getSiteWebsiteContent(): Promise<IWebsiteContent | null> {
         (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? {
           title: "",
           detail: "",
-          extraTitle: "",
-          extraDetail: "",
+          extra_title: "",
+          extra_detail: "",
         },
       aboutUsPageData: {
         whyUs: { title: "", description: "" },
@@ -223,8 +223,8 @@ export async function getHomePageAbout() {
 export async function updateHomePageAbout(data: {
   title: string;
   detail: string;
-  extraTitle: string;
-  extraDetail: string;
+  extra_title: string;
+  extra_detail: string;
 }) {
   const first = (await getHomePageAbout()) as { id: number } | null;
   if (!first?.id) throw new Error("رکوردی برای به‌روزرسانی یافت نشد");
@@ -362,8 +362,8 @@ export async function getWebsiteContent(): Promise<IWebsiteContent | null> {
         (raw.homePageAbout as unknown as IWebsiteContent["homePageAbout"]) ?? {
           title: "",
           detail: "",
-          extraTitle: "",
-          extraDetail: "",
+          extra_title: "",
+          extra_detail: "",
         },
       aboutUsPageData: {
         whyUs: { title: "", description: "" },
@@ -406,8 +406,8 @@ export async function updateWebsiteContent(data: Partial<IWebsiteContent>) {
       await updateHomePageAbout({
         title: data.homePageAbout.title ?? "",
         detail: data.homePageAbout.detail ?? "",
-        extraTitle: data.homePageAbout.extraTitle ?? "",
-        extraDetail: data.homePageAbout.extraDetail ?? "",
+        extra_title: data.homePageAbout.extra_title ?? "",
+        extra_detail: data.homePageAbout.extra_detail ?? "",
       });
     }
     if (data.contactUsPageData) {

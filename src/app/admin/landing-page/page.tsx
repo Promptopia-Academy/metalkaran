@@ -92,7 +92,7 @@ export default function AdminLandingPage() {
                 onChange={(e) =>
                   setHomePageAbout((p) => ({
                     ...p,
-                    extraTitle: e.target.value,
+                    extra_title: e.target.value,
                   }))
                 }
               />
@@ -105,7 +105,7 @@ export default function AdminLandingPage() {
                 onChange={(e) =>
                   setHomePageAbout((p) => ({
                     ...p,
-                    extraDetail: e.target.value,
+                    extra_detail: e.target.value,
                   }))
                 }
               />
