@@ -20,8 +20,8 @@ export default function AdminLandingPage() {
   const [homePageAbout, setHomePageAbout] = useState<IHomePageAbout>({
     title: "",
     detail: "",
-    extraTitle: "",
-    extraDetail: "",
+    extra_title: "",
+    extra_detail: "",
   });
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export default function AdminLandingPage() {
             <div>
               <Label>عنوان اضافه</Label>
               <Input
-                value={homePageAbout.extraTitle}
+                value={homePageAbout.extra_title}
                 onChange={(e) =>
                   setHomePageAbout((p) => ({
                     ...p,
@@ -101,7 +101,7 @@ export default function AdminLandingPage() {
               <Label>جزئیات اضافه</Label>
               <textarea
                 className={textareaClass}
-                value={homePageAbout.extraDetail}
+                value={homePageAbout.extra_detail}
                 onChange={(e) =>
                   setHomePageAbout((p) => ({
                     ...p,
@@ -113,7 +113,7 @@ export default function AdminLandingPage() {
           </CardContent>
         </Card>
         <AdminHeroCarousel />
-        <AdminIndustriesCarousel/>
+        <AdminIndustriesCarousel />
 
         <div className="flex gap-4">
           <Button type="submit" disabled={loading}>
