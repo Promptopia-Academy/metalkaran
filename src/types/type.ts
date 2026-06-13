@@ -36,8 +36,8 @@ export interface IHomePageAbout {
   id?: number;
   title: string;
   detail: string;
-  extraTitle: string;
-  extraDetail: string;
+  extra_title: string;
+  extra_detail: string;
 }
 
 // ========== Backend: usages ==========
