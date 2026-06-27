@@ -1,6 +1,6 @@
 "use client";
 import UploadedImage from "@/components/ui/UploadedImage";
-import { getAboutUsDescriptions } from "@/lib/cms/companyInformationApi";
+import { getAboutUsDescriptions } from "@/lib/cms/aboutUsDesApi";
 import type { IAboutUsPageData, IAboutUsPageDescription } from "@/types/type";
 import { useEffect, useState } from "react";
 import { set } from "zod";
