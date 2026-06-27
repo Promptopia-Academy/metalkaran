@@ -222,7 +222,7 @@ export interface IAboutUsPageDescription {
   width: number;
   height: number;
   title: string;
-  contentClassName: string;
+  content_class_name: string;
   description: string;
 }
 
@@ -356,7 +356,6 @@ export interface ICalculatorInputProps {
 }
 
 export interface IQuestionSectionProps {
-
   title?: string;
 }
 

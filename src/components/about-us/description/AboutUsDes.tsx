@@ -34,7 +34,7 @@ const AboutUsDes = () => {
             width={item.width}
             height={item.height}
           />
-          <div className={item.contentClassName}>
+          <div className={item.content_class_name}>
             <h3 className="text-4xl font font-semibold">{item.title}</h3>
             <p className="text-2xl font-medium max-w-[500px] text-right">
               {item.description}

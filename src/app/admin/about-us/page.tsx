@@ -8,6 +8,9 @@ import {
   deleteAboutUsCard,
 } from "@/lib/cms/aboutUsCardsApi";
 
+import Image from "next/image";
+import { uploadImage } from "@/lib/cms/uploadImageApi";
+
 import {
   getAboutUsDescriptions,
   createAboutUsDescription,
@@ -35,6 +38,8 @@ export default function AdminAboutUsPage() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [data, setData] = useState<IAboutUsPageData | null>(null);
+  const [uploadingKey, setUploadingKey] = useState<string | null>(null);
+
   const [form, setForm] = useState({
     whyUsTitle: "",
     whyUsDescription: "",
@@ -75,6 +80,14 @@ export default function AdminAboutUsPage() {
 
     load();
   }, []);
+  const handleUpload = async (file: File, key: string) => {
+    try {
+      setUploadingKey(key);
+      return await uploadImage(file);
+    } finally {
+      setUploadingKey(null);
+    }
+  };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,10 +133,35 @@ export default function AdminAboutUsPage() {
       for (const desc of descriptions.filter(
         (d) => !deletedDescIds.includes(d.id),
       )) {
+        const payload = {
+          image: desc.image,
+          alt: desc.alt,
+          width: desc.width,
+          height: desc.height,
+          title: desc.title,
+          content_class_name: desc.content_class_name,
+          description: desc.description,
+        };
+
+        if (desc.id < 0) {
+          await createAboutUsDescription(payload);
+        } else if (typeof desc.id === "number") {
+          await updateAboutUsDescription(desc.id, payload);
+        }
+
         if (desc.id < 0) {
           await createAboutUsDescription(desc);
         } else if (typeof desc.id === "number") {
-          await updateAboutUsDescription(desc.id, desc);
+          const payload = {
+            image: desc.image,
+            alt: desc.alt,
+            width: desc.width,
+            height: desc.height,
+            title: desc.title,
+            content_class_name: desc.content_class_name,
+            description: desc.description,
+          };
+          await updateAboutUsDescription(desc.id, payload);
         }
       }
 
@@ -171,7 +209,7 @@ export default function AdminAboutUsPage() {
         width: 0,
         height: 0,
         title: "",
-        contentClassName: "",
+        content_class_name: "",
         description: "",
       },
     ]);
@@ -190,15 +228,14 @@ export default function AdminAboutUsPage() {
 
     setDescriptions((prev) => {
       const desc = prev[idx];
+
       if (desc.id > 0) {
         setDeletedDescIds((d) => [...d, desc.id]);
       }
+
       return prev.filter((_, i) => i !== idx);
     });
 
-    setDeletedCardIds([]);
-    setDeletedDescIds([]);
-    setEditingCardId(null);
     setEditingDescId(null);
   };
 
@@ -264,21 +301,64 @@ export default function AdminAboutUsPage() {
                     className="flex items-center justify-between gap-4 p-3 border rounded-lg"
                   >
                     {editingCardId === idx ? (
-                      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-2">
-                        <Input
-                          placeholder="عنوان"
-                          value={card.title}
-                          onChange={(e) =>
-                            updateCard(idx, { title: e.target.value })
-                          }
-                        />
-                        <Input
-                          placeholder="آدرس تصویر"
-                          value={card.image}
-                          onChange={(e) =>
-                            updateCard(idx, { image: e.target.value })
-                          }
-                        />
+                      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {card.image && (
+                          <div className="relative md:col-span-2 w-full h-40 rounded overflow-hidden border">
+                            <Image
+                              src={card.image}
+                              alt={card.title || "card image"}
+                              fill
+                              unoptimized
+                              className="object-cover"
+                            />
+                          </div>
+                        )}
+
+                        <div>
+                          <Label>عنوان</Label>
+                          <Input
+                            placeholder="عنوان"
+                            value={card.title}
+                            onChange={(e) =>
+                              updateCard(idx, { title: e.target.value })
+                            }
+                          />
+                        </div>
+
+                        <div>
+                          <Label>آدرس تصویر</Label>
+                          <Input
+                            placeholder="آدرس تصویر"
+                            value={card.image}
+                            onChange={(e) =>
+                              updateCard(idx, { image: e.target.value })
+                            }
+                          />
+                        </div>
+
+                        <div className="md:col-span-2">
+                          <Label>آپلود تصویر</Label>
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              if (!e.target.files?.[0]) return;
+
+                              const image = await handleUpload(
+                                e.target.files[0],
+                                `card-${idx}`,
+                              );
+                              updateCard(idx, { image });
+                            }}
+                          />
+
+                          {uploadingKey === `card-${idx}` && (
+                            <p className="text-sm text-muted-foreground mt-1">
+                              در حال آپلود تصویر...
+                            </p>
+                          )}
+                        </div>
+
                         <div className="md:col-span-2 flex gap-2">
                           <Button
                             type="button"
@@ -291,7 +371,22 @@ export default function AdminAboutUsPage() {
                       </div>
                     ) : (
                       <>
-                        <span className="font-medium">{card.title}</span>
+                        <div className="flex items-center gap-3">
+                          {card.image && (
+                            <div className="relative w-16 h-16 rounded overflow-hidden border">
+                              <Image
+                                src={card.image}
+                                alt={card.title || "card image"}
+                                fill
+                                unoptimized
+                                className="object-cover"
+                              />
+                            </div>
+                          )}
+
+                          <span className="font-medium">{card.title}</span>
+                        </div>
+
                         <div className="flex gap-2">
                           <Button
                             type="button"
@@ -346,6 +441,20 @@ export default function AdminAboutUsPage() {
                   >
                     {editingDescId === idx && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {desc.image && (
+                          <div className="relative md:col-span-2 w-full h-48 rounded overflow-hidden border">
+                            <Image
+                              src={desc.image}
+                              alt={
+                                desc.alt || desc.title || "description image"
+                              }
+                              fill
+                              unoptimized
+                              className="object-cover"
+                            />
+                          </div>
+                        )}
+
                         <Input
                           placeholder="عنوان"
                           value={desc.title}
@@ -353,13 +462,40 @@ export default function AdminAboutUsPage() {
                             updateDescription(idx, { title: e.target.value })
                           }
                         />
-                        <Input
-                          placeholder="آدرس تصویر"
-                          value={desc.image}
-                          onChange={(e) =>
-                            updateDescription(idx, { image: e.target.value })
-                          }
-                        />
+                        <div>
+                          <Label>آدرس تصویر</Label>
+                          <Input
+                            placeholder="آدرس تصویر"
+                            value={desc.image}
+                            onChange={(e) =>
+                              updateDescription(idx, { image: e.target.value })
+                            }
+                          />
+                        </div>
+
+                        <div>
+                          <Label>آپلود تصویر</Label>
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              if (!e.target.files?.[0]) return;
+
+                              const image = await handleUpload(
+                                e.target.files[0],
+                                `desc-${idx}`,
+                              );
+                              updateDescription(idx, { image });
+                            }}
+                          />
+
+                          {uploadingKey === `desc-${idx}` && (
+                            <p className="text-sm text-muted-foreground mt-1">
+                              در حال آپلود تصویر...
+                            </p>
+                          )}
+                        </div>
+
                         <Input
                           placeholder="alt"
                           value={desc.alt}
@@ -389,10 +525,10 @@ export default function AdminAboutUsPage() {
                         />
                         <Input
                           placeholder="contentClassName"
-                          value={desc.contentClassName || ""}
+                          value={desc.content_class_name || ""}
                           onChange={(e) =>
                             updateDescription(idx, {
-                              contentClassName: e.target.value,
+                              content_class_name: e.target.value,
                             })
                           }
                         />
@@ -419,12 +555,29 @@ export default function AdminAboutUsPage() {
                     )}
                     {editingDescId !== idx && (
                       <div className="flex items-start justify-between">
-                        <div>
-                          <p className="font-medium">{desc.title}</p>
-                          <p className="text-sm text-muted-foreground line-clamp-1">
-                            {desc.description}
-                          </p>
+                        <div className="flex items-start gap-3">
+                          {desc.image && (
+                            <div className="relative w-20 h-20 rounded overflow-hidden border shrink-0">
+                              <Image
+                                src={desc.image}
+                                alt={
+                                  desc.alt || desc.title || "description image"
+                                }
+                                fill
+                                unoptimized
+                                className="object-cover"
+                              />
+                            </div>
+                          )}
+
+                          <div>
+                            <p className="font-medium">{desc.title}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-1">
+                              {desc.description}
+                            </p>
+                          </div>
                         </div>
+
                         <div className="flex gap-2">
                           <Button
                             type="button"
