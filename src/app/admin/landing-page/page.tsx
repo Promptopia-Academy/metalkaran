@@ -5,11 +5,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { api } from "@/lib/dev/getData";
-import type { IWebsiteContent, IHomePageAbout } from "@/types/type";
+
+import type { IHomePageAbout } from "@/types/type";
 import { ArrowRight } from "lucide-react";
 import { AdminHeroCarousel } from "@/components/admin/AdminHeroCarousel";
 import { AdminIndustriesCarousel } from "@/components/admin/AdminIndustriesCarousel";
+import {
+  createHomePageAbout,
+  getHomePageAbout,
+  updateHomePageAbout,
+} from "@/lib/cms/homeAboutApi";
 
 const textareaClass =
   "w-full min-h-[80px] rounded-md border border-input bg-transparent px-3 py-2 text-sm";
@@ -25,20 +30,39 @@ export default function AdminLandingPage() {
   });
 
   useEffect(() => {
-    api
-      .getWebsiteContent()
-      .then((d) => {
-        if (d?.homePageAbout) setHomePageAbout(d.homePageAbout);
-      })
-      .catch(() => {})
-      .finally(() => setFetching(false));
+    fetchHomePageAbout();
   }, []);
+
+  const fetchHomePageAbout = async () => {
+    try {
+      const data = await getHomePageAbout();
+      setHomePageAbout(data[0]);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setFetching(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      await api.updateWebsiteContent({ homePageAbout });
+      const data = await getHomePageAbout();
+
+      if (!data.length) {
+        await createHomePageAbout(homePageAbout);
+      } else {
+        const existing = data[0];
+
+        if (!existing?.id) {
+          throw new Error("شناسه رکورد یافت نشد");
+        }
+
+        await updateHomePageAbout(existing.id, homePageAbout);
+      }
+
       alert("ذخیره شد");
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : "خطا در ذخیره");

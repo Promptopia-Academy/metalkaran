@@ -3,22 +3,27 @@ import type { IHomePageAbout } from "@/types/type";
 
 const BASE_URL = "/api/cms/home-page-about";
 
+/* =========================
+   GET
+========================= */
 export async function getHomePageAbout(): Promise<IHomePageAbout[]> {
   const res = await fetch(BASE_URL, {
     cache: "no-store",
   });
 
   if (!res.ok) {
-    throw new Error("خطا در دریافت سوالات");
+    throw new Error("خطا در دریافت اطلاعات صفحه درباره ما");
   }
 
   return res.json();
 }
 
-export async function createHomePageAbout(data: {
-  question: string;
-  answer: string;
-}) {
+/* =========================
+   CREATE
+========================= */
+export async function createHomePageAbout(
+  data: IHomePageAbout
+) {
   const res = await fetch(BASE_URL, {
     method: "POST",
     headers: {
@@ -31,18 +36,18 @@ export async function createHomePageAbout(data: {
   const json = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(json.error || "خطا در ایجاد سوال");
+    throw new Error(json.error || "خطا در ایجاد اطلاعات");
   }
 
   return json;
 }
 
+/* =========================
+   UPDATE
+========================= */
 export async function updateHomePageAbout(
   id: number,
-  data: {
-    question: string;
-    answer: string;
-  },
+  data: IHomePageAbout
 ) {
   const res = await fetch(`${BASE_URL}/${id}`, {
     method: "PUT",
@@ -56,12 +61,15 @@ export async function updateHomePageAbout(
   const json = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(json.error || "خطا در بروزرسانی سوال");
+    throw new Error(json.error || "خطا در بروزرسانی اطلاعات");
   }
 
   return json;
 }
 
+/* =========================
+   DELETE
+========================= */
 export async function deleteHomePageAbout(id: number) {
   const res = await fetch(`${BASE_URL}/${id}`, {
     method: "DELETE",
@@ -71,7 +79,7 @@ export async function deleteHomePageAbout(id: number) {
   const json = await res.json().catch(() => ({}));
 
   if (!res.ok) {
-    throw new Error(json.error || "خطا در حذف سوال");
+    throw new Error(json.error || "خطا در حذف اطلاعات");
   }
 
   return json;
