@@ -1,7 +1,11 @@
 import { ICompanyInformation } from "@/types/type";
 import { authHeaders } from "@/utils/apiHelper";
 
-
+type ICompanyInformationApi = {
+  emailAddress: string;
+  companyAddress?: string;
+  phoneNumber: string;
+};
 
 export async function getAllCompanyInformation(): Promise<
   ICompanyInformation[]
@@ -24,7 +28,7 @@ export async function getAllCompanyInformation(): Promise<
 
 // تابع برای ایجاد اطلاعات جدید شرکت
 export async function createCompanyInformation(
-  data: ICompanyInformation,
+  data: ICompanyInformationApi,
 ): Promise<{ id: number; message: string }> {
   const res = await fetch("/api/cms/company-information", {
     method: "POST",
@@ -46,7 +50,7 @@ export async function createCompanyInformation(
 // تابع برای به‌روزرسانی اطلاعات موجود شرکت
 export async function updateCompanyInformation(
   id: number,
-  data: ICompanyInformation,
+  data: ICompanyInformationApi,
 ): Promise<{ message: string }> {
   const res = await fetch(`/api/cms/company-information/${id}`, {
     method: "PUT",

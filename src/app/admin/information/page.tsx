@@ -54,9 +54,9 @@ export default function AdminInformationPage() {
       }
 
       const data = {
-        phone_number: info.phone_number,
-        email_address: info.email_address,
-        company_address: info.company_address,
+        phoneNumber: info.phone_number,
+        emailAddress: info.email_address,
+        companyAddress: info.company_address,
       };
       await updateCompanyInformation(info.id, data);
       alert("ذخیره شد");
