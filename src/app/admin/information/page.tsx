@@ -15,7 +15,6 @@ import {
 
 export default function AdminInformationPage() {
   const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(true);
   const [info, setInfo] = useState<ICompanyInformation>({
     phone_number: "",
     email_address: "",
@@ -111,10 +110,6 @@ export default function AdminInformationPage() {
     //   setLoading(false);
     // }
   };
-
-  if (fetching) {
-    return <div className="p-8 text-center">در حال بارگذاری...</div>;
-  }
 
   return (
     <div className="space-y-6" dir="rtl">
