@@ -1,11 +1,24 @@
+"use client";
+import { IAboutUsPageCard } from "@/types/type";
 import AboutUsCard from "./AboutUsCard";
-import { ABOUT_US_PAGE_DATA } from "@/lib/constants";
-import type { IAboutUsPageData } from "@/types/type";
+import { useEffect, useState } from "react";
+import { getAboutUsCards } from "@/lib/cms/aboutUsCardsApi";
 
-type AboutUsCardsDivProps = { aboutUsPageData?: IAboutUsPageData | null };
+const AboutUsCardsDiv = () => {
+  const [cards, setCards] = useState<IAboutUsPageCard[]>([]);
 
-const AboutUsCardsDiv = ({ aboutUsPageData }: AboutUsCardsDivProps) => {
-  const cards = aboutUsPageData?.aboutUsCards ?? ABOUT_US_PAGE_DATA.aboutUsCards;
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const data = await getAboutUsCards();
+        setCards(data);
+      } catch (error) {
+        console.error("خطا در دریافت کارت‌های درباره ما:", error);
+      }
+    };
+
+    fetchItems();
+  }, []);
   return (
     <div className="gap-10 w-full h-full flex flex-col justify-between items-center md:flex-row">
       {cards.map((card) => (

@@ -10,7 +10,7 @@ export default async function AboutUsPage() {
   return (
     <div className="px-24 py-10 flex flex-col justify-center items-center gap-10">
       <AnimatedSection variant="down">
-        <AboutUsCardsDiv aboutUsPageData={aboutUsData} />
+        <AboutUsCardsDiv />
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
