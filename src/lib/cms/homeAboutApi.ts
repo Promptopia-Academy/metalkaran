@@ -21,9 +21,7 @@ export async function getHomePageAbout(): Promise<IHomePageAbout[]> {
 /* =========================
    CREATE
 ========================= */
-export async function createHomePageAbout(
-  data: IHomePageAbout
-) {
+export async function createHomePageAbout(data: IHomePageAbout) {
   const res = await fetch(BASE_URL, {
     method: "POST",
     headers: {
@@ -45,17 +43,19 @@ export async function createHomePageAbout(
 /* =========================
    UPDATE
 ========================= */
-export async function updateHomePageAbout(
-  id: number,
-  data: IHomePageAbout
-) {
+export async function updateHomePageAbout(id: number, data: IHomePageAbout) {
   const res = await fetch(`${BASE_URL}/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
       ...authHeaders(),
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      title: data.title,
+      detail: data.detail,
+      extra_title: data.extra_title,
+      extra_detail: data.extra_detail,
+    }),
   });
 
   const json = await res.json().catch(() => ({}));
