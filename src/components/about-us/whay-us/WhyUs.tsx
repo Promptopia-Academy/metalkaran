@@ -1,16 +1,35 @@
-import { ABOUT_US_PAGE_DATA } from "@/lib/constants";
-import type { IAboutUsPageData } from "@/types/type";
+"use client";
 
-type WhyUsProps = { aboutUsPageData?: IAboutUsPageData | null };
+import { getAboutUsWhyUs } from "@/lib/cms/aboutUsWhyUsApi";
+import type { IAboutUsPageWhyUs } from "@/types/type";
+import { useEffect, useState } from "react";
 
-const WhyUs = ({ aboutUsPageData }: WhyUsProps) => {
-  const whyUs = aboutUsPageData?.whyUs ?? ABOUT_US_PAGE_DATA.whyUs;
+const WhyUs = () => {
+  const [data, setData] = useState<IAboutUsPageWhyUs[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const result = await getAboutUsWhyUs();
+        setData(result);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    load();
+  }, []);
+
   return (
-    <div className="w-full flex flex-col justify-center items-center p-4">
-      <h4 className="text-2xl font-semibold text-center">{whyUs.title}</h4>
-      <p className="text-center text-xl font-normal max-w-3xl mt-6">
-        {whyUs.description}
-      </p>
+    <div className="flex w-full flex-col items-center justify-center p-4">
+      {data.map((item) => (
+        <div key={item.id} className="mb-8 w-full">
+          <h4 className="text-center text-2xl font-semibold">{item.title}</h4>
+          <p className="mx-auto mt-6 max-w-3xl text-center text-xl font-normal">
+            {item.description}
+          </p>
+        </div>
+      ))}
     </div>
   );
 };

@@ -18,7 +18,7 @@ export default async function AboutUsPage() {
       </AnimatedSection>
 
       <AnimatedSection delay={0.05}>
-        <WhyUs aboutUsPageData={aboutUsData} />
+        <WhyUs  />
       </AnimatedSection>
     </div>
   );
