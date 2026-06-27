@@ -5,9 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { api } from "@/lib/dev/getData";
+
 import type { ICompanyInformation, ICompanySocialLink } from "@/types/type";
 import { Plus, Edit, Trash2, ArrowRight } from "lucide-react";
+import {
+  getAllCompanyInformation,
+  updateCompanyInformation,
+} from "@/lib/cms/companyInformationApi";
 
 export default function AdminInformationPage() {
   const [loading, setLoading] = useState(false);
@@ -21,25 +25,41 @@ export default function AdminInformationPage() {
   const [newLink, setNewLink] = useState({ title: "", url: "" });
   const [showNewLink, setShowNewLink] = useState(false);
 
+  const load = async () => {
+    try {
+      setLoading(true);
+      const dataRaw = await getAllCompanyInformation();
+      const data = dataRaw[0];
+      setInfo(data);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "خطا در دریافت اطلاعات ");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    api
-      .getCompanyInfo()
-      .then((d) => {
-        if (d) setInfo(d);
-      })
-      .catch(() => {})
-      .finally(() => setFetching(false));
+    load();
   }, []);
 
   const handleSaveInfo = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await api.updateCompanyInfo({
+      // بررسی کنید که id تعریف شده و عددی باشد
+      if (typeof info.id !== "number" || info.id < 0) {
+        // اگر id منفی را برای "جدید" استفاده می‌کنید
+        alert("اطلاعات شرکت برای ذخیره آماده نیست. لطفاً مجدداً تلاش کنید.");
+        setLoading(false);
+        return;
+      }
+
+      const data = {
         phone_number: info.phone_number,
-        emailAddress: info.email_address,
-        companyAddress: info.company_address,
-      });
+        email_address: info.email_address,
+        company_address: info.company_address,
+      };
+      await updateCompanyInformation(info.id, data);
       alert("ذخیره شد");
     } catch (err: unknown) {
       alert(err instanceof Error ? err.message : "خطا در ذخیره");
@@ -66,30 +86,30 @@ export default function AdminInformationPage() {
 
   const handleUpdateLink = async (id: number, title: string, url: string) => {
     setLoading(true);
-    try {
-      await api.updateCompanySocialLink(id, { title, url });
+    // try {
+    //   await api.updateCompanySocialLink(id, { title, url });
 
-      setEditingLinkId(null);
-    } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : "خطا در ویرایش");
-    } finally {
-      setLoading(false);
-    }
+    //   setEditingLinkId(null);
+    // } catch (err: unknown) {
+    //   alert(err instanceof Error ? err.message : "خطا در ویرایش");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const handleDeleteLink = async (id: number) => {
     if (!confirm("حذف این لینک؟")) return;
     setLoading(true);
-    try {
-      await api.deleteCompanySocialLink(id);
-      setInfo((p) => ({
-        ...p,
-      }));
-    } catch (err: unknown) {
-      alert(err instanceof Error ? err.message : "خطا در حذف");
-    } finally {
-      setLoading(false);
-    }
+    // try {
+    //   await deleteCompanySocialLink(id);
+    //   setInfo((p) => ({
+    //     ...p,
+    //   }));
+    // } catch (err: unknown) {
+    //   alert(err instanceof Error ? err.message : "خطا در حذف");
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   if (fetching) {

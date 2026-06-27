@@ -251,7 +251,6 @@ export interface ICompanyInformation {
   id?: number;
   phone_number: string;
   email_address: string;
-
   company_address?: string;
 }
 
