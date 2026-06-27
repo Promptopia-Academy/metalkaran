@@ -222,7 +222,7 @@ export interface IAboutUsPageDescription {
   width: number;
   height: number;
   title: string;
-  content_class_name: string;
+  contentClassName: string;
   description: string;
 }
 

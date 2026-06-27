@@ -136,32 +136,17 @@ export default function AdminAboutUsPage() {
         const payload = {
           image: desc.image,
           alt: desc.alt,
-          width: desc.width,
-          height: desc.height,
+          width: Number(desc.width),
+          height: Number(desc.height),
           title: desc.title,
-          content_class_name: desc.content_class_name,
+          contentClassName: desc.contentClassName,
           description: desc.description,
         };
 
         if (desc.id < 0) {
-          await createAboutUsDescription(payload);
-        } else if (typeof desc.id === "number") {
-          await updateAboutUsDescription(desc.id, payload);
-        }
-
-        if (desc.id < 0) {
-          await createAboutUsDescription(desc);
-        } else if (typeof desc.id === "number") {
-          const payload = {
-            image: desc.image,
-            alt: desc.alt,
-            width: desc.width,
-            height: desc.height,
-            title: desc.title,
-            content_class_name: desc.content_class_name,
-            description: desc.description,
-          };
-          await updateAboutUsDescription(desc.id, payload);
+          await createAboutUsDescription(payload as any);
+        } else {
+          await updateAboutUsDescription(desc.id, payload as any);
         }
       }
 
@@ -209,7 +194,7 @@ export default function AdminAboutUsPage() {
         width: 0,
         height: 0,
         title: "",
-        content_class_name: "",
+        contentClassName: "",
         description: "",
       },
     ]);
@@ -525,10 +510,10 @@ export default function AdminAboutUsPage() {
                         />
                         <Input
                           placeholder="contentClassName"
-                          value={desc.content_class_name || ""}
+                          value={desc.contentClassName || ""}
                           onChange={(e) =>
                             updateDescription(idx, {
-                              content_class_name: e.target.value,
+                              contentClassName: e.target.value,
                             })
                           }
                         />
