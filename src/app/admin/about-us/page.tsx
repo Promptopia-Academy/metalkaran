@@ -1,11 +1,26 @@
 "use client";
+import { getAboutUsWhyUs, updateAboutUsWhyUs } from "@/lib/cms/aboutUsWhyUsApi";
+
+import {
+  getAboutUsCards,
+  createAboutUsCard,
+  updateAboutUsCard,
+  deleteAboutUsCard,
+} from "@/lib/cms/aboutUsCardsApi";
+
+import {
+  getAboutUsDescriptions,
+  createAboutUsDescription,
+  updateAboutUsDescription,
+  deleteAboutUsDescription,
+} from "@/lib/cms/aboutUsDesApi";
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { api } from "@/lib/dev/getData";
+
 import type {
   IAboutUsPageData,
   IAboutUsPageCard,
@@ -25,39 +40,95 @@ export default function AdminAboutUsPage() {
     whyUsDescription: "",
   });
   const [cards, setCards] = useState<IAboutUsPageCard[]>([]);
-  const [descriptions, setDescriptions] = useState<IAboutUsPageDescription[]>([]);
+  const [descriptions, setDescriptions] = useState<IAboutUsPageDescription[]>(
+    [],
+  );
   const [editingCardId, setEditingCardId] = useState<number | null>(null);
   const [editingDescId, setEditingDescId] = useState<number | null>(null);
+  const [deletedCardIds, setDeletedCardIds] = useState<number[]>([]);
+  const [deletedDescIds, setDeletedDescIds] = useState<number[]>([]);
 
   useEffect(() => {
-    api
-      .getAboutUsPageData()
-      .then((d: IAboutUsPageData | null) => {
-        if (d) {
-          setData(d);
+    const load = async () => {
+      try {
+        const [whyUs, cardsData, descData] = await Promise.all([
+          getAboutUsWhyUs(),
+          getAboutUsCards(),
+          getAboutUsDescriptions(),
+        ]);
+
+        if (whyUs.length > 0) {
           setForm({
-            whyUsTitle: d.whyUs?.title ?? "",
-            whyUsDescription: d.whyUs?.description ?? "",
+            whyUsTitle: whyUs[0].title,
+            whyUsDescription: whyUs[0].description,
           });
-          setCards(d.aboutUsCards ?? []);
-          setDescriptions(d.aboutUsDescription ?? []);
         }
-      })
-      .catch(() => {})
-      .finally(() => setFetching(false));
+
+        setCards(cardsData);
+        setDescriptions(descData);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setFetching(false);
+      }
+    };
+
+    load();
   }, []);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      await api.updateAboutUsPageData({
-        whyUs: { title: form.whyUsTitle, description: form.whyUsDescription },
-        aboutUsCards: cards,
-        aboutUsDescription: descriptions,
-      });
+      // چرا ما
+      const whyUsList = await getAboutUsWhyUs();
+
+      if (whyUsList.length > 0 && typeof whyUsList[0].id === "number") {
+        await updateAboutUsWhyUs(whyUsList[0].id, {
+          title: form.whyUsTitle,
+          description: form.whyUsDescription,
+        });
+      }
+
+      // حذف کارت‌ها
+      for (const id of deletedCardIds) {
+        await deleteAboutUsCard(id);
+      }
+
+      // حذف توضیحات
+      for (const id of deletedDescIds) {
+        await deleteAboutUsDescription(id);
+      }
+
+      // کارت‌های جدید یا ویرایش شده (به غیر از حذف‌شده‌ها)
+      for (const card of cards.filter((c) => !deletedCardIds.includes(c.id))) {
+        if (card.id < 0) {
+          await createAboutUsCard({
+            title: card.title,
+            image: card.image,
+          });
+        } else if (typeof card.id === "number") {
+          await updateAboutUsCard(card.id, {
+            title: card.title,
+            image: card.image,
+          });
+        }
+      }
+
+      // توضیحات جدید یا ویرایش شده
+      for (const desc of descriptions.filter(
+        (d) => !deletedDescIds.includes(d.id),
+      )) {
+        if (desc.id < 0) {
+          await createAboutUsDescription(desc);
+        } else if (typeof desc.id === "number") {
+          await updateAboutUsDescription(desc.id, desc);
+        }
+      }
+
       alert("ذخیره شد");
-    } catch (err: unknown) {
+    } catch (err) {
       alert(err instanceof Error ? err.message : "خطا در ذخیره");
     } finally {
       setLoading(false);
@@ -75,10 +146,18 @@ export default function AdminAboutUsPage() {
     setCards((prev) =>
       prev.map((c, i) => (i === idx ? { ...c, ...patch } : c)),
     );
-    setEditingCardId(null);
   };
   const removeCard = (idx: number) => {
-    if (confirm("حذف این کارت؟")) setCards((prev) => prev.filter((_, i) => i !== idx));
+    if (!confirm("حذف این کارت؟")) return;
+
+    setCards((prev) => {
+      const card = prev[idx];
+      if (card.id > 0) {
+        setDeletedCardIds((d) => [...d, card.id]);
+      }
+      return prev.filter((_, i) => i !== idx);
+    });
+
     setEditingCardId(null);
   };
 
@@ -105,11 +184,21 @@ export default function AdminAboutUsPage() {
     setDescriptions((prev) =>
       prev.map((d, i) => (i === idx ? { ...d, ...patch } : d)),
     );
-    setEditingDescId(null);
   };
   const removeDescription = (idx: number) => {
-    if (confirm("حذف این مورد؟"))
-      setDescriptions((prev) => prev.filter((_, i) => i !== idx));
+    if (!confirm("حذف این مورد؟")) return;
+
+    setDescriptions((prev) => {
+      const desc = prev[idx];
+      if (desc.id > 0) {
+        setDeletedDescIds((d) => [...d, desc.id]);
+      }
+      return prev.filter((_, i) => i !== idx);
+    });
+
+    setDeletedCardIds([]);
+    setDeletedDescIds([]);
+    setEditingCardId(null);
     setEditingDescId(null);
   };
 
@@ -367,7 +456,11 @@ export default function AdminAboutUsPage() {
           <Button type="submit" disabled={loading}>
             {loading ? "در حال ذخیره..." : "ذخیره تغییرات"}
           </Button>
-          <Button type="button" variant="outline" onClick={() => history.back()}>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => history.back()}
+          >
             <ArrowRight className="w-4 h-4 ml-2" />
             بازگشت
           </Button>
