@@ -1,14 +1,29 @@
-import { ABOUT_US_PAGE_DATA } from "@/lib/constants";
+"use client";
 import UploadedImage from "@/components/ui/UploadedImage";
-import type { IAboutUsPageData } from "@/types/type";
+import { getAboutUsDescriptions } from "@/lib/cms/companyInformationApi";
+import type { IAboutUsPageData, IAboutUsPageDescription } from "@/types/type";
+import { useEffect, useState } from "react";
+import { set } from "zod";
 
 type AboutUsDesProps = { aboutUsPageData?: IAboutUsPageData | null };
 
-const AboutUsDes = ({ aboutUsPageData }: AboutUsDesProps) => {
-  const descriptions = aboutUsPageData?.aboutUsDescription ?? ABOUT_US_PAGE_DATA.aboutUsDescription;
+const AboutUsDes = () => {
+  const [descriptions, setDescriptions] = useState<IAboutUsPageDescription[]>();
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const data = await getAboutUsDescriptions();
+        setDescriptions(data);
+      } catch (error) {
+        console.error("خطا در دریافت  اطلاعات درباره ما:", error);
+      }
+    };
+
+    fetchItems();
+  }, []);
   return (
     <div>
-      {descriptions.map((item) => (
+      {descriptions?.map((item) => (
         <div
           key={item.id}
           className="flex flex-col w-full justify-between items-center gap-6 py-14 md:flex-row md:gap-10"
