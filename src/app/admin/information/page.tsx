@@ -7,12 +7,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
 import type { ICompanyInformation, ICompanySocialLink } from "@/types/type";
-import { Plus, Edit, Trash2, ArrowRight } from "lucide-react";
+import { Plus, ArrowRight, Edit, Trash2 } from "lucide-react";
 import {
   getAllCompanyInformation,
   updateCompanyInformation,
 } from "@/lib/cms/companyInformationApi";
-
+import {
+  getAllCompanySocialLinks,
+  createCompanySocialLink,
+  updateCompanySocialLink,
+  deleteCompanySocialLink,
+} from "@/lib/cms/socialLinksApi";
 export default function AdminInformationPage() {
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState<ICompanyInformation>({
@@ -23,13 +28,17 @@ export default function AdminInformationPage() {
   const [editingLinkId, setEditingLinkId] = useState<number | null>(null);
   const [newLink, setNewLink] = useState({ title: "", url: "" });
   const [showNewLink, setShowNewLink] = useState(false);
-
+  const [socialLinks, setSocialLinks] = useState<ICompanySocialLink[]>([]);
   const load = async () => {
     try {
       setLoading(true);
-      const dataRaw = await getAllCompanyInformation();
-      const data = dataRaw[0];
-      setInfo(data);
+      const [dataRaw, links] = await Promise.all([
+        getAllCompanyInformation(),
+        getAllCompanySocialLinks(),
+      ]);
+
+      setInfo(dataRaw[0]);
+      setSocialLinks(links);
     } catch (err) {
       alert(err instanceof Error ? err.message : "خطا در دریافت اطلاعات ");
     } finally {
@@ -75,46 +84,67 @@ export default function AdminInformationPage() {
 
   const handleAddLink = async () => {
     if (!newLink.title.trim() || !newLink.url.trim()) return;
+
     setLoading(true);
+
     try {
-      setInfo((p) => ({
-        ...p,
-      }));
+      const result = await createCompanySocialLink({
+        title: newLink.title,
+        url: newLink.url,
+      });
+
+      setSocialLinks((prev) => [
+        ...prev,
+        {
+          id: result.id,
+          title: newLink.title,
+          url: newLink.url,
+        },
+      ]);
+
       setNewLink({ title: "", url: "" });
       setShowNewLink(false);
-    } catch (err: unknown) {
+    } catch (err) {
       alert(err instanceof Error ? err.message : "خطا در افزودن");
     } finally {
       setLoading(false);
     }
   };
-
   const handleUpdateLink = async (id: number, title: string, url: string) => {
     setLoading(true);
-    // try {
-    //   await api.updateCompanySocialLink(id, { title, url });
 
-    //   setEditingLinkId(null);
-    // } catch (err: unknown) {
-    //   alert(err instanceof Error ? err.message : "خطا در ویرایش");
-    // } finally {
-    //   setLoading(false);
-    // }
+    try {
+      await updateCompanySocialLink(id, {
+        title,
+        url,
+      });
+
+      setSocialLinks((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, title, url } : item)),
+      );
+
+      setEditingLinkId(null);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "خطا در ویرایش");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDeleteLink = async (id: number) => {
     if (!confirm("حذف این لینک؟")) return;
+
     setLoading(true);
-    // try {
-    //   await deleteCompanySocialLink(id);
-    //   setInfo((p) => ({
-    //     ...p,
-    //   }));
-    // } catch (err: unknown) {
-    //   alert(err instanceof Error ? err.message : "خطا در حذف");
-    // } finally {
-    //   setLoading(false);
-    // }
+
+    try {
+      await deleteCompanySocialLink(id);
+
+      setSocialLinks((prev) => prev.filter((item) => item.id !== id));
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "خطا در حذف");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -211,14 +241,13 @@ export default function AdminInformationPage() {
                 </Button>
               </div>
             )}
-            {/* {(!info.socialLinks || info.socialLinks.length === 0) &&
-            !showNewLink ? (
+            {socialLinks.length === 0 && !showNewLink ? (
               <p className="text-muted-foreground text-sm">
                 لینکی ثبت نشده. با دکمه بالا اضافه کنید.
               </p>
             ) : (
               <div className="space-y-2">
-                {(info.socialLinks || []).map((link) => (
+                {(socialLinks || []).map((link) => (
                   <div
                     key={link.id}
                     className="flex items-center justify-between gap-4 p-3 border rounded-lg"
@@ -261,7 +290,7 @@ export default function AdminInformationPage() {
                   </div>
                 ))}
               </div>
-            )} */}
+            )}
           </CardContent>
         </Card>
 
