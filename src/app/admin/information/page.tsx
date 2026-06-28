@@ -58,6 +58,12 @@ export default function AdminInformationPage() {
         emailAddress: info.email_address,
         companyAddress: info.company_address,
       };
+      console.log(info);
+      console.log({
+        phoneNumber: info.phone_number,
+        emailAddress: info.email_address,
+        companyAddress: info.company_address,
+      });
       await updateCompanyInformation(info.id, data);
       alert("ذخیره شد");
     } catch (err: unknown) {
@@ -131,7 +137,7 @@ export default function AdminInformationPage() {
               <Input
                 value={info.phone_number}
                 onChange={(e) =>
-                  setInfo((p) => ({ ...p, phoneNumber: e.target.value }))
+                  setInfo((p) => ({ ...p, phone_number: e.target.value }))
                 }
               />
             </div>
@@ -141,7 +147,7 @@ export default function AdminInformationPage() {
                 type="email"
                 value={info.email_address}
                 onChange={(e) =>
-                  setInfo((p) => ({ ...p, emailAddress: e.target.value }))
+                  setInfo((p) => ({ ...p, email_address: e.target.value }))
                 }
               />
             </div>
@@ -150,7 +156,7 @@ export default function AdminInformationPage() {
               <Input
                 value={info.company_address}
                 onChange={(e) =>
-                  setInfo((p) => ({ ...p, companyAddress: e.target.value }))
+                  setInfo((p) => ({ ...p, company_address: e.target.value }))
                 }
               />
             </div>
