@@ -8,7 +8,6 @@ type AboutUsCardInput = Omit<IAboutUsPageCard, "id">;
 export async function getAboutUsCards(): Promise<IAboutUsPageCard[]> {
   const res = await fetch(BASE_URL, {
     cache: "no-store",
-    headers: authHeaders(),
   });
 
   if (!res.ok) {

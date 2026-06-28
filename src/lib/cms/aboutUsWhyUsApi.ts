@@ -12,7 +12,6 @@ export type AboutUsWhyUsInput = Omit<IAboutUsPageWhyUs, "id">;
 export async function getAboutUsWhyUs(): Promise<IAboutUsPageWhyUs[]> {
   const res = await fetch(BASE_URL, {
     cache: "no-store",
-    headers: authHeaders(),
   });
 
   if (!res.ok) {

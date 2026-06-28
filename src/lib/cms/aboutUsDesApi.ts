@@ -8,7 +8,7 @@ type AboutUsDescriptionInput = Omit<IAboutUsPageDescription, "id">;
 export async function getAboutUsDescriptions(): Promise<IAboutUsPageDescription[]> {
   const res = await fetch(BASE_URL, {
     cache: "no-store",
-    headers: authHeaders(),
+   
   });
 
   if (!res.ok) {
